@@ -3,7 +3,7 @@
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <div class="text-center mb-6">
-        <h1 class="logo-font text-6xl md:text-7xl text-gray-800">{{ config('app.name', "Lia's Dent") }}</h1>
+        <h1 class="logo-font text-6xl md:text-7xl text-gray-800">{{ config('app.name', "MindScans") }}</h1>
         <p class="text-gray-700 font-semibold mt-2">Monitoring Kesehatan Gusi</p>
     </div>
 

@@ -487,7 +487,7 @@
             },
 
             copyToClipboard() {
-                const text = `Halo Ibu ${this.newStudent.name},\nAkun Lia's Dent Anda telah dibuat.\nEmail: ${this.newStudent.email}\nPassword: ${this.newStudent.password}\nSilakan login di aplikasi.`;
+                const text = `Halo Ibu ${this.newStudent.name},\nAkun MindScans Anda telah dibuat.\nEmail: ${this.newStudent.email}\nPassword: ${this.newStudent.password}\nSilakan login di aplikasi.`;
                 navigator.clipboard.writeText(text);
                 alert('Pesan berhasil disalin!');
             },

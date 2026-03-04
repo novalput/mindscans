@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Lia's Dent | @yield('title', "Lia's Dent")</title>
+    <title>MindScans | @yield('title', "MindScans")</title>
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">

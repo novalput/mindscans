@@ -9,7 +9,7 @@
                 </button>
             </div>
             <a href="{{ route('student.dashboard') }}" class="font-sansita text-2xl text-[#5DB8D8] tracking-tight">
-                Lia's Dent
+                MindScans
             </a>
         </div>
 
@@ -67,7 +67,7 @@
 
             <div class="p-8 flex-1 overflow-y-auto">
                 <div class="flex justify-between items-center mb-10">
-                    <div class="font-sansita text-2xl text-[#5DB8D8]">Lia's Dent</div>
+                    <div class="font-sansita text-2xl text-[#5DB8D8]">MindScans</div>
                     <button @click="mobileMenuOpen = false" class="w-10 h-10 flex items-center justify-center bg-gray-50 rounded-2xl text-gray-400">
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>

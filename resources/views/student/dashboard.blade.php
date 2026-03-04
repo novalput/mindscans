@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 @endphp
 
-@section('title', 'Home - Lias Dent')
+@section('title', 'Home - MindScans')
 
 @section('content')
 <div x-data="{

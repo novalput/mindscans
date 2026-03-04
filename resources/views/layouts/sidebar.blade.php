@@ -11,7 +11,7 @@
     class="fixed top-0 left-0 bottom-0 z-40 w-64 bg-[#5DB8D8] text-white pt-20 pb-6 px-4 flex flex-col shadow-2xl overflow-y-auto no-scrollbar">
     {{-- Sidebar Logo (Desktop) --}}
     <div class="text-center mb-8 hidden md:block">
-        <h1 class="font-sansita text-3xl tracking-wide">Lia's Dent</h1>
+        <h1 class="font-sansita text-3xl tracking-wide">MindScans</h1>
     </div>
 
     {{-- Menu Links --}}

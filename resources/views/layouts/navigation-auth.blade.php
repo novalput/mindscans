@@ -14,7 +14,7 @@
         {{-- Brand Logo --}}
         <span class="font-sansita text-lg md:text-xl tracking-wide truncate transition-opacity duration-300"
             :class="sidebarOpen ? 'max-md:hidden opacity-100' : 'opacity-100'">
-            Lia's Dent
+            MindScans
         </span>
     </div>
 

@@ -13,9 +13,9 @@
             {{-- Kolom 1: Branding (Warna Hero/Header) --}}
             <div class="space-y-6">
                 <div>
-                    <h2 class="font-sansita text-4xl tracking-tight text-slate-800">Lia's Dent</h2>
+                    <h2 class="font-sansita text-4xl tracking-tight text-slate-800">MindScans</h2>
                     <p class="mt-3 text-sm leading-relaxed text-slate-500 max-w-xs mx-auto lg:mx-0">
-                        Pendamping kesehatan gigi yang aman dan nyaman selama kehamilan. Membantu Bunda menjaga senyum sehat untuk Si Kecil.
+                        Pendamping kesehatan mental yang aman dan nyaman.
                     </p>
                 </div>
 
@@ -33,20 +33,20 @@
             {{-- Kolom 2: Kontak (Warna Sky Blue Medis) --}}
             <div class="space-y-6 lg:pl-12 border-l-0 lg:border-l lg:border-slate-100">
                 <h5 class="text-xs font-bold uppercase tracking-[0.2em] text-[#5FAFC1] flex items-center justify-center lg:justify-start gap-2">
-                    <i class="fas fa-clinic-medical"></i> LAYANAN BUNDA
+                    <i class="fas fa-clinic-medical"></i> LAYANAN
                 </h5>
                 <ul class="space-y-4">
                     <li class="flex items-center justify-center lg:justify-start gap-4">
                         <div class="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F3FBFD] text-[#5DB8D8]">
                             <i class="fas fa-phone-alt text-sm"></i>
                         </div>
-                        <span class="text-slate-700 font-medium text-sm">(+62) 821-1712-7459</span>
+                        <span class="text-slate-700 font-medium text-sm">(+62) 856-4321-2345</span>
                     </li>
                     <li class="flex items-center justify-center lg:justify-start gap-4">
                         <div class="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F3FBFD] text-[#5DB8D8]">
                             <i class="fas fa-envelope text-sm"></i>
                         </div>
-                        <span class="text-slate-700 font-medium text-sm">meliacrisanth28@gmail.com</span>
+                        <span class="text-slate-700 font-medium text-sm">mindscans@gmail.com</span>
                     </li>
                     <li class="flex items-center justify-center lg:justify-start gap-4">
                         <div class="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F3FBFD] text-[#5DB8D8]">
@@ -65,7 +65,7 @@
                     <i class="fas fa-shield-alt"></i> KEAMANAN DATA
                 </h5>
                 <p class="text-sm italic text-slate-400 leading-relaxed">
-                    "Informasi Bunda bersifat rahasia dan digunakan untuk mendukung pelayanan kesehatan selama kehamilan."
+                    "Informasi bersifat rahasia dan digunakan untuk mendukung pelayanan kesehatan mental Anda."
                 </p>
 
                 {{-- Badge Status Aktif sesuai warna modal --}}
@@ -83,9 +83,9 @@
         {{-- Bottom Copyright (Sesuai warna text footer home) --}}
         <div class="mt-16 pt-8 border-t border-slate-100 text-center">
             <p class="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em]">
-                &copy; {{ date('Y') }} Lia's Dent Monitoring
+                &copy; {{ date('Y') }} MindScans Monitoring
                 <span class="mx-2 text-sky-200">|</span>
-                Dibuat dengan <i class="fas fa-heart text-[#5DB8D8] mx-1"></i> untuk Bunda Sehat.
+                Dibuat dengan <i class="fas fa-heart text-[#5DB8D8] mx-1"></i> untuk Kesehatan Mental Anda.
             </p>
         </div>
     </div>

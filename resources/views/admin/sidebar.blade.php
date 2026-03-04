@@ -11,7 +11,7 @@
             <i class="fas fa-tooth text-white text-lg"></i>
         </div>
         <div>
-            <h1 class="text-xl font-sansita font-bold">Lia's Dent</h1>
+            <h1 class="text-xl font-sansita font-bold">MindScans</h1>
             <p class="text-xs text-gray-400">Admin Panel</p>
         </div>
     </div>
@@ -95,7 +95,7 @@
             <div class="bg-[#4da4e3] rounded-lg p-2">
                 <i class="fas fa-tooth text-white text-lg"></i>
             </div>
-            <h1 class="font-sansita text-lg font-bold">Lia's Dent</h1>
+            <h1 class="font-sansita text-lg font-bold">MindScans</h1>
         </div>
         <button @click="sidebarOpen = false" class="text-gray-300 hover:text-white transition-colors">
             <i class="fas fa-times text-xl"></i>
