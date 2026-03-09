@@ -7,7 +7,7 @@
         <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-slate-100">
             <div class="text-center mb-6">
                 <span class="px-4 py-1 bg-sky-100 text-sky-600 rounded-full text-xs font-bold uppercase tracking-widest">
-                    {{ $type == 'pre_test' ? 'Evaluasi Awal' : 'Evaluasi Akhir' }}
+                    Evaluasi Harian
                 </span>
                 <h1 class="text-3xl font-sansita font-bold text-slate-800 mt-4">Kuesioner Psikologis</h1>
                 <p class="text-slate-500 mt-2">Pilih jawaban yang paling sesuai dengan kondisi yang Anda rasakan selama 2 minggu terakhir.</p>
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('student.screening.store', $type) }}" method="POST" id="screeningForm">
+            <form action="{{ route('student.screening.store') }}" method="POST" id="screeningForm">
                 @csrf
                 
                 @php $stepCounter = 1; @endphp

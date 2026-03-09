@@ -11,8 +11,51 @@ class ScreeningController extends Controller
 {
 
 
-    public function show($type)
+    public function index()
     {
+        $userId = Auth::id();
+        
+        // Ambil riwayat evaluasi (kuesioner) student ini, urutkan dari yang terbaru
+        $history = ScreeningResponse::where('user_id', $userId)
+                                    ->orderBy('created_at', 'desc')
+                                    ->get();
+
+        // Cek apakah hari ini (GMT+7) sudah pernah tes
+        $today = now()->timezone('Asia/Jakarta')->startOfDay();
+        $hasTakenToday = ScreeningResponse::where('user_id', $userId)
+                                            ->where('created_at', '>=', $today)
+                                            ->exists();
+        
+        $canTakeTest = !$hasTakenToday;
+
+        // Data Grafik (Ambil 7 data terakhir, urutkan chronological untuk chart)
+        $chartDataRaw = ScreeningResponse::where('user_id', $userId)
+                                        ->orderBy('created_at', 'asc')
+                                        ->take(30) // Tampilkan max 30 titik untuk grafik
+                                        ->get();
+        
+        $chartLabels = [];
+        $chartScores = [];
+
+        foreach($chartDataRaw as $data) {
+            $chartLabels[] = $data->created_at->timezone('Asia/Jakarta')->format('d M Y H:i');
+            $chartScores[] = $data->score;
+        }
+
+        return view('student.screening.history', compact('history', 'canTakeTest', 'chartLabels', 'chartScores'));
+    }
+
+    public function show()
+    {
+        $userId = Auth::id();
+        $today = now()->timezone('Asia/Jakarta')->startOfDay();
+        $hasTakenToday = ScreeningResponse::where('user_id', $userId)
+                                            ->where('created_at', '>=', $today)
+                                            ->exists();
+        if ($hasTakenToday) {
+            return redirect()->route('student.screening.index')->with('error', 'Anda sudah melakukan evaluasi hari ini. Silakan kembali besok.');
+        }
+
         $depressionQs = Question::where('type', 'depression')->orderBy('order')->get();
         $anxietyQs = Question::where('type', 'anxiety')->orderBy('order')->get();
         $impactQ = Question::where('type', 'impact')->first(); // Ambil 1 soal dampak
@@ -20,8 +63,7 @@ class ScreeningController extends Controller
         return view('student.screening.form', compact(
             'depressionQs',
             'anxietyQs',
-            'impactQ',
-            'type'
+            'impactQ'
         ));
     }
 
@@ -41,10 +83,20 @@ class ScreeningController extends Controller
         }
     }
 
-    public function store(Request $request, $type)
+    public function store(Request $request)
     {
-        $data = $request->all();
         $userId = Auth::id();
+        
+        // Double check submission limit if it's the daily test
+        $today = now()->timezone('Asia/Jakarta')->startOfDay();
+        $hasTakenToday = ScreeningResponse::where('user_id', $userId)
+                                            ->where('created_at', '>=', $today)
+                                            ->exists();
+        if ($hasTakenToday) {
+            return redirect()->route('student.screening.index')->with('error', 'Evaluasi harian Anda sudah tersimpan sebelumnya.');
+        }
+
+        $data = $request->all();
 
         // 1. SKOR DEPRESI (9 Soal)
         $depressionQs = Question::where('type', 'depression')->get();
@@ -87,7 +139,6 @@ class ScreeningController extends Controller
         // SIMPAN DATA
         ScreeningResponse::create([
             'user_id' => $userId,
-            'type' => $type,
             'score' => $depressionScore + $anxietyScore,
             'category' => "Depresi: {$depResult['cat']} | Kecemasan: {$anxResult['cat']} " . ($isHighRisk ? "[! RISIKO TINGGI !]" : ""),
             'answers_detail' => json_encode([
@@ -111,6 +162,6 @@ class ScreeningController extends Controller
             ]),
         ]);
 
-        return redirect()->route('student.dashboard')->with('success', 'Terima kasih, kuesioner telah tersimpan. Silakan cek hasil evaluasi Anda.');
+        return redirect()->route('student.screening.index')->with('success', 'Terima kasih, kuesioner telah tersimpan. Silakan cek hasil evaluasi Anda.');
     }
 }

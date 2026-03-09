@@ -8,13 +8,10 @@ class ScreeningResponse extends Model
 {
     protected $fillable = [
         'user_id',
-        'type',
         'score',
         'category',
         'lecturer_advice',
         'answers_detail',
-        'gingivitis_image',
-        'detection_result',
     ];
 
     // Array jawaban disimpan sebagai JSON di database,

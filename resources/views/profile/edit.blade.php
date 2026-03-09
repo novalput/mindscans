@@ -25,7 +25,7 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
             {{-- Badge Role (Hanya Muncul di Layar Lebar) --}}
             <div class="absolute top-6 right-8 hidden md:block">
                 <div class="px-4 py-2 bg-white/20 backdrop-blur-md rounded-2xl text-white text-[10px] font-black uppercase tracking-widest border border-white/30">
-                    Sistem MindScans v1.0
+                    Sistem LoveCaring-Rr.Nursing v1.0
                 </div>
             </div>
         </div>

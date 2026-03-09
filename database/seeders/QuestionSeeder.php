@@ -73,5 +73,22 @@ class QuestionSeeder extends Seeder
                 'order' => $idx + 1
             ]);
         }
+
+        // ==========================================
+        // 3. Pertanyaan Dampak Fungsional
+        // Parameter: Seberapa sulit masalah-masalah tersebut membuat Anda melakukan pekerjaan, dll.
+        // ==========================================
+        Question::create([
+            'type' => 'impact',
+            'question_text' => 'Bila Anda mengalami masalah-masalah di atas, seberapa sulit masalah tersebut membuat Anda melakukan pekerjaan, mengurus rumah, atau bergaul dengan orang lain?',
+            'options' => json_encode([
+                '0' => 'Tidak sulit sama sekali',
+                '1' => 'Agak sulit',
+                '2' => 'Sangat sulit',
+                '3' => 'Sangat sulit sekali'
+            ]),
+            'correct_answer' => null,
+            'order' => 1
+        ]);
     }
 }

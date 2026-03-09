@@ -1,35 +1,35 @@
 <div x-data="{ mobileMenuOpen: false }">
 
-    <nav class="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-[60] px-4 md:px-8 py-4 flex justify-between items-center">
+    <nav class="bg-white/95 backdrop-blur-md shadow-sm border-b border-green-100 sticky top-0 z-[60] px-4 md:px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-3">
             {{-- Tombol Hamburger --}}
             <div class="md:hidden">
-                <button @click.stop="mobileMenuOpen = true" class="w-10 h-10 flex items-center justify-center rounded-xl text-gray-500 hover:bg-gray-50 active:scale-95 transition-all">
+                <button @click.stop="mobileMenuOpen = true" class="w-10 h-10 flex items-center justify-center rounded-xl text-gray-500 hover:bg-green-50 active:scale-95 transition-all">
                     <i class="fa-solid fa-bars-staggered text-xl"></i>
                 </button>
             </div>
-            <a href="{{ route('student.dashboard') }}" class="font-sansita text-2xl text-[#5DB8D8] tracking-tight">
-                MindScans
+            <a href="{{ route('student.dashboard') }}" class="font-sansita text-xl md:text-2xl text-[#22C55E] tracking-tight flex items-center gap-2">
+                <img src="{{ asset('images/logo-poltekkes.png') }}" alt="Logo" class="h-8 w-auto">
+                LoveCaring-Rr.Nursing
             </a>
         </div>
 
         {{-- Desktop Menu --}}
         <div class="hidden md:flex items-center space-x-1 text-sm font-bold">
-            <a href="{{ route('student.dashboard') }}" class="px-4 py-2 rounded-xl {{ Request::routeIs('student.dashboard') ? 'bg-sky-50 text-[#5DB8D8]' : 'text-gray-500' }}">Beranda</a>
-            <a href="{{ route('student.monitoring.index') }}" class="px-4 py-2 rounded-xl {{ Request::routeIs('student.monitoring.*') ? 'bg-sky-50 text-[#5DB8D8]' : 'text-gray-500' }}">Kegiatan</a>
-            <a href="{{ route('student.education.index') }}" class="px-4 py-2 rounded-xl {{ Request::routeIs('student.education.*') ? 'bg-sky-50 text-[#5DB8D8]' : 'text-gray-500' }}">Edukasi</a>
+            <a href="{{ route('student.dashboard') }}" class="px-4 py-2 rounded-xl {{ Request::routeIs('student.dashboard') ? 'bg-green-50 text-[#22C55E]' : 'text-gray-500' }}">Beranda</a>
+            <a href="{{ route('student.screening.index') }}" class="px-4 py-2 rounded-xl {{ Request::routeIs('student.screening.index') || Request::routeIs('student.screening.show') ? 'bg-green-50 text-[#22C55E]' : 'text-gray-500' }}">Evaluasi</a>
         </div>
 
         {{-- Profile Dropdown --}}
         <div class="flex items-center gap-3" x-data="{ userDropdown: false }">
             <div class="relative">
                 <button @click="userDropdown = !userDropdown" @click.away="userDropdown = false" class="flex items-center focus:outline-none group">
-                    <div class="p-0.5 rounded-full bg-gradient-to-tr from-[#5DB8D8] to-sky-200">
-                        <img class="h-9 w-9 rounded-full border-2 border-white object-cover" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=5DB8D8&color=fff">
+                    <div class="p-0.5 rounded-full bg-gradient-to-tr from-[#22C55E] to-green-300">
+                        <img class="h-9 w-9 rounded-full border-2 border-white object-cover" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=22C55E&color=fff">
                     </div>
                 </button>
                 <div x-show="userDropdown" x-cloak class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-gray-50 py-3 z-[100]">
-                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-sky-50">
+                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-green-50">
                         <i class="fa-solid fa-user-gear"></i> Pengaturan
                     </a>
                     <form action="{{ route('logout') }}" method="POST">
@@ -44,7 +44,7 @@
     </nav>
 
     <div class="md:hidden">
-        {{-- Overlay: z-index 9998 --}}
+        {{-- Overlay --}}
         <div x-show="mobileMenuOpen"
             x-cloak
             x-transition:opacity
@@ -53,7 +53,7 @@
             style="position: fixed !important;">
         </div>
 
-        {{-- Sidebar: z-index 9999 --}}
+        {{-- Sidebar --}}
         <aside x-show="mobileMenuOpen"
             x-cloak
             x-transition:enter="transition ease-out duration-300 transform"
@@ -67,21 +67,20 @@
 
             <div class="p-8 flex-1 overflow-y-auto">
                 <div class="flex justify-between items-center mb-10">
-                    <div class="font-sansita text-2xl text-[#5DB8D8]">MindScans</div>
+                    <div class="font-sansita text-xl text-[#22C55E] flex items-center gap-2">
+                        LoveCaring-Rr.Nursing
+                    </div>
                     <button @click="mobileMenuOpen = false" class="w-10 h-10 flex items-center justify-center bg-gray-50 rounded-2xl text-gray-400">
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
                 </div>
 
                 <nav class="space-y-4">
-                    <a href="{{ route('student.dashboard') }}" class="flex items-center gap-4 p-4 rounded-2xl {{ Request::routeIs('student.dashboard') ? 'bg-[#5DB8D8] text-white shadow-lg' : 'text-gray-500' }}">
+                    <a href="{{ route('student.dashboard') }}" class="flex items-center gap-4 p-4 rounded-2xl {{ Request::routeIs('student.dashboard') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-500' }}">
                         <i class="fa-solid fa-home"></i> <span class="font-bold text-xs uppercase">Beranda</span>
                     </a>
-                    <a href="{{ route('student.monitoring.index') }}" class="flex items-center gap-4 p-4 rounded-2xl {{ Request::routeIs('student.monitoring.*') ? 'bg-[#5DB8D8] text-white shadow-lg' : 'text-gray-500' }}">
-                        <i class="fa-solid fa-heart-pulse"></i> <span class="font-bold text-xs uppercase">Kegiatan</span>
-                    </a>
-                    <a href="{{ route('student.education.index') }}" class="flex items-center gap-4 p-4 rounded-2xl {{ Request::routeIs('student.education.*') ? 'bg-[#5DB8D8] text-white shadow-lg' : 'text-gray-500' }}">
-                        <i class="fa-solid fa-book-open"></i> <span class="font-bold text-xs uppercase">Edukasi</span>
+                    <a href="{{route('student.screening.index')}}" class="flex items-center gap-4 p-4 rounded-2xl {{ Request::routeIs('student.screening.index') || Request::routeIs('student.screening.show') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-500' }}">
+                        <i class="fa-solid fa-clipboard-list"></i> <span class="font-bold text-xs uppercase">Evaluasi</span>
                     </a>
                 </nav>
             </div>

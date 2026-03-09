@@ -1,70 +1,257 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Dashboard Lecturer')
 
 @section('content')
 
-<div class="space-y-6">
+<div class="space-y-6 pt-6">
 
-    {{-- =================== SECTION SUMMARY USER =================== --}}
-    <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8">
-        <div class="flex items-center mb-6">
-            <h3 class="text-2xl font-bold text-gray-800">Ringkasan Pengguna</h3>
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h2 class="text-3xl font-bold text-slate-800">Dashboard</h2>
+            <p class="text-slate-500 mt-1">Pantau ringkasan kuesioner mahasiswa</p>
         </div>
+    </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {{-- Stat 1: Total Ibu Hamil --}}
-            <div class="flex flex-col p-4 border-r-0 sm:border-r border-gray-100">
-                <span class="text-gray-500 text-sm font-medium mb-1">Total Ibu Hamil</span>
-                <div class="flex items-baseline gap-2">
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $totalStudents }}</h3>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-pink-100 text-pink-500 font-bold uppercase tracking-wider">All Time</span>
+    {{-- =================== SECTION SUMMARY CARDS =================== --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        {{-- Card 1: Total Kuisioner Diisi --}}
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col relative overflow-hidden group hover:shadow-md transition-shadow">
+            <div class="absolute -right-6 -top-6 w-32 h-32 bg-indigo-50 rounded-full group-hover:bg-indigo-100 transition-colors z-0"></div>
+            <div class="relative z-10 flex justify-between items-start">
+                <div>
+                    <span class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Total Kuesioner Diisi</span>
+                    <h3 class="text-4xl font-bold text-slate-800 mt-2">{{ $totalQuestionnaires }}</h3>
                 </div>
-            </div>
-
-            {{-- Stat 2: Ibu Hamil Tahun Ini --}}
-            <div class="flex flex-col p-4 border-r-0 lg:border-r border-gray-100">
-                <span class="text-gray-500 text-sm font-medium mb-1">Ibu Hamil Tahun Ini</span>
-                <div class="flex items-baseline gap-2">
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $studentsThisYear }}</h3>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-pink-100 text-pink-500 font-bold uppercase tracking-wider">{{ now() }}</span>
-                </div>
-            </div>
-
-            {{-- Stat 3: Lecturer Tahun Ini --}}
-            <div class="flex flex-col p-4 border-r-0 sm:border-r border-gray-100">
-                <span class="text-gray-500 text-sm font-medium mb-1">Lecturer Aktif</span>
-                <div class="flex items-baseline gap-2">
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $activeLecturer }}</h3>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-500 font-bold uppercase tracking-wider">{{ now() }}</span>
-                </div>
-            </div>
-
-            {{-- Stat 4: Total Lecturer --}}
-            <div class="flex flex-col p-4">
-                <span class="text-gray-500 text-sm font-medium mb-1">Total Tenaga Kesehatan</span>
-                <div class="flex items-baseline gap-2">
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $totalLecturer }}</h3>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-500 font-bold uppercase tracking-wider">All Time</span>
+                <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-file-contract"></i>
                 </div>
             </div>
         </div>
-    </section>
 
-    {{-- =================== SECTION DATA EVALUASI =================== --}}
-    <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8">
-        <h3 class="text-2xl font-bold text-gray-800 mb-4 tracking-tight">
-            Data Evaluasi Pasien
-        </h3>
+        {{-- Card 2: Rata-Rata Skor Mental --}}
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col relative overflow-hidden group hover:shadow-md transition-shadow">
+            <div class="absolute -right-6 -top-6 w-32 h-32 bg-cyan-50 rounded-full group-hover:bg-cyan-100 transition-colors z-0"></div>
+            <div class="relative z-10 flex justify-between items-start">
+                <div>
+                    <span class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Rata-Rata Skor Mental</span>
+                    <h3 class="text-4xl font-bold text-slate-800 mt-2">{{ $averageScore }}</h3>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+            </div>
+        </div>
 
-        <div class="flex items-center justify-center h-48 text-gray-400 text-center">
+        {{-- Card 3: Warning Perlu Perhatian (Skor 18-27) --}}
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col relative overflow-hidden group hover:shadow-md transition-shadow">
+            <div class="absolute -right-6 -top-6 w-32 h-32 bg-rose-50 rounded-full group-hover:bg-rose-100 transition-colors z-0"></div>
+            <div class="relative z-10 flex justify-between items-start">
+                <div>
+                    <span class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Warning Perlu Perhatian</span>
+                    <h3 class="text-4xl font-bold text-rose-600 mt-2">{{ $warningCount }} <span class="text-base font-medium text-slate-500">Orang</span></h3>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+            </div>
+            <div class="relative z-10 mt-2 text-xs text-slate-400">Terhitung dari rata-rata individu dengan skor 18-27</div>
+        </div>
+
+    </div>
+
+    {{-- =================== SECTION CHART & FILTER =================== --}}
+    <section class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 mt-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
             <div>
-                <p class="text-lg font-semibold">Chart belum tersedia</p>
-                <p class="text-sm">Fitur evaluasi akan aktif setelah data pemeriksaan pasien tersedia.</p>
+                <h3 class="text-xl font-bold text-slate-800 tracking-tight">Grafik Pengisian Kuesioner</h3>
+                <p class="text-sm text-slate-500">Statistik harian untuk periode ini</p>
             </div>
+            
+            <form id="monthFilterForm" action="{{ route('lecturer.dashboard') }}" method="GET" class="flex items-center gap-3">
+                <label for="month" class="text-sm font-medium text-slate-600">Pilih Bulan:</label>
+                <input type="month" id="month" name="month" value="{{ $filterMonth }}" 
+                       class="border border-slate-300 rounded-lg px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-colors"
+                       onchange="document.getElementById('monthFilterForm').submit();">
+            </form>
+        </div>
+
+        <div class="w-full h-[350px]">
+            <canvas id="screeningChart"></canvas>
         </div>
     </section>
+
+    {{-- =================== SECTION RECENT STUDENTS =================== --}}
+    <section class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 mt-6 overflow-hidden">
+        <h3 class="text-xl font-bold text-slate-800 mb-6 tracking-tight">5 Mahasiswa Terakhir Mengisi Kuesioner</h3>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 text-slate-500 text-sm border-b border-slate-200">
+                        <th class="py-3 px-4 font-semibold text-center">No</th>
+                        <th class="py-3 px-4 font-semibold">Nama Mahasiswa</th>
+                        <th class="py-3 px-4 font-semibold">Tanggal & Waktu</th>
+                        <th class="py-3 px-4 font-semibold text-center">Skor Mental</th>
+                        <th class="py-3 px-4 font-semibold text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @forelse($recentStudents as $index => $response)
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-500">{{ $index + 1 }}</td>
+                            <td class="py-4 px-4 font-medium text-slate-800">
+                                {{ $response->user->name ?? 'Mahasiswa (No Data)' }}
+                            </td>
+                            <td class="py-4 px-4 text-slate-600">
+                                {{ \Carbon\Carbon::parse($response->created_at)->format('d M Y - H:i') }}
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="font-bold {{ $response->score >= 18 && $response->score <= 27 ? 'text-rose-600' : 'text-slate-800' }}">
+                                    {{ $response->score }}
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                @if($response->score >= 18 && $response->score <= 27)
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 border border-rose-200">
+                                        Perlu Perhatian
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                        Normal / Aman
+                                    </span>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="py-8 text-center text-slate-400">
+                                <div class="flex flex-col items-center gap-2">
+                                    <i class="fa-solid fa-folder-open text-3xl"></i>
+                                    <p>Belum ada data kuesioner yang diisi.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </section>
+
 </div>
 
 @endsection
 
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('screeningChart').getContext('2d');
+        
+        const chartLabels = {!! json_encode($chartLabels) !!};
+        const chartTotalKuesioner = {!! json_encode($chartTotalKuesioner) !!};
+        const chartTotalWarning = {!! json_encode($chartTotalWarning) !!};
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [
+                    {
+                        label: 'Total Kuesioner',
+                        data: chartTotalKuesioner,
+                        borderColor: '#4f46e5', // indigo-600
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#4f46e5',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: 'Skor Warning (18-27)',
+                        data: chartTotalWarning,
+                        borderColor: '#e11d48', // rose-600
+                        backgroundColor: 'rgba(225, 29, 72, 0.1)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#e11d48',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: {
+                                family: "'Quicksand', sans-serif",
+                                size: 13
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)', // slate-900
+                        titleFont: {
+                            family: "'Quicksand', sans-serif",
+                            size: 14
+                        },
+                        bodyFont: {
+                            family: "'Quicksand', sans-serif",
+                            size: 13
+                        },
+                        padding: 12,
+                        cornerRadius: 8,
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Quicksand', sans-serif"
+                            },
+                            color: '#64748b' // slate-500
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f1f5f9', // slate-100
+                            drawBorder: false
+                        },
+                        ticks: {
+                            stepSize: 1,
+                            font: {
+                                family: "'Quicksand', sans-serif"
+                            },
+                            color: '#64748b' // slate-500
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+@endpush

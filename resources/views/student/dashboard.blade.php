@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 @endphp
 
-@section('title', 'Home - MindScans')
+@section('title', 'Home - LoveCaring-Rr.Nursing')
 
 @section('content')
 <div x-data="{
@@ -32,7 +32,7 @@ use Illuminate\Support\Str;
             <div class="space-y-6">
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
                     <span class="text-slate-900">Kuesioner</span><br>
-                    <span class="text-[#5DB8D8]">Kesehatan Mental</span>
+                    <span class="text-[#22C55E]">Kesehatan Mental</span>
                 </h1>
 
                 <p class="text-lg text-slate-600 leading-relaxed max-w-xl">
@@ -43,8 +43,8 @@ use Illuminate\Support\Str;
 
                 {{-- Buttons --}}
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                    <a href="{{ route('student.screening.show', 'pre_test') }}"
-                        class="px-8 py-4 bg-[#5DB8D8] text-white font-semibold rounded-full hover:bg-sky-600 transition-all shadow-lg">
+                    <a href="{{ route('student.screening.index') }}"
+                        class="px-8 py-4 bg-[#22C55E] text-white font-semibold rounded-full hover:bg-green-600 transition-all shadow-lg">
                         Mulai Kuesioner
                     </a>
 
@@ -129,7 +129,7 @@ use Illuminate\Support\Str;
                 <div
                     class="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-{{ $index * 150 }} bg-white p-8 rounded-3xl shadow-xl hover:-translate-y-3 transition-transform duration-300 text-center group">
                     <div
-                        class="w-20 h-20 bg-gradient-to-br from-[#5DB8D8] to-sky-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-sky-200 group-hover:scale-110 transition-transform">
+                        class="w-20 h-20 bg-gradient-to-br from-[#22C55E] to-green-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-200 group-hover:scale-110 transition-transform">
                         <i class="fas {{ $item['icon'] }} text-3xl text-white"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-800 mb-4">{{ $item['title'] }}</h3>
@@ -141,20 +141,19 @@ use Illuminate\Support\Str;
     </section>
 
     {{-- Materi Edukasi Section --}}
-    <section id="education" class="py-28 bg-[#F8FCFE] relative overflow-hidden">
+    <section id="education" class="py-28 bg-[#F0FDF4] relative overflow-hidden">
 
-        {{-- Background Klinik --}}
-        <div class="absolute -top-32 -right-32 w-[500px] h-[500px] bg-[#EAF6F9] rounded-full blur-3xl opacity-80"></div>
-        <div class="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-[#F3FBFD] rounded-full blur-3xl opacity-80">
-        </div>
+        {{-- Background --}}
+        <div class="absolute -top-32 -right-32 w-[500px] h-[500px] bg-green-100 rounded-full blur-3xl opacity-80"></div>
+        <div class="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-green-50 rounded-full blur-3xl opacity-80"></div>
 
         <div class="max-w-7xl mx-auto px-6 relative z-10">
 
             {{-- Header --}}
             <div class="text-center mb-24 animate-on-scroll opacity-0 translate-y-10">
                 <span class="inline-flex items-center gap-2 px-6 py-2
-                             bg-[#EAF6F9] text-[#5FAFC1]
-                             text-xs font-semibold tracking-widest rounded-full">
+                        bg-[#ECFDF5] text-[#16A34A]
+                        text-xs font-semibold tracking-widest rounded-full">
                     Mulai Perubahan Hari Ini
                 </span>
 
@@ -163,12 +162,12 @@ use Illuminate\Support\Str;
                 </h2>
 
                 <p class="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
-                    Umpan balik Anda membantu kami menciptakan lingkungan yang lebih sehat dan suportif. Mulailah kuesioner Anda sekarang tanpa perlu mendaftar.
+                    Umpan balik Anda membantu kami menciptakan lingkungan yang lebih sehat dan suportif. Mulailah kuesioner Anda sekarang.
                 </p>
             </div>
             <div class="flex justify-center flex-col sm:flex-row gap-3">
-                <a href="{{ route('student.screening.show', 'pre_test') }}"
-                    class="inline-flex items-center px-6 md:px-8 py-3 md:py-4 bg-[#5DB8D8] text-white font-bold rounded-full hover:bg-sky-600 transition-all hover:translate-x-2">
+                <a href="{{ route('student.screening.index') }}"
+                    class="inline-flex items-center px-6 md:px-8 py-3 md:py-4 bg-[#22C55E] text-white font-bold rounded-full hover:bg-green-600 transition-all hover:translate-x-2">
                     Mulai Test Kuesioner<i class="fas fa-arrow-right ml-3"></i>
                 </a>
             </div>

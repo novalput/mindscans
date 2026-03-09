@@ -15,15 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
-            $table->string('nik', 16)->unique();
-            $table->date('dob');
+            $table->string('nim')->unique();
+            $table->string('kampus');
+            $table->string('jenjang');
+            $table->string('program_studi');
             $table->enum('gender', ['male', 'female']);
-            $table->text('address');
-
-            $table->enum('education', ['SD', 'SMP', 'SMA', 'Perguruan Tinggi'])->nullable();
-            $table->enum('trimester', ['I', 'II', 'III'])->nullable();
-            $table->unsignedTinyInteger('pregnancy_week')->nullable();
-            $table->date('last_period_date')->nullable();
+            $table->string('status');
 
             $table->timestamps();
 

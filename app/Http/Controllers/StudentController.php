@@ -32,157 +32,41 @@ class StudentController extends Controller
     }
 
     /**
-     * Menampilkan daftar pasien untuk Lecturer
+     * Menampilkan daftar mahasiswa untuk Lecturer
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Menggunakan pagination agar performa tetap baik saat data banyak
-        $students = Student::with('user')
-            ->latest()
-            ->paginate(15);
+        $search = $request->input('search');
+        $prodi = $request->input('prodi');
 
-        return view('lecturer.datapasien', compact('students'));
-    }
+        $studentsQuery = Student::with(['user', 'screenings' => function($q) {
+            $q->orderBy('created_at', 'desc');
+        }]);
 
-    /**
-     * Simpan data pasien baru (Pendaftaran oleh Lecturer)
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            // Data User (Tabel: users)
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|max:20',
-
-            // Data Student (Tabel: students)
-            'nik' => 'required|string|unique:students,nik|max:16',
-            'dob' => 'required|date',
-            'gender' => 'required|in:male,female',
-            'address' => 'required|string',
-            'education' => 'nullable|in:SD,SMP,SMA,Perguruan Tinggi',
-            'trimester' => 'nullable|in:I,II,III',
-            'pregnancy_week' => 'nullable|integer|between:0,50',
-            'last_period_date' => 'nullable|date',
-        ]);
-
-        try {
-            return DB::transaction(function () use ($validated) {
-                // 1. Generate Password Acak
-                $passwordPlain = Str::random(8);
-                $phoneForDb = preg_replace('/^\+62/', '0', $validated['phone']);
-
-                // 2. Create User (Akun Login)
-                $user = User::create([
-                    'name' => $validated['name'],
-                    'email' => $validated['email'],
-                    'phone' => $phoneForDb,
-                    'password' => Hash::make($passwordPlain),
-                    'role' => 'student', // Sesuaikan dengan helper isStudent() di model
-                ]);
-
-                // 3. Create Student Profile
-                $user->student()->create([
-                    'nik' => $validated['nik'],
-                    'dob' => $validated['dob'],
-                    'gender' => $validated['gender'],
-                    'address' => $validated['address'],
-                    'education' => $validated['education'],
-                    'trimester' => $validated['trimester'],
-                    'pregnancy_week' => $validated['pregnancy_week'],
-                    'last_period_date' => $validated['last_period_date'],
-                ]);
-
-                // 4. Kirim WhatsApp (Fonnte)
-                $this->sendWhatsAppCredentials($user, $passwordPlain);
-
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Pasien berhasil didaftarkan!',
-                    'credentials' => [
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'password' => $passwordPlain,
-                        'phone' => $validated['phone']
-                    ]
-                ]);
+        if ($search) {
+            $studentsQuery->where(function($q) use ($search) {
+                $q->whereHas('user', function($uq) use ($search) {
+                    $uq->where('name', 'like', "%{$search}%");
+                })->orWhere('nim', 'like', "%{$search}%");
             });
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
+
+        if ($prodi) {
+            $studentsQuery->where('program_studi', 'like', "%{$prodi}%");
+        }
+
+        // Get unique prodi list for the filter dropdown
+        $prodiList = Student::whereNotNull('program_studi')->distinct()->pluck('program_studi');
+
+        $students = $studentsQuery->latest()->paginate(15);
+        
+        // Append query strings so pagination links keep filters
+        $students->appends(['search' => $search, 'prodi' => $prodi]);
+
+        return view('lecturer.datamahasiswa', compact('students', 'search', 'prodi', 'prodiList'));
     }
 
-    /**
-     * Update data pasien
-     */
-    public function update(Request $request, $id)
-    {
-        $student = Student::findOrFail($id);
-        $user = $student->user;
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => "required|email|unique:users,email,{$user->id}",
-            'phone' => "required|string|max:20",
-            'nik' => "required|string|unique:students,nik,{$student->id}",
-            'dob' => 'required|date',
-            'address' => 'required|string',
-            'trimester' => 'nullable|string',
-            'pregnancy_week' => 'nullable|integer',
-        ]);
-
-        try {
-            DB::transaction(function () use ($validated, $user, $student, $request) {
-                // Update User
-                $user->update([
-                    'name' => $validated['name'],
-                    'email' => $validated['email'],
-                    'phone' => $validated['phone'],
-                ]);
-
-                // Update Student
-                $student->update($request->only([
-                    'nik',
-                    'dob',
-                    'gender',
-                    'address',
-                    'education',
-                    'trimester',
-                    'pregnancy_week',
-                    'last_period_date'
-                ]));
-            });
-
-            return response()->json(['success' => true, 'message' => 'Data pasien berhasil diperbarui']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Gagal update: ' . $e->getMessage()], 500);
-        }
-    }
-
-    /**
-     * Hapus Pasien & Akun User
-     */
-    public function destroy($id)
-    {
-        try {
-            $student = Student::findOrFail($id);
-            $user = $student->user;
-
-            DB::transaction(function () use ($user, $student) {
-                // Hapus avatar jika ada
-                if ($user->avatar_url) {
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $user->avatar_url));
-                }
-
-                $student->delete();
-                $user->delete();
-            });
-
-            return response()->json(['success' => true, 'message' => 'Data pasien dan akun berhasil dihapus']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Gagal menghapus data'], 500);
-        }
-    }
 
     /**
      * Helper kirim WA

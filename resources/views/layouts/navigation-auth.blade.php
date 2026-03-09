@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 right-0 z-50 bg-[#5DB8D8] text-white shadow-md h-16 flex items-center justify-between px-3 md:px-8 transition-all duration-300">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#22C55E] text-white shadow-md h-16 flex items-center justify-between px-3 md:px-8 transition-all duration-300">
 
     {{-- Left Side: Brand & Toggle --}}
     <div class="flex items-center gap-1 md:gap-4">
@@ -14,7 +14,7 @@
         {{-- Brand Logo --}}
         <span class="font-sansita text-lg md:text-xl tracking-wide truncate transition-opacity duration-300"
             :class="sidebarOpen ? 'max-md:hidden opacity-100' : 'opacity-100'">
-            MindScans
+            LoveCaring-Rr.Nursing
         </span>
     </div>
 
@@ -78,7 +78,7 @@
 
                 {{-- Avatar --}}
                 <img class="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover border-2 border-white/50 shadow-sm group-hover:scale-105 transition-transform duration-300"
-                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=fff&color=5DB8D8"
+                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=fff&color=22C55E"
                     alt="Avatar">
 
                 {{-- Icon Down (Opsional untuk mobile) --}}
@@ -100,8 +100,8 @@
                     <p class="text-[9px] text-gray-400 uppercase tracking-widest">{{ Auth::user()->role }}</p>
                 </div>
 
-                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-sky-50 hover:text-[#5DB8D8] transition-colors group">
-                    <i class="fa-solid fa-circle-user text-gray-400 group-hover:text-[#5DB8D8] w-4"></i>
+                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-green-50 hover:text-[#22C55E] transition-colors group">
+                    <i class="fa-solid fa-circle-user text-gray-400 group-hover:text-[#22C55E] w-4"></i>
                     <span class="font-semibold">Profil Saya</span>
                 </a>
 <!-- 

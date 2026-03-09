@@ -16,11 +16,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Buat User Dokter (Lecturer)
+        // 1. Buat User Dosen (Lecturer)
         $dokterUser = User::create([
-            'name' => 'Drg. Lia',
-            'email' => 'dokter@liasdent.com',
-            'phone' => '628123456789',
+            'name' => 'SLAMET HANDOKO',
+            'email' => 'slamet@mindscans.com',
+            'phone' => '628111111111',
             'password' => Hash::make('password'),
             'role' => 'lecturer',
             'whatsapp_verified' => true,
@@ -28,37 +28,38 @@ class UserSeeder extends Seeder
 
         Lecturer::create([
             'user_id' => $dokterUser->id,
-            'nip' => 'SIP-12345/2026',
-            'education' => 'Perguruan Tinggi',
-            'specialization' => 'Spesialis Periodonsia',
-            'bio' => 'Dokter gigi berpengalaman.',
+            'gender' => 'male',
+            'kampus' => 'Politeknik Negeri Semarang',
+            'program_studi' => 'Teknik Informatika',
+            'jabatan_fungsional' => 'Lektor',
+            'pendidikan_terakhir' => 'S2',
+            'status_ikatan_kerja' => 'Dosen Tetap',
+            'status_aktivitas' => 'Aktif',
         ]);
 
-        // 2. Buat User Pasien
+        // 2. Buat User Mahasiswa (Student)
         $pasienUser = User::create([
-            'name' => 'Siti Aminah',
-            'email' => 'siti@gmail.com',
-            'phone' => '628987654321',
+            'name' => 'AHMAD MUZAKKI AHSAN',
+            'email' => 'ahmad@mindscans.com',
+            'phone' => '628222222222',
             'password' => Hash::make('password'),
             'role' => 'student',
         ]);
 
         Student::create([
             'user_id' => $pasienUser->id,
-            'nik' => '3201234567890001',
-            'dob' => '1995-05-20',
-            'gender' => 'female',
-            'address' => 'Jl. Kebahagiaan No. 10',
-            'education' => 'SMA',
-            'trimester' => 'II',
-            'pregnancy_week' => 20,
-            'last_period_date' => '2025-12-01',
+            'nim' => '2304130079',
+            'kampus' => 'Universitas Negeri Semarang',
+            'jenjang' => 'Sarjana',
+            'program_studi' => 'Teknik Informatika',
+            'gender' => 'male',
+            'status' => 'Aktif-2025/2026 Genap'
         ]);
 
         // 3. Buat User Admin
         $adminUser = User::create([
             'name' => 'Admin',
-            'email' => 'admin@liasdent.com',
+            'email' => 'admin@mindscans.com',
             'phone' => '628523456789',
             'password' => Hash::make('password'),
             'role' => 'admin',

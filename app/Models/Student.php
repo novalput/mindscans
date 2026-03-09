@@ -8,19 +8,12 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id',
-        'nik',
-        'dob',
+        'nim',
+        'kampus',
+        'jenjang',
+        'program_studi',
         'gender',
-        'address',
-        'education',
-        'trimester',
-        'pregnancy_week',
-        'last_period_date'
-    ];
-
-    protected $casts = [
-        'dob' => 'date',
-        'last_period_date' => 'date',
+        'status'
     ];
 
     /* ================= RELATIONS ================= */
@@ -29,18 +22,10 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function brushingLogs()
-    {
-        return $this->hasMany(BrushingLog::class);
-    }
-
-    public function healthVisits()
-    {
-        return $this->hasMany(HealthVisit::class);
-    }
 
     public function screenings()
     {
-        return $this->hasMany(ScreeningResponse::class);
+        // Hubungkan berdasarkan user_id, karena screening_responses pakai user_id
+        return $this->hasMany(ScreeningResponse::class, 'user_id', 'user_id');
     }
 }

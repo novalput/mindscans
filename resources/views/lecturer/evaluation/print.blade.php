@@ -42,7 +42,7 @@
 <body class="p-10 font-sans text-gray-900 bg-white">
     {{-- Kop Surat --}}
     <div class="text-center mb-6 header-line pb-4">
-        <h1 class="text-3xl font-bold uppercase tracking-widest">MindScans</h1>
+        <h1 class="text-3xl font-bold uppercase tracking-widest">LoveCaring-Rr.Nursing</h1>
         <p class="text-sm font-semibold">Laporan Kesehatan Gigi & Mulut Ibu Hamil</p>
         <p class="text-[10px] italic">Automated Gingivitis Detection System</p>
     </div>

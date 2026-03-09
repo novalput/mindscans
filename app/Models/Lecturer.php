@@ -10,10 +10,13 @@ class Lecturer extends Model
     protected $table = 'lecturer';
     protected $fillable = [
         'user_id',
-        'nip',
-        'education',
-        'specialization',
-        'bio'
+        'gender',
+        'kampus',
+        'program_studi',
+        'jabatan_fungsional',
+        'pendidikan_terakhir',
+        'status_ikatan_kerja',
+        'status_aktivitas'
     ];
 
     /* ================= RELATIONS ================= */

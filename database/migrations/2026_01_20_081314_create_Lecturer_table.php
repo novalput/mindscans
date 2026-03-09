@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
-            $table->string('nip')->unique();
-            $table->string('education')->nullable(); 
-            $table->string('specialization')->nullable();
-            $table->text('bio')->nullable();
+            $table->enum('gender', ['male', 'female']);
+            $table->string('kampus');
+            $table->string('program_studi');
+            $table->string('jabatan_fungsional');
+            $table->string('pendidikan_terakhir');
+            $table->string('status_ikatan_kerja');
+            $table->string('status_aktivitas');
 
             $table->timestamps();
         });

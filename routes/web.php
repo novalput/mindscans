@@ -84,11 +84,9 @@ Route::middleware(['auth', 'role:lecturer'])
         Route::get('/monitoring', [MonitoringController::class, 'lecturerIndex'])->name('monitoring.index');
         Route::get('/monitoring/{id}', [MonitoringController::class, 'lecturerShow'])->name('monitoring.show');
 
-        // Manajemen Pasien (CRUD Pasien yang sudah ada sebelumnya)
-        Route::get('/datapasien', [StudentController::class, 'index'])->name('datapasien');
-        Route::post('/datapasien', [StudentController::class, 'store'])->name('datapasien.store');
-        Route::put('/datapasien/{id}', [StudentController::class, 'update'])->name('datapasien.update');
-        Route::delete('/datapasien/{id}', [StudentController::class, 'destroy'])->name('datapasien.destroy');
+        // Manajemen Data Mahasiswa (Hanya Read & History)
+        Route::get('/datamahasiswa', [StudentController::class, 'index'])->name('datamahasiswa');
+        Route::get('/datamahasiswa/{id}/riwayat', [LecturerController::class, 'studentHistory'])->name('datamahasiswa.history');
 
         Route::resource('education', ContentManagementController::class);
 
@@ -128,10 +126,12 @@ Route::middleware(['auth', 'role:student'])
         Route::get('/education/{material}', [EducationController::class, 'show'])->name('education.show');
 
         // Screening / Tes
+        // Halaman Riwayat Kuesioner
+        Route::get('/kuesioner', [ScreeningController::class, 'index'])->name('screening.index');
         // Halaman Form Soal
-        Route::get('/screening/{type}', [ScreeningController::class, 'show'])->name('screening.show');
+        Route::get('/kuesioner/form', [ScreeningController::class, 'show'])->name('screening.show');
         // Simpan Jawaban
-        Route::post('/screening/{type}', [ScreeningController::class, 'store'])->name('screening.store');
+        Route::post('/kuesioner/form', [ScreeningController::class, 'store'])->name('screening.store');
 
         // Sesuai url('/profil') di navbar lo
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -165,6 +165,38 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('student/{user}', [AdminStudentController::class, 'show'])
             ->name('student.show');
     });
+
+/*
+|--------------------------------------------------------------------------
+| Internal Proxy for External APIs
+|--------------------------------------------------------------------------
+*/
+Route::get('/api-proxy/pddikti/{type}/{keyword}', function($type, $keyword) {
+    try {
+        $response = Illuminate\Support\Facades\Http::timeout(15)->get("https://api-pddikti.rone.dev/search/{$type}/{$keyword}");
+        return response()->json($response->json());
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'API fetch failed', 'message' => $e->getMessage()], 500);
+    }
+});
+
+Route::get('/api-proxy/pddikti/profile/dosen/{id}', function($id) {
+    try {
+        $response = Illuminate\Support\Facades\Http::timeout(15)->get("https://api-pddikti.rone.dev/dosen/profile/{$id}");
+        return response()->json($response->json());
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'API fetch failed', 'message' => $e->getMessage()], 500);
+    }
+});
+
+Route::get('/api-proxy/pddikti/detail/mhs/{id}', function($id) {
+    try {
+        $response = Illuminate\Support\Facades\Http::timeout(15)->get("https://api-pddikti.rone.dev/mhs/detail/{$id}");
+        return response()->json($response->json());
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'API fetch failed', 'message' => $e->getMessage()], 500);
+    }
+});
 
 /*
 |--------------------------------------------------------------------------
