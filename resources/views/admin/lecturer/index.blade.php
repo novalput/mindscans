@@ -8,19 +8,19 @@
     {{-- HEADER --}}
     <div class="mb-6 flex justify-between items-center">
         <div>
-            <h1 class="text-2xl font-bold">Kelola Tenaga Kesehatan</h1>
-            <p class="text-gray-500 text-sm">Manajemen data lecturer</p>
+            <h1 class="text-2xl font-bold">Kelola Dosen</h1>
+            <p class="text-gray-500 text-sm">Manajemen data dosen</p>
         </div>
         <button @click="openCreate()"
-            class="px-6 py-2 bg-[#4da4e3] text-white rounded-lg font-semibold hover:bg-[#367cae]">
-            <i class="fas fa-plus mr-1"></i> Tambah Lecturer
+            class="px-6 py-2 bg-[#22C55E] text-white rounded-lg font-semibold hover:bg-green-700">
+            <i class="fas fa-plus mr-1"></i> Tambah Dosen
         </button>
     </div>
 
     {{-- TABLE --}}
     <div class="bg-white rounded-xl shadow border overflow-x-auto">
         <table class="w-full text-sm min-w-[600px]">
-            <thead class="bg-[#4da4e3] text-white">
+            <thead class="bg-[#22C55E] text-white">
                 <tr>
                     <th class="px-6 py-3 text-left">Nama</th>
                     <th class="px-6 py-3 text-left">Email</th>
@@ -40,12 +40,16 @@
                             name: "{{ $item->name }}",
                             email: "{{ $item->email }}",
                             phone: "{{ $item->phone }}",
-                            nip: "{{ $item->lecturer->nip }}",
-                            education: "{{ $item->lecturer->education }}",
-                            specialization: "{{ $item->lecturer->specialization }}",
-                            bio: `{{ $item->lecturer->bio }}`
+                            nip: "{{ $item->lecturer?->nip ?? '' }}",
+                            gender: "{{ $item->lecturer?->gender ?? '' }}",
+                            kampus: "{{ $item->lecturer?->kampus ?? '' }}",
+                            program_studi: "{{ $item->lecturer?->program_studi ?? '' }}",
+                            jabatan_fungsional: "{{ $item->lecturer?->jabatan_fungsional ?? '' }}",
+                            pendidikan_terakhir: "{{ $item->lecturer?->pendidikan_terakhir ?? '' }}",
+                            status_ikatan_kerja: "{{ $item->lecturer?->status_ikatan_kerja ?? '' }}",
+                            status_aktivitas: "{{ $item->lecturer?->status_aktivitas ?? '' }}"
                         })'
-                            class="text-blue-600 hover:text-blue-800">
+                            class="text-green-600 hover:text-green-800">
                             <i class="fas fa-edit"></i>
                         </button>
                         <button @click="openDelete({{ $item->id }})" class="text-red-600 hover:text-red-800">
@@ -68,11 +72,11 @@
         <div class="relative z-10 bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-full sm:max-w-lg md:max-w-2xl mx-2 sm:mx-4">
 
             {{-- Header --}}
-            <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-[#4da4e3] to-[#367cae] text-white">
+            <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-[#16A34A] to-green-700 text-white">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-user-doctor text-xl"></i>
                     <h2 class="text-lg font-semibold"
-                        x-text="formMode === 'create' ? 'Tambah Tenaga Kesehatan' : 'Edit Tenaga Kesehatan'"></h2>
+                        x-text="formMode === 'create' ? 'Tambah Dosen' : 'Edit Dosen'"></h2>
                 </div>
                 <button @click="close()" class="text-white/80 hover:text-white">
                     <i class="fas fa-times"></i>
@@ -88,7 +92,7 @@
                         <div class="relative mt-1">
                             <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                             <input x-model="form.name" required
-                                class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#4da4e3]">
+                                class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
                         </div>
                     </div>
 
@@ -98,7 +102,7 @@
                         <div class="relative mt-1">
                             <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                             <input x-model="form.email" type="email"
-                                class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#4da4e3]">
+                                class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
                         </div>
                     </div>
 
@@ -108,17 +112,7 @@
                         <div class="relative mt-1">
                             <i class="fas fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                             <input x-model="form.phone"
-                                class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#4da4e3]">
-                        </div>
-                    </div>
-
-                    {{-- NIP --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-600">NIP</label>
-                        <div class="relative mt-1">
-                            <i class="fas fa-id-card absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input x-model="form.nip" required
-                                class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#4da4e3]">
+                                class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
                         </div>
                     </div>
 
@@ -129,31 +123,56 @@
                             <div class="relative mt-1">
                                 <i class="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                 <input type="password" x-model="form.password" required
-                                    class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#4da4e3]">
+                                    class="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
                             </div>
                         </div>
                     </template>
 
-                    {{-- Pendidikan --}}
+                    {{-- Gender --}}
                     <div>
-                        <label class="text-sm font-medium text-gray-600">Pendidikan</label>
-                        <input x-model="form.education"
-                            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#4da4e3]">
+                        <label class="text-sm font-medium text-gray-600">Jenis Kelamin</label>
+                        <select x-model="form.gender" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
+                            <option value="">Pilih...</option>
+                            <option value="male">Laki-laki</option>
+                            <option value="female">Perempuan</option>
+                        </select>
                     </div>
 
-                    {{-- Spesialisasi --}}
+                    {{-- Kampus --}}
                     <div>
-                        <label class="text-sm font-medium text-gray-600">Spesialisasi</label>
-                        <input x-model="form.specialization"
-                            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#4da4e3]">
+                        <label class="text-sm font-medium text-gray-600">Kampus</label>
+                        <input x-model="form.kampus" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
                     </div>
-                </div>
 
-                {{-- Bio --}}
-                <div>
-                    <label class="text-sm font-medium text-gray-600">Bio</label>
-                    <textarea x-model="form.bio" rows="3"
-                        class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#4da4e3]"></textarea>
+                    {{-- Program Studi --}}
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Program Studi</label>
+                        <input x-model="form.program_studi" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
+                    </div>
+
+                    {{-- Jabatan Fungsional --}}
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Jabatan Fungsional</label>
+                        <input x-model="form.jabatan_fungsional" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
+                    </div>
+
+                    {{-- Pendidikan Terakhir --}}
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Pendidikan Terakhir</label>
+                        <input x-model="form.pendidikan_terakhir" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
+                    </div>
+                    
+                    {{-- Status Ikatan Kerja --}}
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Status Ikatan Kerja</label>
+                        <input x-model="form.status_ikatan_kerja" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
+                    </div>
+
+                    {{-- Status Aktivitas --}}
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Status Aktivitas</label>
+                        <input x-model="form.status_aktivitas" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
+                    </div>
                 </div>
 
                 {{-- Error --}}
@@ -166,7 +185,7 @@
                         Batal
                     </button>
                     <button type="submit"
-                        class="px-6 py-2 rounded-lg bg-[#4da4e3] hover:bg-[#367cae] text-white font-semibold">
+                        class="px-6 py-2 rounded-lg bg-[#22C55E] hover:bg-green-700 text-white font-semibold">
                         Simpan
                     </button>
                 </div>
@@ -182,7 +201,7 @@
         {{-- Modal --}}
         <div class="relative z-10 bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
             <h3 class="text-lg font-bold mb-3 text-gray-800">Konfirmasi Hapus</h3>
-            <p class="text-gray-600 mb-6">Data lecturer akan dihapus permanen.</p>
+            <p class="text-gray-600 mb-6">Data dosen akan dihapus permanen.</p>
             <div class="flex justify-end gap-3">
                 <button @click="modalDelete = false" class="px-4 py-2 bg-gray-300 rounded-lg">Batal</button>
                 <button @click="deleteData" class="px-4 py-2 bg-red-600 text-white rounded-lg">Hapus</button>
@@ -206,9 +225,13 @@
                 phone: '',
                 nip: '',
                 password: '',
-                education: '',
-                specialization: '',
-                bio: ''
+                gender: '',
+                kampus: '',
+                program_studi: '',
+                jabatan_fungsional: '',
+                pendidikan_terakhir: '',
+                status_ikatan_kerja: '',
+                status_aktivitas: ''
             },
 
             openCreate() {
@@ -244,9 +267,13 @@
                     phone: '',
                     nip: '',
                     password: '',
-                    education: '',
-                    specialization: '',
-                    bio: ''
+                    gender: '',
+                    kampus: '',
+                    program_studi: '',
+                    jabatan_fungsional: '',
+                    pendidikan_terakhir: '',
+                    status_ikatan_kerja: '',
+                    status_aktivitas: ''
                 };
             },
 

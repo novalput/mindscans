@@ -41,10 +41,13 @@ class LecturerController extends Controller
             'phone' => 'nullable|string|max:20|unique:users,phone',
             'password' => 'required|min:8',
 
-            'nip' => 'required|unique:lecturer,nip',
-            'education' => 'nullable|string|max:255',
-            'specialization' => 'nullable|string|max:255',
-            'bio' => 'nullable|string',
+            'gender' => 'required|in:male,female',
+            'kampus' => 'required|string|max:255',
+            'program_studi' => 'required|string|max:255',
+            'jabatan_fungsional' => 'nullable|string|max:255',
+            'pendidikan_terakhir' => 'nullable|string|max:255',
+            'status_ikatan_kerja' => 'nullable|string|max:255',
+            'status_aktivitas' => 'nullable|string|max:255',
         ]);
 
         DB::transaction(function () use ($data) {
@@ -59,10 +62,13 @@ class LecturerController extends Controller
 
             Lecturer::create([
                 'user_id' => $user->id,
-                'nip' => $data['nip'],
-                'education' => $data['education'] ?? null,
-                'specialization' => $data['specialization'] ?? null,
-                'bio' => $data['bio'] ?? null,
+                'gender' => $data['gender'],
+                'kampus' => $data['kampus'],
+                'program_studi' => $data['program_studi'],
+                'jabatan_fungsional' => $data['jabatan_fungsional'] ?? null,
+                'pendidikan_terakhir' => $data['pendidikan_terakhir'] ?? null,
+                'status_ikatan_kerja' => $data['status_ikatan_kerja'] ?? null,
+                'status_aktivitas' => $data['status_aktivitas'] ?? null,
             ]);
         });
 
@@ -92,13 +98,13 @@ class LecturerController extends Controller
                     'max:20',
                     Rule::unique('users', 'phone')->ignore($user->id)
                 ],
-                'nip' => [
-                    'required',
-                    Rule::unique('lecturer', 'nip')->ignore($user->lecturer->id)
-                ],
-                'education' => 'nullable|string|max:255',
-                'specialization' => 'nullable|string|max:255',
-                'bio' => 'nullable|string',
+                'gender' => 'required|in:male,female',
+                'kampus' => 'required|string|max:255',
+                'program_studi' => 'required|string|max:255',
+                'jabatan_fungsional' => 'nullable|string|max:255',
+                'pendidikan_terakhir' => 'nullable|string|max:255',
+                'status_ikatan_kerja' => 'nullable|string|max:255',
+                'status_aktivitas' => 'nullable|string|max:255',
             ]);
 
             DB::transaction(function () use ($user, $data) {
@@ -109,10 +115,13 @@ class LecturerController extends Controller
                 ]);
 
                 $user->lecturer->update([
-                    'nip' => $data['nip'],
-                    'education' => $data['education'],
-                    'specialization' => $data['specialization'],
-                    'bio' => $data['bio'],
+                    'gender' => $data['gender'],
+                    'kampus' => $data['kampus'],
+                    'program_studi' => $data['program_studi'],
+                    'jabatan_fungsional' => $data['jabatan_fungsional'],
+                    'pendidikan_terakhir' => $data['pendidikan_terakhir'],
+                    'status_ikatan_kerja' => $data['status_ikatan_kerja'],
+                    'status_aktivitas' => $data['status_aktivitas'],
                 ]);
             });
 

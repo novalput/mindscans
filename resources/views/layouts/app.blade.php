@@ -84,7 +84,7 @@
         :class="sidebarOpen && '{{ auth()->user()->role }}' !== 'student' ? 'md:ml-64' : 'md:ml-0'">
 
         {{-- SLOT KONTEN --}}
-        <main class="{{ auth()->check() && auth()->user()->role === 'student' ? 'grow' : 'flex-1 px-4 md:px-8' }}">
+        <main class="{{ auth()->check() && auth()->user()->role === 'student' ? 'grow' : 'flex-1 px-4 md:px-8 py-6 md:py-8' }}">
             @yield('content')
         </main>
 

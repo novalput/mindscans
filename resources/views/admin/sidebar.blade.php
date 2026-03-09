@@ -2,14 +2,11 @@
 <aside
     id="sidebar-desktop"
     class="fixed inset-y-0 left-0 z-40 w-64
-           bg-gradient-to-b from-blue-700 to-blue-900
+           bg-gradient-to-b from-[#16A34A] to-green-900
            text-white shadow-2xl hidden md:flex flex-col">
 
     {{-- Logo / Title --}}
-    <div class="flex items-center gap-3 px-6 py-8 border-b border-[#4da4e3] border-opacity-20 flex-shrink-0">
-        <div class="bg-[#4da4e3] rounded-lg p-2">
-            <i class="fas fa-tooth text-white text-lg"></i>
-        </div>
+    <div class="flex items-center gap-3 px-6 py-8 border-b border-[#22C55E] border-opacity-20 flex-shrink-0">
         <div>
             <h1 class="text-xl font-sansita font-bold">LoveCaring-Rr.Nursing</h1>
             <p class="text-xs text-gray-400">Admin Panel</p>
@@ -21,32 +18,40 @@
         {{-- Dashboard --}}
         <a href="{{ route('dashboard') }}"
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-            {{ request()->routeIs('admin.dashboard') ? 'bg-[#4da4e3] text-white shadow-lg' : 'text-gray-300 hover:bg-[#4da4e3]/20 hover:text-white' }}">
+            {{ request()->routeIs('admin.dashboard') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-chart-line w-5"></i>
             <span class="font-medium">Dashboard</span>
         </a>
 
-        {{-- Kelola Lecturer --}}
+        {{-- Kelola Dosen --}}
         <a href="{{ route('admin.lecturer.index') }}"
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-            {{ request()->routeIs('admin.lecturer.*') ? 'bg-[#4da4e3] text-white shadow-lg' : 'text-gray-300 hover:bg-[#4da4e3]/20 hover:text-white' }}">
+            {{ request()->routeIs('admin.lecturer.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-users-between-lines w-5"></i>
-            <span class="font-medium">Kelola Lecturer</span>
+            <span class="font-medium">Kelola Dosen</span>
         </a>
 
-        {{-- Data Pasien --}}
+        {{-- Kelola Mahasiswa --}}
         <a href="{{ route('admin.student.index') }}"
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-            {{ request()->routeIs('admin.student.*') ? 'bg-[#4da4e3] text-white shadow-lg' : 'text-gray-300 hover:bg-[#4da4e3]/20 hover:text-white' }}">
+            {{ request()->routeIs('admin.student.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-hospital-user w-5"></i>
-            <span class="font-medium">Data Pasien</span>
+            <span class="font-medium">Kelola Mahasiswa</span>
+        </a>
+
+        {{-- Riwayat Kuesioner --}}
+        <a href="{{ route('admin.history.index') }}"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
+            {{ request()->routeIs('admin.history.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
+            <i class="fas fa-history w-5"></i>
+            <span class="font-medium">Riwayat Kuesioner</span>
         </a>
     </nav>
 
     {{-- Divider --}}
-    <div class="px-4 py-4 border-t border-[#4da4e3] border-opacity-20 flex-shrink-0">
+    <div class="px-4 py-4 border-t border-[#22C55E] border-opacity-20 flex-shrink-0">
         {{-- User Info --}}
-        <div class="mb-4 p-3 bg-[#4da4e3] bg-opacity-10 rounded-lg">
+        <div class="mb-4 p-3 bg-[#22C55E] bg-opacity-10 rounded-lg">
             <p class="text-xs text-gray-400 mb-1">Logged in as</p>
             <p class="text-sm font-semibold text-white truncate">{{ auth()->user()->name }}</p>
         </div>
@@ -86,15 +91,12 @@
     x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="translate-x-0"
     x-transition:leave-end="-translate-x-full"
-    class="fixed inset-0 z-50 md:hidden flex flex-col w-64 bg-gradient-to-b from-blue-700 to-blue-900 text-white shadow-2xl"
+    class="fixed inset-0 z-50 md:hidden flex flex-col w-64 bg-gradient-to-b from-[#16A34A] to-green-900 text-white shadow-2xl"
     x-cloak>
 
     {{-- Header --}}
-    <div class="flex items-center justify-between px-6 py-4 border-b border-[#4da4e3] border-opacity-20 flex-shrink-0">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-[#22C55E] border-opacity-20 flex-shrink-0">
         <div class="flex items-center gap-2">
-            <div class="bg-[#4da4e3] rounded-lg p-2">
-                <i class="fas fa-tooth text-white text-lg"></i>
-            </div>
             <h1 class="font-sansita text-lg font-bold">LoveCaring-Rr.Nursing</h1>
         </div>
         <button @click="sidebarOpen = false" class="text-gray-300 hover:text-white transition-colors">
@@ -108,34 +110,43 @@
         <a href="{{ route('dashboard') }}"
             @click="sidebarOpen = false"
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-            {{ request()->routeIs('dashboard') ? 'bg-[#4da4e3] text-white shadow-lg' : 'text-gray-300 hover:bg-[#4da4e3]/20 hover:text-white' }}">
+            {{ request()->routeIs('dashboard') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-chart-line w-5"></i>
             <span class="font-medium">Dashboard</span>
         </a>
 
-        {{-- Kelola Lecturer --}}
+        {{-- Kelola Dosen --}}
         <a href="{{ route('admin.lecturer.index') }}"
             @click="sidebarOpen = false"
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-            {{ request()->routeIs('admin.lecturer.*') ? 'bg-[#4da4e3] text-white shadow-lg' : 'text-gray-300 hover:bg-[#4da4e3]/20 hover:text-white' }}">
+            {{ request()->routeIs('admin.lecturer.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-users-between-lines w-5"></i>
-            <span class="font-medium">Kelola Lecturer</span>
+            <span class="font-medium">Kelola Dosen</span>
         </a>
 
-        {{-- Data Pasien --}}
+        {{-- Kelola Mahasiswa --}}
         <a href="{{ route('admin.student.index') }}"
             @click="sidebarOpen = false"
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-            {{ request()->routeIs('admin.student.*') ? 'bg-[#4da4e3] text-white shadow-lg' : 'text-gray-300 hover:bg-[#4da4e3]/20 hover:text-white' }}">
+            {{ request()->requestUri === route('admin.student.index') || request()->routeIs('admin.student.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-hospital-user w-5"></i>
-            <span class="font-medium">Data Pasien</span>
+            <span class="font-medium">Kelola Mahasiswa</span>
+        </a>
+        
+        {{-- Riwayat Kuesioner --}}
+        <a href="{{ route('admin.history.index') }}"
+            @click="sidebarOpen = false"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
+            {{ request()->routeIs('admin.history.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
+            <i class="fas fa-history w-5"></i>
+            <span class="font-medium">Riwayat Kuesioner</span>
         </a>
     </nav>
 
     {{-- Divider --}}
-    <div class="px-4 py-4 border-t border-[#4da4e3] border-opacity-20 flex-shrink-0">
+    <div class="px-4 py-4 border-t border-[#22C55E] border-opacity-20 flex-shrink-0">
         {{-- User Info --}}
-        <div class="mb-4 p-3 bg-[#4da4e3] bg-opacity-10 rounded-lg">
+        <div class="mb-4 p-3 bg-[#22C55E] bg-opacity-10 rounded-lg">
             <p class="text-xs text-gray-400 mb-1">Logged in as</p>
             <p class="text-sm font-semibold text-white truncate">{{ auth()->user()->name }}</p>
         </div>
@@ -154,7 +165,7 @@
 {{-- Mobile Toggle Button (FAB) --}}
 <button
     @click="sidebarOpen = !sidebarOpen"
-    class="fixed bottom-6 right-6 z-30 md:hidden bg-[#4da4e3] text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-200 hover:scale-110"
+    class="fixed bottom-6 right-6 z-30 md:hidden bg-[#22C55E] text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-200 hover:scale-110"
     title="Toggle Menu">
     <i class="fas fa-bars text-lg"></i>
 </button>

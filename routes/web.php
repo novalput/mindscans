@@ -153,17 +153,16 @@ Route::middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])
+            ->name('dashboard');
 
         Route::resource('lecturer', AdminLecturerController::class);
 
-        Route::get('student', [AdminStudentController::class, 'index'])
-            ->name('student.index');
+        Route::resource('student', AdminStudentController::class);
 
-        Route::get('student/{user}', [AdminStudentController::class, 'show'])
-            ->name('student.show');
+        // Riwayat Kuesioner Mahasiswa
+        Route::get('history', [\App\Http\Controllers\Admin\HistoryController::class, 'index'])
+            ->name('history.index');
     });
 
 /*
