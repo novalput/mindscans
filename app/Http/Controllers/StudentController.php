@@ -74,7 +74,7 @@ class StudentController extends Controller
     private function sendWhatsAppCredentials($user, $password)
     {
         $token = env('FONNTE_TOKEN');
-        $message = "Halo Ibu {$user->name},\n\nAkun MindScans Anda telah aktif.\n\nLogin: {$user->email}\nPassword: {$password}\n\nSilakan login untuk memantau kesehatan gigi dan kehamilan Anda.";
+        $message = "Halo {$user->name},\n\nAkun Anda telah aktif.\n\nLogin: {$user->email}\nPassword: {$password}\n\nSilakan login untuk memantau kesehatan mental Anda.";
 
         return Http::withHeaders([
             'Authorization' => $token,
