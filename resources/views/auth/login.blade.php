@@ -216,14 +216,14 @@
                 <p class="text-xs text-slate-500 mt-1">Pilih metode masuk ke akun Anda</p>
             </div>
 
-            <div class="flex bg-slate-100 rounded-xl p-1 mb-5">
+            <!-- <div class="flex bg-slate-100 rounded-xl p-1 mb-5">
                 <button onclick="switchTab('email')" id="tab-email" class="flex-1 py-2 text-sm font-bold rounded-lg bg-white shadow text-[#22C55E] transition-all">
                     <i class="fa-solid fa-envelope mr-1"></i> Email
                 </button>
                 <button onclick="switchTab('wa')" id="tab-wa" class="flex-1 py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-700 transition-all">
                     <i class="fa-brands fa-whatsapp mr-1 text-lg align-middle"></i> WhatsApp
                 </button>
-            </div>
+            </div> -->
 
             {{-- FORM LOGIN EMAIL --}}
             <div id="form-email">
@@ -251,7 +251,7 @@
                         @endif
                     </div>
 
-                    <button type="submit" class="btn-login">Masuk dengan Email</button>
+                    <button type="submit" class="btn-login">Masuk</button>
                 </form>
             </div>
 
