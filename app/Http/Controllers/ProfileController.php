@@ -26,13 +26,38 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        
+        // Hanya update name dan email pada model User
+        $user->fill($request->safe()->only(['name', 'email']));
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
+
+        // Update data spesifik berdasarkan role
+        if ($user->role === 'student' && $user->student) {
+            $user->student->update([
+                'nim' => $request->nim,
+                'jenjang' => $request->jenjang,
+                'kampus' => $request->kampus,
+                'program_studi' => $request->program_studi,
+                'gender' => $request->student_gender,
+                'status' => $request->status,
+            ]);
+        } elseif ($user->role === 'lecturer' && $user->lecturer) {
+            $user->lecturer->update([
+                'kampus' => $request->kampus_lecturer,
+                'program_studi' => $request->program_studi_lecturer,
+                'gender' => $request->lecturer_gender,
+                'pendidikan_terakhir' => $request->pendidikan_terakhir,
+                'jabatan_fungsional' => $request->jabatan_fungsional,
+                'status_ikatan_kerja' => $request->status_ikatan_kerja,
+                'status_aktivitas' => $request->status_aktivitas,
+            ]);
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
