@@ -55,7 +55,7 @@ use Illuminate\Support\Str;
                 </div>
 
                 {{-- Participants --}}
-                <div class="flex items-center gap-4 pt-6">
+                <div class="flex flex-col sm:flex-row items-center sm:items-center gap-4 pt-6 text-center sm:text-left">
                     <div class="flex -space-x-4">
                         <img src="https://i.pravatar.cc/100?img=10"
                             class="w-10 h-10 rounded-full border-2 border-white">
@@ -64,7 +64,7 @@ use Illuminate\Support\Str;
                         <img src="https://i.pravatar.cc/100?img=5"
                             class="w-10 h-10 rounded-full border-2 border-white">
                     </div>
-                    <p class="text-slate-600 text-sm">
+                    <p class="text-slate-600 text-sm max-w-xs sm:max-w-none">
                         <span class="font-bold text-slate-900">2500+</span> partisipan telah mempercayakan
                         kesehatan mental mereka
                     </p>

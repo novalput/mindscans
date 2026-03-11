@@ -38,6 +38,9 @@
                 @if(request('search') || request('prodi'))
                     <a href="{{ route('lecturer.datamahasiswa') }}" class="px-5 py-2.5 rounded-xl font-semibold text-gray-500 bg-gray-100 hover:bg-gray-200 transition-colors text-sm">Reset</a>
                 @endif
+                <a href="{{ route('lecturer.datamahasiswa.export', request()->all()) }}" class="bg-red-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-red-700 transition-colors text-sm flex items-center gap-2">
+                    <i class="fas fa-file-pdf"></i> Export PDF
+                </a>
             </form>
         </div>
 

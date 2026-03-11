@@ -71,9 +71,14 @@
 
         {{-- History Table --}}
         <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 mb-10 overflow-hidden">
-            <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                <i class="fas fa-list text-[#5FAFC1]"></i> Catatan Riwayat Lengkap
-            </h2>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-list text-[#5FAFC1]"></i> Catatan Riwayat Lengkap
+                </h2>
+                <a href="{{ route('student.screening.export') }}" class="bg-red-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-red-700 transition-colors text-sm flex items-center gap-2 w-fit">
+                    <i class="fas fa-file-pdf"></i> Export Riwayat ke PDF
+                </a>
+            </div>
             
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-slate-600">

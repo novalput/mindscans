@@ -50,6 +50,9 @@
             <h2 class="text-xl font-bold text-[#262C5B]">Riwayat Tes Mental</h2>
             <p class="text-sm text-gray-500 mt-1">Total tes yang telah diselesaikan: <span class="font-bold text-green-600">{{ $history->count() }}</span></p>
         </div>
+        <a href="{{ route('lecturer.datamahasiswa.history.export', $student->id) }}" class="bg-red-600 text-white px-4 py-2 rounded-xl font-semibold hover:bg-red-700 transition-colors text-sm flex items-center gap-2">
+            <i class="fas fa-file-pdf"></i> Export PDF
+        </a>
     </div>
 
     @if($history->isEmpty())

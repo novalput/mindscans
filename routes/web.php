@@ -15,6 +15,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ScreeningController;
+use App\Http\Controllers\ExportController;
 use App\Models\HealthVisit;
 
 /*
@@ -86,7 +87,9 @@ Route::middleware(['auth', 'role:lecturer'])
 
         // Manajemen Data Mahasiswa (Hanya Read & History)
         Route::get('/datamahasiswa', [StudentController::class, 'index'])->name('datamahasiswa');
+        Route::get('/datamahasiswa/export', [ExportController::class, 'lecturerExportStudents'])->name('datamahasiswa.export');
         Route::get('/datamahasiswa/{id}/riwayat', [LecturerController::class, 'studentHistory'])->name('datamahasiswa.history');
+        Route::get('/datamahasiswa/{id}/riwayat/export', [ExportController::class, 'lecturerExportStudentHistory'])->name('datamahasiswa.history.export');
 
         Route::resource('education', ContentManagementController::class);
 
@@ -128,6 +131,7 @@ Route::middleware(['auth', 'role:student'])
         // Screening / Tes
         // Halaman Riwayat Kuesioner
         Route::get('/kuesioner', [ScreeningController::class, 'index'])->name('screening.index');
+        Route::get('/kuesioner/export', [ExportController::class, 'studentExportHistory'])->name('screening.export');
         // Halaman Form Soal
         Route::get('/kuesioner/form', [ScreeningController::class, 'show'])->name('screening.show');
         // Simpan Jawaban

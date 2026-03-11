@@ -13,9 +13,9 @@
             {{-- Kolom 1: Branding --}}
             <div class="space-y-6">
                 <div>
-                    <div class="flex items-center justify-center lg:justify-start gap-3">
-                        <img src="{{ asset('images/logo-poltekkes.png') }}" alt="Logo" class="h-10 w-auto">
-                        <h2 class="font-sansita text-4xl tracking-tight text-[#22C55E]">LoveCaring-Rr.Nursing</h2>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+                        <img src="{{ asset('images/logo-poltekkes.png') }}" alt="Logo" class="h-10 w-auto shrink-0">
+                        <h2 class="font-sansita text-2xl md:text-3xl lg:text-4xl tracking-tight text-[#22C55E] text-center sm:text-left break-words w-full">LoveCaring-Rr.Nursing</h2>
                     </div>
                     <p class="mt-3 text-sm leading-relaxed text-slate-500 max-w-xs mx-auto lg:mx-0">
                         Platform pendamping kesehatan mental yang membantu mahasiswa memantau, memahami, dan menjaga kesejahteraan psikologis secara aman dan nyaman.
@@ -54,7 +54,7 @@
                             <p class="text-[11px] font-bold uppercase text-slate-400 tracking-wider">
                                 Telepon
                             </p>
-                            <span class="text-slate-700 font-medium text-sm">
+                            <span class="block text-slate-700 font-medium text-sm break-words w-full max-w-[200px] sm:max-w-full">
                                 (+62) 812-2824-542
                                 <br>Dr. Rr. Sri Endang Pusjiastuti, SKM, MNS
                             </span>
@@ -69,12 +69,12 @@
                             <p class="text-[11px] font-bold uppercase text-slate-400 tracking-wider">
                                 Email
                             </p>
-                            <span class="text-slate-700 font-medium text-sm">
+                            <span class="block text-slate-700 font-medium text-sm break-words w-full max-w-[200px] sm:max-w-full">
                                 lovecaring.rr.nursing@gmail.com
                             </span>
                         </div>
                     </li>
-                    <li class="flex items-start justify-center lg:justify-start gap-4">
+                    <!-- <li class="flex items-start justify-center lg:justify-start gap-4">
                         <div class="w-9 h-9 flex items-center justify-center rounded-xl bg-[#ECFDF5] text-[#22C55E]">
                             <i class="fas fa-comment-dots text-sm"></i>
                         </div>
@@ -84,11 +84,11 @@
                                 Feedback
                             </p>
                             <a href="{{ route('student.feedback.create') }}" 
-                            class="text-slate-700 font-medium text-sm hover:text-[#22C55E] transition-colors">
+                            class="block text-slate-700 font-medium text-sm hover:text-[#22C55E] transition-colors break-words w-full max-w-[200px] sm:max-w-full">
                             Kirim Feedback & Saran
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
 
@@ -113,9 +113,10 @@
         </div>
 
         <div class="mt-16 pt-8 border-t border-slate-100 text-center">
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em]">
+            <p class="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest sm:tracking-[0.3em] leading-relaxed break-words px-4">
                 &copy; {{ date('Y') }} LoveCaring-Rr.Nursing Monitoring
-                <span class="mx-2 text-green-200">|</span>
+                <span class="hidden sm:inline mx-2 text-green-200">|</span>
+                <br class="sm:hidden">
                 Dibuat dengan <i class="fas fa-heart text-[#22C55E] mx-1"></i> untuk Kesehatan Mental Anda.
             </p>
         </div>
