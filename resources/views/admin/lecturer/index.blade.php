@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Tenaga Kesehatan')
+@section('title', 'Kelola Dosen')
 
 @section('content')
 <div x-data="lecturerCrud()" class="w-full">

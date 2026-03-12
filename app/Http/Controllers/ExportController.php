@@ -25,7 +25,7 @@ class ExportController extends Controller
         $pdf = Pdf::loadView('exports.my_history', compact('student', 'user', 'history'));
         // paper options
         $pdf->setPaper('A4', 'portrait');
-        return $pdf->download('Riwayat_Tes_Saya.pdf');
+        return $pdf->stream('Riwayat_Tes_Saya.pdf');
     }
 
     // 2. Lecturer Export Summary of Students
@@ -71,7 +71,7 @@ class ExportController extends Controller
 
         $pdf = Pdf::loadView('exports.students', compact('students', 'totalStudents', 'totalTests', 'averageScore', 'search', 'prodi'));
         $pdf->setPaper('A4', 'portrait');
-        return $pdf->download('Daftar_Mahasiswa.pdf');
+        return $pdf->stream('Daftar_Mahasiswa.pdf');
     }
 
     // 3. Lecturer Export Specific Student Detailed History
@@ -85,6 +85,6 @@ class ExportController extends Controller
 
         $pdf = Pdf::loadView('exports.student_history', compact('student', 'history'));
         $pdf->setPaper('A4', 'portrait');
-        return $pdf->download('Riwayat_Tes_' . $student->nim . '.pdf');
+        return $pdf->stream('Riwayat_Tes_' . $student->nim . '.pdf');
     }
 }
