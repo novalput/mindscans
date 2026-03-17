@@ -43,6 +43,11 @@ class StudentController extends Controller
             $q->orderBy('created_at', 'desc');
         }]);
 
+        $lecturerKampus = Auth::user()->lecturer->kampus ?? null;
+        if ($lecturerKampus) {
+            $studentsQuery->where('kampus', $lecturerKampus);
+        }
+
         if ($search) {
             $studentsQuery->where(function($q) use ($search) {
                 $q->whereHas('user', function($uq) use ($search) {
@@ -56,7 +61,11 @@ class StudentController extends Controller
         }
 
         // Get unique prodi list for the filter dropdown
-        $prodiList = Student::whereNotNull('program_studi')->distinct()->pluck('program_studi');
+        $prodiQuery = Student::whereNotNull('program_studi');
+        if ($lecturerKampus) {
+            $prodiQuery->where('kampus', $lecturerKampus);
+        }
+        $prodiList = $prodiQuery->distinct()->pluck('program_studi');
 
         $students = $studentsQuery->latest()->paginate(15);
         

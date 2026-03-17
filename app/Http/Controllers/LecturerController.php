@@ -13,14 +13,23 @@ class LecturerController extends Controller
 {
     public function dashboard(Request $request)
     {
+        $lecturerKampus = auth()->user()->lecturer->kampus ?? null;
+
+        $baseQuery = ScreeningResponse::query();
+        if ($lecturerKampus) {
+            $baseQuery->whereHas('user.student', function ($q) use ($lecturerKampus) {
+                $q->where('kampus', $lecturerKampus);
+            });
+        }
+
         // 1. Total kuisioner diisi
-        $totalQuestionnaires = ScreeningResponse::count();
+        $totalQuestionnaires = (clone $baseQuery)->count();
 
         // 2. Rata-rata skor mental
-        $averageScore = ScreeningResponse::avg('score') ?? 0;
+        $averageScore = (clone $baseQuery)->avg('score') ?? 0;
 
         // 3. Warning perlu perhatian: jumlah unique user yang rata-rata skor = 18-27
-        $userAverages = ScreeningResponse::select('user_id', DB::raw('AVG(score) as avg_score'))
+        $userAverages = (clone $baseQuery)->select('user_id', DB::raw('AVG(score) as avg_score'))
             ->groupBy('user_id')
             ->get();
         
@@ -35,7 +44,7 @@ class LecturerController extends Controller
         $endDate = $startDate->copy()->endOfMonth();
 
         // Get daily data within the month
-        $dailyData = ScreeningResponse::select(
+        $dailyData = (clone $baseQuery)->select(
                 DB::raw('DATE(created_at) as date'),
                 DB::raw('COUNT(*) as total_kuesioner'),
                 DB::raw('SUM(CASE WHEN score >= 18 AND score <= 27 THEN 1 ELSE 0 END) as total_warning')
@@ -65,7 +74,7 @@ class LecturerController extends Controller
         }
 
         // 5. List mahasiswa 5 terakhir yang melakukan tes
-        $recentStudents = ScreeningResponse::with('user')
+        $recentStudents = (clone $baseQuery)->with('user')
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
@@ -86,6 +95,11 @@ class LecturerController extends Controller
     {
         $student = Student::with('user')->findOrFail($id);
         
+        $lecturerKampus = auth()->user()->lecturer->kampus ?? null;
+        if ($lecturerKampus && $student->kampus !== $lecturerKampus) {
+            abort(403, 'Unauthorized access to student from different institution.');
+        }
+
         $history = ScreeningResponse::where('user_id', $student->user_id)
             ->orderBy('created_at', 'desc')
             ->get();
