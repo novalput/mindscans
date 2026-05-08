@@ -72,7 +72,7 @@
                 <div class="hidden md:flex flex-col text-right">
                     <span class="font-bold text-sm leading-none">{{ Auth::user()->name ?? 'Lecturer User' }}</span>
                     <span class="text-[10px] text-blue-100 mt-1 uppercase tracking-tighter font-medium">
-                        {{ Auth::user()->role ?? 'Petugas' }}
+                        {{ Auth::user()->sub_role ?? Auth::user()->role ?? 'Petugas' }}
                     </span>
                 </div>
 
@@ -97,7 +97,7 @@
                 {{-- Header Dropdown (Muncul di Mobile sebagai pengganti nama yang hilang di navbar) --}}
                 <div class="md:hidden px-4 py-3 bg-gray-50/50 border-b border-gray-50 mb-2">
                     <p class="font-bold text-xs text-gray-700 truncate">{{ Auth::user()->name }}</p>
-                    <p class="text-[9px] text-gray-400 uppercase tracking-widest">{{ Auth::user()->role }}</p>
+                    <p class="text-[9px] text-gray-400 uppercase tracking-widest">{{ Auth::user()->sub_role ?? Auth::user()->role }}</p>
                 </div>
 
                 <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-green-50 hover:text-[#22C55E] transition-colors group">

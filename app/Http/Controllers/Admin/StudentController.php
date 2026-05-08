@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Student;
+use App\Models\Biodata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,8 +17,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = User::where('role', 'student')
-            ->with('student')
+        $students = User::where('sub_role', 'student')
+            ->with('biodata')
             ->paginate(10);
 
         return view('admin.student.index', compact('students'));
@@ -29,11 +29,11 @@ class StudentController extends Controller
      */
     public function show(User $user)
     {
-        if ($user->role !== 'student') {
+        if ($user->sub_role !== 'student') {
             abort(403, 'Unauthorized');
         }
 
-        $user->load('student');
+        $user->load('biodata');
 
         return view('admin.student.show', compact('user'));
     }
@@ -49,9 +49,7 @@ class StudentController extends Controller
             'phone' => 'nullable|string|max:20|unique:users,phone',
             'password' => 'required|min:8',
 
-            'nim' => 'required|string|max:255|unique:students,nim',
             'kampus' => 'required|string|max:255',
-            'jenjang' => 'required|string|max:255',
             'program_studi' => 'required|string|max:255',
             'gender' => 'required|in:male,female',
             'status' => 'required|string|max:255',
@@ -63,16 +61,15 @@ class StudentController extends Controller
                 'email' => $data['email'] ?? null,
                 'phone' => $data['phone'] ?? null,
                 'password' => Hash::make($data['password']),
-                'role' => 'student',
+                'role' => 'responden',
+                'sub_role' => 'student',
             ]);
 
-            Student::create([
+            Biodata::create([
                 'user_id' => $user->id,
-                'nim' => $data['nim'],
-                'kampus' => $data['kampus'],
-                'jenjang' => $data['jenjang'],
-                'program_studi' => $data['program_studi'],
-                'gender' => $data['gender'],
+                'nama_kampus' => $data['kampus'],
+                'prodi' => $data['program_studi'],
+                'jenis_kelamin' => $data['gender'],
                 'status' => $data['status'],
             ]);
         });
@@ -87,7 +84,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::with('student')->findOrFail($id);
+        $user = User::with('biodata')->findOrFail($id);
 
         try {
             $data = $request->validate([
@@ -103,14 +100,7 @@ class StudentController extends Controller
                     'max:20',
                     Rule::unique('users', 'phone')->ignore($user->id)
                 ],
-                'nim' => [
-                    'required',
-                    'string',
-                    'max:255',
-                    Rule::unique('students', 'nim')->ignore($user->student?->id)
-                ],
                 'kampus' => 'required|string|max:255',
-                'jenjang' => 'required|string|max:255',
                 'program_studi' => 'required|string|max:255',
                 'gender' => 'required|in:male,female',
                 'status' => 'required|string|max:255',
@@ -123,23 +113,19 @@ class StudentController extends Controller
                     'phone' => $data['phone'],
                 ]);
 
-                if ($user->student) {
-                    $user->student->update([
-                        'nim' => $data['nim'],
-                        'kampus' => $data['kampus'],
-                        'jenjang' => $data['jenjang'],
-                        'program_studi' => $data['program_studi'],
-                        'gender' => $data['gender'],
+                if ($user->biodata) {
+                    $user->biodata->update([
+                        'nama_kampus' => $data['kampus'],
+                        'prodi' => $data['program_studi'],
+                        'jenis_kelamin' => $data['gender'],
                         'status' => $data['status'],
                     ]);
                 } else {
-                    Student::create([
+                    Biodata::create([
                         'user_id' => $user->id,
-                        'nim' => $data['nim'],
-                        'kampus' => $data['kampus'],
-                        'jenjang' => $data['jenjang'],
-                        'program_studi' => $data['program_studi'],
-                        'gender' => $data['gender'],
+                        'nama_kampus' => $data['kampus'],
+                        'prodi' => $data['program_studi'],
+                        'jenis_kelamin' => $data['gender'],
                         'status' => $data['status'],
                     ]);
                 }
@@ -165,7 +151,7 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::where('role', 'student')->findOrFail($id);
+        $user = User::where('sub_role', 'student')->findOrFail($id);
         $user->delete();
 
         return response()->json([

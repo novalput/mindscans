@@ -11,12 +11,54 @@ class HistoryController extends Controller
     /**
      * Display a listing of all student screening histories.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $histories = ScreeningResponse::with('user.student')
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+        $role = $request->query('role', 'all');
 
-        return view('admin.history.index', compact('histories'));
+        $query = ScreeningResponse::with('user.biodata')
+            ->whereHas('user', function($q) {
+                // Exclude admin tests from general history
+                $q->where('role', '!=', 'admin');
+            });
+
+        if ($role !== 'all') {
+            $query->whereHas('user', function($q) use ($role) {
+                $q->where('sub_role', $role);
+            });
+        }
+
+        $histories = $query->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('admin.history.index', compact('histories', 'role'));
+    }
+
+    /**
+     * Display the specified screening history detail.
+     */
+    public function show($id)
+    {
+        $history = ScreeningResponse::with('user.biodata')->findOrFail($id);
+        $detail = $history->answers_detail;
+
+        return view('admin.history.show', compact('history', 'detail'));
+    }
+
+    /**
+     * Update the admin intervention/advice for a specific screening history.
+     */
+    public function updateIntervention(Request $request, $id)
+    {
+        $request->validate([
+            'admin_intervention' => 'nullable|string'
+        ]);
+
+        $history = ScreeningResponse::findOrFail($id);
+        
+        $history->update([
+            'admin_intervention' => $request->admin_intervention
+        ]);
+
+        return redirect()->route('admin.history.show', $id)
+            ->with('success', 'Rekomendasi penanganan berhasil disimpan.');
     }
 }

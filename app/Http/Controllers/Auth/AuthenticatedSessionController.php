@@ -39,7 +39,7 @@ class AuthenticatedSessionController extends Controller
 
         // Log successful login
         LoginAttempt::create([
-            'destination' => $request->email,
+            'destination' => $request->input('login'),
             'channel' => 'password',
             'ip_address' => $request->ip(),
             'success' => true,
@@ -159,7 +159,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->forget('wa_phone');
 
         // Redirect sesuai Role
-        if ($user->role === 'lecturer') {
+        if ($user->sub_role === 'lecturer') {
             return redirect()->route('lecturer.dashboard');
         }
 

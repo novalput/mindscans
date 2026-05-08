@@ -1,15 +1,37 @@
 @extends('layouts.app')
 
-@section('title', 'Riwayat Kuesioner Mahasiswa')
+@section('title', 'Riwayat Kuesioner')
 
 @section('content')
 <div class="w-full max-w-full">
     {{-- Header --}}
     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Riwayat Kuesioner Mahasiswa</h1>
-            <p class="text-gray-600 text-sm mt-2">Seluruh rekap hasil skrining mental mahasiswa.</p>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Riwayat Kuesioner</h1>
+            <p class="text-gray-600 text-sm mt-2">Seluruh rekap hasil skrining mental responden.</p>
         </div>
+    </div>
+
+    {{-- Tabs Filter Role --}}
+    <div class="mb-6 border-b border-gray-200">
+        <nav class="flex space-x-4 overflow-x-auto" aria-label="Tabs">
+            <a href="{{ route('admin.history.index', ['role' => 'all']) }}" 
+                class="{{ $role === 'all' ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all">
+                Semua Responden
+            </a>
+            <a href="{{ route('admin.history.index', ['role' => 'student']) }}" 
+                class="{{ $role === 'student' ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all">
+                Mahasiswa
+            </a>
+            <a href="{{ route('admin.history.index', ['role' => 'lecturer']) }}" 
+                class="{{ $role === 'lecturer' ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all">
+                Dosen / Staf
+            </a>
+            <a href="{{ route('admin.history.index', ['role' => 'others']) }}" 
+                class="{{ $role === 'others' ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all">
+                Pekerja Lainnya
+            </a>
+        </nav>
     </div>
 
     {{-- Result Table --}}
@@ -20,8 +42,9 @@
                 <thead class="bg-gradient-to-r from-[#16A34A] to-green-700 text-white">
                     <tr>
                         <th class="px-3 sm:px-6 py-3 sm:py-4 text-left font-semibold">Waktu Tes</th>
-                        <th class="px-3 sm:px-6 py-3 sm:py-4 text-left font-semibold">Nama Mahasiswa</th>
-                        <th class="hidden sm:table-cell px-6 py-4 text-left font-semibold">NIM/NIK</th>
+                        <th class="px-3 sm:px-6 py-3 sm:py-4 text-left font-semibold">Nama Responden</th>
+                        <th class="hidden sm:table-cell px-6 py-4 text-left font-semibold">Peran</th>
+                        <th class="hidden sm:table-cell px-6 py-4 text-left font-semibold">Gender</th>
                         <th class="px-3 sm:px-6 py-3 sm:py-4 text-center font-semibold">Skor</th>
                         <th class="hidden lg:table-cell px-6 py-4 text-center font-semibold">Status</th>
                         <th class="px-3 sm:px-6 py-3 sm:py-4 text-center font-semibold">Aksi</th>
@@ -38,7 +61,10 @@
                             {{ $history->user->name ?? 'User Terhapus' }}
                         </td>
                         <td class="hidden sm:table-cell px-6 py-4 text-gray-700 text-sm">
-                            {{ $history->user->student?->nik ?? $history->user->student?->nim ?? '-' }}
+                            {{ ucfirst($history->user->sub_role ?? '-') }}
+                        </td>
+                        <td class="hidden sm:table-cell px-6 py-4 text-gray-700 text-sm">
+                            {{ ucfirst($history->user->biodata?->jenis_kelamin ?? '-') }}
                         </td>
                         <td class="px-3 sm:px-6 py-3 sm:py-4 text-center">
                             <span class="inline-flex items-center justify-center px-2 py-1 bg-gray-100 rounded text-gray-800 font-bold">
@@ -58,9 +84,9 @@
                         </td>
                         <td class="px-3 sm:px-6 py-3 sm:py-4 text-center">
                             <div class="flex justify-center gap-2">
-                                <a href="{{ route('admin.student.show', $history->user_id) }}" 
+                                <a href="{{ route('admin.history.show', $history->id) }}" 
                                     class="text-green-600 hover:text-green-900 text-xs sm:text-sm px-2 sm:px-3 py-1 rounded bg-green-100 hover:bg-green-200 transition"
-                                    title="Lihat Detail Mahasiswa">
+                                    title="Lihat Detail Kuesioner">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </div>
@@ -78,7 +104,7 @@
         @else
         <div class="p-6 sm:p-8 text-center py-12">
             <i class="fas fa-clipboard-list text-4xl sm:text-6xl text-gray-300 mb-4"></i>
-            <p class="text-gray-500 text-base sm:text-lg">Belum ada riwayat kuesioner mahasiswa.</p>
+            <p class="text-gray-500 text-base sm:text-lg">Belum ada riwayat kuesioner pada kategori ini.</p>
         </div>
         @endif
     </div>

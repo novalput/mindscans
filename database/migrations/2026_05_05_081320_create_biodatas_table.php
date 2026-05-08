@@ -11,19 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('biodatas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-
-            $table->string('nim')->unique();
-            $table->string('kampus');
-            $table->string('jenjang');
-            $table->string('program_studi');
-            $table->enum('gender', ['male', 'female']);
-            $table->string('status');
+            
+            $table->enum('jenis_kelamin', ['male', 'female']);
+            $table->date('ttl')->nullable();
+            $table->text('alamat_asal')->nullable();
+            $table->string('nama_kampus')->nullable();
+            $table->string('prodi')->nullable();
+            $table->string('status')->nullable();
+            $table->string('job_description')->nullable();
 
             $table->timestamps();
-
+            
             $table->unique('user_id');
         });
     }
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('student');
+        Schema::dropIfExists('biodatas');
     }
 };

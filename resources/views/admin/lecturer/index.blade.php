@@ -40,14 +40,10 @@
                             name: "{{ $item->name }}",
                             email: "{{ $item->email }}",
                             phone: "{{ $item->phone }}",
-                            nip: "{{ $item->lecturer?->nip ?? '' }}",
-                            gender: "{{ $item->lecturer?->gender ?? '' }}",
-                            kampus: "{{ $item->lecturer?->kampus ?? '' }}",
-                            program_studi: "{{ $item->lecturer?->program_studi ?? '' }}",
-                            jabatan_fungsional: "{{ $item->lecturer?->jabatan_fungsional ?? '' }}",
-                            pendidikan_terakhir: "{{ $item->lecturer?->pendidikan_terakhir ?? '' }}",
-                            status_ikatan_kerja: "{{ $item->lecturer?->status_ikatan_kerja ?? '' }}",
-                            status_aktivitas: "{{ $item->lecturer?->status_aktivitas ?? '' }}"
+                            gender: "{{ $item->biodata?->jenis_kelamin ?? '' }}",
+                            kampus: "{{ $item->biodata?->nama_kampus ?? '' }}",
+                            program_studi: "{{ $item->biodata?->prodi ?? '' }}",
+                            status_aktivitas: "{{ $item->biodata?->status ?? '' }}"
                         })'
                             class="text-green-600 hover:text-green-800">
                             <i class="fas fa-edit"></i>
@@ -150,24 +146,6 @@
                         <input x-model="form.program_studi" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
                     </div>
 
-                    {{-- Jabatan Fungsional --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-600">Jabatan Fungsional</label>
-                        <input x-model="form.jabatan_fungsional" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
-                    </div>
-
-                    {{-- Pendidikan Terakhir --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-600">Pendidikan Terakhir</label>
-                        <input x-model="form.pendidikan_terakhir" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
-                    </div>
-                    
-                    {{-- Status Ikatan Kerja --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-600">Status Ikatan Kerja</label>
-                        <input x-model="form.status_ikatan_kerja" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
-                    </div>
-
                     {{-- Status Aktivitas --}}
                     <div>
                         <label class="text-sm font-medium text-gray-600">Status Aktivitas</label>
@@ -223,14 +201,10 @@
                 name: '',
                 email: '',
                 phone: '',
-                nip: '',
                 password: '',
                 gender: '',
                 kampus: '',
                 program_studi: '',
-                jabatan_fungsional: '',
-                pendidikan_terakhir: '',
-                status_ikatan_kerja: '',
                 status_aktivitas: ''
             },
 
@@ -265,14 +239,10 @@
                     name: '',
                     email: '',
                     phone: '',
-                    nip: '',
                     password: '',
                     gender: '',
                     kampus: '',
                     program_studi: '',
-                    jabatan_fungsional: '',
-                    pendidikan_terakhir: '',
-                    status_ikatan_kerja: '',
                     status_aktivitas: ''
                 };
             },

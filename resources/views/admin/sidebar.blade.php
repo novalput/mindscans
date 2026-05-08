@@ -46,6 +46,22 @@
             <i class="fas fa-history w-5"></i>
             <span class="font-medium">Riwayat Kuesioner</span>
         </a>
+
+        {{-- Kelola Pertanyaan --}}
+        <a href="{{ route('admin.questions.index') }}"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
+            {{ request()->routeIs('admin.questions.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
+            <i class="fas fa-clipboard-list w-5"></i>
+            <span class="font-medium">Kelola Pertanyaan</span>
+        </a>
+
+        {{-- Tes Mental Health --}}
+        <a href="{{ route('admin.screening.index') }}"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
+            {{ request()->routeIs('admin.screening.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
+            <i class="fas fa-stethoscope w-5"></i>
+            <span class="font-medium">Tes Mental Health</span>
+        </a>
     </nav>
 
     {{-- Divider --}}
@@ -140,6 +156,24 @@
             {{ request()->routeIs('admin.history.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-history w-5"></i>
             <span class="font-medium">Riwayat Kuesioner</span>
+        </a>
+
+        {{-- Kelola Pertanyaan --}}
+        <a href="{{ route('admin.questions.index') }}"
+            @click="sidebarOpen = false"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
+            {{ request()->routeIs('admin.questions.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
+            <i class="fas fa-clipboard-list w-5"></i>
+            <span class="font-medium">Kelola Pertanyaan</span>
+        </a>
+
+        {{-- Tes Mental Health --}}
+        <a href="{{ route('admin.screening.index') }}"
+            @click="sidebarOpen = false"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
+            {{ request()->routeIs('admin.screening.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
+            <i class="fas fa-stethoscope w-5"></i>
+            <span class="font-medium">Tes Mental Health</span>
         </a>
     </nav>
 

@@ -107,7 +107,7 @@ class WhatsAppAuthController extends Controller
         $request->session()->forget('wa_phone');
 
         // Redirect sesuai Role
-        if ($user->role === 'lecturer') {
+        if ($user->sub_role === 'lecturer') {
             return redirect()->route('lecturer.dashboard');
         }
 

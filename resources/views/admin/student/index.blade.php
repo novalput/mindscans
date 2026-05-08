@@ -30,7 +30,7 @@
                 <thead class="bg-gradient-to-r from-[#16A34A] to-green-700 text-white">
                     <tr>
                         <th class="px-4 sm:px-6 py-3 sm:py-4 text-left font-semibold">Nama</th>
-                        <th class="px-4 py-4 text-left font-semibold">NIM</th>
+                        <th class="px-4 py-4 text-left font-semibold">Jenis Kelamin</th>
                         <th class="px-4 py-4 text-left font-semibold whitespace-nowrap">Kampus</th>
                         <th class="px-4 py-4 text-left font-semibold">Program Studi</th>
                         <th class="px-4 py-4 text-left font-semibold">Status</th>
@@ -44,13 +44,13 @@
                             <div class="text-sm">{{ $item->name }}</div>
                             <div class="text-xs text-gray-500 mt-1">{{ $item->email }}</div>
                         </td>
-                        <td class="px-4 py-4 text-gray-700 text-sm">{{ $item->student?->nim ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-700 text-sm break-words max-w-[200px]">{{ $item->student?->kampus ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-700 text-sm">{{ $item->student?->program_studi ?? '-' }}</td>
+                        <td class="px-4 py-4 text-gray-700 text-sm">{{ ucfirst($item->biodata?->jenis_kelamin ?? '-') }}</td>
+                        <td class="px-4 py-4 text-gray-700 text-sm break-words max-w-[200px]">{{ $item->biodata?->nama_kampus ?? '-' }}</td>
+                        <td class="px-4 py-4 text-gray-700 text-sm">{{ $item->biodata?->prodi ?? '-' }}</td>
                         <td class="px-4 py-4 text-gray-700 text-sm">
-                            @if($item->student?->status)
+                            @if($item->biodata?->status)
                                 <span class="px-2 py-1 bg-emerald-100 text-emerald-800 rounded text-xs font-medium">
-                                    {{ ucfirst($item->student->status) }}
+                                    {{ ucfirst($item->biodata->status) }}
                                 </span>
                             @else
                                 -
@@ -68,12 +68,10 @@
                                     name: "{{ $item->name }}",
                                     email: "{{ $item->email }}",
                                     phone: "{{ $item->phone }}",
-                                    nim: "{{ $item->student?->nim ?? '' }}",
-                                    kampus: "{{ $item->student?->kampus ?? '' }}",
-                                    jenjang: "{{ $item->student?->jenjang ?? '' }}",
-                                    program_studi: "{{ $item->student?->program_studi ?? '' }}",
-                                    gender: "{{ $item->student?->gender ?? '' }}",
-                                    status: "{{ $item->student?->status ?? '' }}"
+                                    kampus: "{{ $item->biodata?->nama_kampus ?? '' }}",
+                                    program_studi: "{{ $item->biodata?->prodi ?? '' }}",
+                                    gender: "{{ $item->biodata?->jenis_kelamin ?? '' }}",
+                                    status: "{{ $item->biodata?->status ?? '' }}"
                                 })'
                                     class="text-blue-600 hover:text-blue-900 text-xs sm:text-sm px-2 sm:px-3 py-1.5 rounded bg-blue-50 hover:bg-blue-100 transition"
                                     title="Edit Mahasiswa">
@@ -169,22 +167,10 @@
                         <h3 class="text-base font-semibold text-gray-800"><i class="fas fa-university mr-2 text-green-600"></i>Data Akademik</h3>
                     </div>
 
-                    {{-- NIM --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-600 mb-1 block">NIM</label>
-                        <input x-model="form.nim" required class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E] outline-none transition" placeholder="Nomor Induk Mahasiswa">
-                    </div>
-
                     {{-- Kampus --}}
                     <div>
                         <label class="text-sm font-medium text-gray-600 mb-1 block">Kampus</label>
                         <input x-model="form.kampus" required class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E] outline-none transition" placeholder="Universitas / Kampus">
-                    </div>
-
-                    {{-- Jenjang --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-600 mb-1 block">Jenjang</label>
-                        <input x-model="form.jenjang" required class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E] outline-none transition" placeholder="Diploma tiga/Diploma empat/Sarjana">
                     </div>
 
                     {{-- Program Studi --}}
@@ -258,9 +244,7 @@
                 email: '',
                 phone: '',
                 password: '',
-                nim: '',
                 kampus: '',
-                jenjang: '',
                 program_studi: '',
                 gender: '',
                 status: ''
@@ -299,9 +283,7 @@
                     email: '',
                     phone: '',
                     password: '',
-                    nim: '',
                     kampus: '',
-                    jenjang: '',
                     program_studi: '',
                     gender: '',
                     status: ''

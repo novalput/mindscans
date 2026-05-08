@@ -53,18 +53,18 @@
 </head>
 
 <body
-    class="{{ auth()->check() && auth()->user()->role === 'student' ? 'h-full bg-[#FBFEF9]' : 'bg-gray-100' }} text-gray-900 antialiased overflow-x-hidden"
+    class="{{ auth()->check() && in_array(auth()->user()->sub_role, ['student', 'others']) ? 'h-full bg-[#FBFEF9]' : 'bg-gray-100' }} text-gray-900 antialiased overflow-x-hidden"
     x-data="{
-        {{-- Jika Admin/Lecturer default buka, jika Student default tutup --}}
-        sidebarOpen: {{ auth()->user()->role !== 'student' ? 'true' : 'false' }},
+        {{-- Jika Admin/Lecturer default buka (hanya di desktop), jika Student/Mobile default tutup --}}
+        sidebarOpen: window.innerWidth >= 768 ? {{ auth()->check() && !in_array(auth()->user()->sub_role ?? '', ['student', 'others']) ? 'true' : 'false' }} : false,
         mobileMenuOpen: false
     }">
 
     {{-- Navbar --}}
     @auth
-    @if(auth()->user()->role === 'lecturer')
+    @if(auth()->user()->sub_role === 'lecturer')
     @include('layouts.navigation-auth')
-    @elseif(auth()->user()->role === 'student')
+    @elseif(in_array(auth()->user()->sub_role, ['student', 'others']))
     @include('components.navbar')
     @endif
     @endauth
@@ -73,7 +73,7 @@
     @auth
     @if(auth()->user()->role === 'admin')
     @include('admin.sidebar')
-    @elseif(auth()->user()->role === 'lecturer')
+    @elseif(auth()->user()->sub_role === 'lecturer')
     @include('layouts.sidebar')
     @endif
     @endauth
@@ -81,18 +81,18 @@
     {{-- WRAPPER KANAN --}}
     <div
         class="min-h-screen flex flex-col transition-all duration-300 max-w-full "
-        :class="sidebarOpen && '{{ auth()->user()->role }}' !== 'student' ? 'md:ml-64' : 'md:ml-0'">
+        :class="sidebarOpen && !['student', 'others'].includes('{{ auth()->user()->sub_role ?? auth()->user()->role }}') ? 'md:ml-64' : 'md:ml-0'">
 
         {{-- SLOT KONTEN --}}
-        <main class="{{ auth()->check() && auth()->user()->role === 'student' ? 'grow' : 'flex-1 px-4 md:px-8 py-6 md:py-8' }}">
+        <main class="{{ auth()->check() && in_array(auth()->user()->sub_role, ['student', 'others']) ? 'grow' : 'flex-1 px-4 md:px-8 py-6 md:py-8' }}">
             @yield('content')
         </main>
 
         {{-- FOOTER --}}
         @auth
-        @if(auth()->user()->role === 'admin' || auth()->user()->role === 'lecturer')
+        @if(auth()->user()->role === 'admin' || auth()->user()->sub_role === 'lecturer')
         @include('components.admin.footer')
-        @elseif(auth()->user()->role === 'student')
+        @elseif(in_array(auth()->user()->sub_role, ['student', 'others']))
         @include('components.footer')
         @endif
         @endauth

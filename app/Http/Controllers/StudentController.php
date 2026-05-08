@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BrushingLog;
-use App\Models\EducationalMaterial;
 use App\Models\User;
-use App\Models\Student;
+use App\Models\Biodata;
 use App\Models\ScreeningResponse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,14 +20,12 @@ class StudentController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        $materials = EducationalMaterial::all();
-
         // Pre-test dan Post-test sekarang bebas diakses berulang kali
         // Modals tidak akan dimunculkan secara paksa lagi.
         $hasPreTest = true; 
         $shouldShowPostTest = false;
 
-        return view('student.dashboard', compact('hasPreTest', 'shouldShowPostTest', 'materials'));
+        return view('student.dashboard', compact('hasPreTest', 'shouldShowPostTest'));
     }
 
     /**
@@ -39,33 +36,38 @@ class StudentController extends Controller
         $search = $request->input('search');
         $prodi = $request->input('prodi');
 
-        $studentsQuery = Student::with(['user', 'screenings' => function($q) {
+        $studentsQuery = User::where('sub_role', 'student')->with(['biodata', 'screeningResponses' => function($q) {
             $q->orderBy('created_at', 'desc');
         }]);
 
-        $lecturerKampus = Auth::user()->lecturer->kampus ?? null;
+        $lecturerKampus = Auth::user()->biodata->nama_kampus ?? null;
         if ($lecturerKampus) {
-            $studentsQuery->where('kampus', $lecturerKampus);
+            $studentsQuery->whereHas('biodata', function ($q) use ($lecturerKampus) {
+                $q->where('nama_kampus', $lecturerKampus);
+            });
         }
 
         if ($search) {
             $studentsQuery->where(function($q) use ($search) {
-                $q->whereHas('user', function($uq) use ($search) {
-                    $uq->where('name', 'like', "%{$search}%");
-                })->orWhere('nim', 'like', "%{$search}%");
+                $q->where('name', 'like', "%{$search}%");
             });
         }
 
         if ($prodi) {
-            $studentsQuery->where('program_studi', 'like', "%{$prodi}%");
+            $studentsQuery->whereHas('biodata', function ($q) use ($prodi) {
+                $q->where('prodi', 'like', "%{$prodi}%");
+            });
         }
 
         // Get unique prodi list for the filter dropdown
-        $prodiQuery = Student::whereNotNull('program_studi');
+        $prodiQuery = Biodata::whereHas('user', function($q) {
+            $q->where('sub_role', 'student');
+        })->whereNotNull('prodi');
+
         if ($lecturerKampus) {
-            $prodiQuery->where('kampus', $lecturerKampus);
+            $prodiQuery->where('nama_kampus', $lecturerKampus);
         }
-        $prodiList = $prodiQuery->distinct()->pluck('program_studi');
+        $prodiList = $prodiQuery->distinct()->pluck('prodi');
 
         $students = $studentsQuery->latest()->paginate(15);
         

@@ -93,7 +93,7 @@
                     <tbody>
                         @foreach($history as $item)
                         @php
-                            $details = json_decode($item->answers_detail, true);
+                            $details = is_array($item->answers_detail) ? $item->answers_detail : json_decode($item->answers_detail, true);
                             $isHighRisk = str_contains($item->category, '[! RISIKO TINGGI !]');
                         @endphp
                         <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
@@ -179,6 +179,14 @@
                                         </div>
                                     </div>
                                     @endif
+
+                                    {{-- Rekomendasi Penanganan Admin --}}
+                                    <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 mb-4">
+                                        <h4 class="font-bold text-indigo-800 text-sm mb-2"><i class="fas fa-user-md mr-2"></i>Rekomendasi Penanganan / Kegiatan dari Admin</h4>
+                                        <div class="bg-white rounded-xl p-3 border border-indigo-100">
+                                            <p class="text-sm text-indigo-700 leading-relaxed">{{ $item->admin_intervention ?? 'Admin belum memberikan rekomendasi penanganan/kegiatan.' }}</p>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <div class="p-5 border-t border-slate-100 bg-slate-50 flex justify-end">

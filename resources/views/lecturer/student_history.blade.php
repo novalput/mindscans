@@ -17,28 +17,28 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
             <div class="flex items-center gap-5 md:col-span-1">
                 <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg shadow-green-200 shrink-0">
-                    {{ strtoupper(substr($student->user->name, 0, 1)) }}
+                    {{ strtoupper(substr($student->name, 0, 1)) }}
                 </div>
                 <div>
-                    <h2 class="text-xl font-bold text-[#262C5B] leading-tight">{{ $student->user->name }}</h2>
+                    <h2 class="text-xl font-bold text-[#262C5B] leading-tight">{{ $student->name }}</h2>
                     <p class="text-gray-500 text-sm mt-1 flex items-center gap-2">
-                        <i class="fa-regular fa-envelope text-gray-400"></i> {{ $student->user->email }}
+                        <i class="fa-regular fa-envelope text-gray-400"></i> {{ $student->email }}
                     </p>
                 </div>
             </div>
 
             <div class="md:col-span-2 grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
-                    <p class="text-[10px] uppercase font-bold text-gray-400 mb-1">NIM</p>
-                    <p class="font-bold text-gray-800">{{ $student->nim ?? '-' }}</p>
+                    <p class="text-[10px] uppercase font-bold text-gray-400 mb-1">Gender</p>
+                    <p class="font-bold text-gray-800">{{ ucfirst($student->biodata?->jenis_kelamin ?? '-') }}</p>
                 </div>
                 <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
                     <p class="text-[10px] uppercase font-bold text-gray-400 mb-1">Status</p>
-                    <p class="font-bold text-gray-800">{{ $student->status ?? '-' }}</p>
+                    <p class="font-bold text-gray-800">{{ $student->biodata?->status ?? '-' }}</p>
                 </div>
                 <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100 lg:col-span-2">
                     <p class="text-[10px] uppercase font-bold text-gray-400 mb-1">Program Studi</p>
-                    <p class="font-bold text-gray-800 truncate" title="{{ $student->program_studi }}">{{ $student->program_studi ?? '-' }}</p>
+                    <p class="font-bold text-gray-800 truncate" title="{{ $student->biodata?->prodi }}">{{ $student->biodata?->prodi ?? '-' }}</p>
                 </div>
             </div>
         </div>

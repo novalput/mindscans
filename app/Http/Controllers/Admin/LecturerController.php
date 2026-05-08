@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLecturerRequest;
 use App\Http\Requests\UpdateLecturerRequest;
 use App\Models\User;
-use App\Models\Lecturer;
+use App\Models\Biodata;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,8 +22,8 @@ class LecturerController extends Controller
      */
     public function index()
     {
-        $lecturer = User::with('lecturer')
-            ->where('role', 'lecturer')
+        $lecturer = User::with('biodata')
+            ->where('sub_role', 'lecturer')
             ->latest()
             ->paginate(10);
 
@@ -57,18 +57,16 @@ class LecturerController extends Controller
                 'email' => $data['email'] ?? null,
                 'phone' => $data['phone'] ?? null,
                 'password' => Hash::make($data['password']),
-                'role' => 'lecturer',
+                'role' => 'responden',
+                'sub_role' => 'lecturer',
             ]);
 
-            Lecturer::create([
+            Biodata::create([
                 'user_id' => $user->id,
-                'gender' => $data['gender'],
-                'kampus' => $data['kampus'],
-                'program_studi' => $data['program_studi'],
-                'jabatan_fungsional' => $data['jabatan_fungsional'] ?? null,
-                'pendidikan_terakhir' => $data['pendidikan_terakhir'] ?? null,
-                'status_ikatan_kerja' => $data['status_ikatan_kerja'] ?? null,
-                'status_aktivitas' => $data['status_aktivitas'] ?? null,
+                'jenis_kelamin' => $data['gender'],
+                'nama_kampus' => $data['kampus'],
+                'prodi' => $data['program_studi'],
+                'status' => $data['status_aktivitas'] ?? null,
             ]);
         });
 
@@ -82,7 +80,7 @@ class LecturerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::with('lecturer')->findOrFail($id);
+        $user = User::with('biodata')->findOrFail($id);
 
         try {
             $data = $request->validate([
@@ -114,15 +112,22 @@ class LecturerController extends Controller
                     'phone' => $data['phone'],
                 ]);
 
-                $user->lecturer->update([
-                    'gender' => $data['gender'],
-                    'kampus' => $data['kampus'],
-                    'program_studi' => $data['program_studi'],
-                    'jabatan_fungsional' => $data['jabatan_fungsional'],
-                    'pendidikan_terakhir' => $data['pendidikan_terakhir'],
-                    'status_ikatan_kerja' => $data['status_ikatan_kerja'],
-                    'status_aktivitas' => $data['status_aktivitas'],
-                ]);
+                if ($user->biodata) {
+                    $user->biodata->update([
+                        'jenis_kelamin' => $data['gender'],
+                        'nama_kampus' => $data['kampus'],
+                        'prodi' => $data['program_studi'],
+                        'status' => $data['status_aktivitas'] ?? null,
+                    ]);
+                } else {
+                    Biodata::create([
+                        'user_id' => $user->id,
+                        'jenis_kelamin' => $data['gender'],
+                        'nama_kampus' => $data['kampus'],
+                        'prodi' => $data['program_studi'],
+                        'status' => $data['status_aktivitas'] ?? null,
+                    ]);
+                }
             });
 
             return response()->json([
@@ -146,7 +151,7 @@ class LecturerController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::where('role', 'lecturer')->findOrFail($id);
+        $user = User::where('sub_role', 'lecturer')->findOrFail($id);
         $user->delete(); // lecturer ikut terhapus (cascade)
 
         return response()->json([

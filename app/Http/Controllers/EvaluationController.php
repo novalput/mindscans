@@ -105,14 +105,14 @@ class EvaluationController extends Controller
     public function updateAdvice(Request $request, $id)
     {
         $request->validate([
-            'lecturer_advice' => 'required|string|max:1000',
+            'admin_intervention' => 'required|string|max:1000',
         ]);
 
         $scan = ScreeningResponse::findOrFail($id);
         $scan->update([
-            'lecturer_advice' => $request->lecturer_advice
+            'admin_intervention' => $request->admin_intervention
         ]);
 
-        return back()->with('success', 'Saran lecturer berhasil disimpan!');
+        return back()->with('success', 'Rekomendasi/Intervensi admin berhasil disimpan!');
     }
 }

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'role',
+        'sub_role',
         'avatar_url',
         'whatsapp_verified',
         'last_login_at',
@@ -53,21 +54,14 @@ class User extends Authenticatable
         ];
     }
 
-    // Relations
-    public function lecturer()
+    public function biodata()
     {
-        return $this->hasOne(Lecturer::class, 'user_id'); // sesuaikan foreign key-nya
+        return $this->hasOne(Biodata::class, 'user_id');
     }
 
     public function screeningResponses()
     {
-        // Pastikan nama model ScreeningResponse sudah benar
         return $this->hasMany(ScreeningResponse::class, 'user_id');
-    }
-
-    public function student()
-    {
-        return $this->hasOne(Student::class, 'user_id');
     }
 
     public function otpRequests()
@@ -86,14 +80,24 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function isLecturer(): bool
+    public function isResponden(): bool
     {
-        return $this->role === 'lecturer';
+        return $this->role === 'responden';
     }
 
     public function isStudent(): bool
     {
-        return $this->role === 'student';
+        return $this->sub_role === 'student';
+    }
+
+    public function isLecturer(): bool
+    {
+        return $this->sub_role === 'lecturer';
+    }
+
+    public function isOthers(): bool
+    {
+        return $this->sub_role === 'others';
     }
 
     public static function updateLastLogin($userId): void

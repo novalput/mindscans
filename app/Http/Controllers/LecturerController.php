@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
+use App\Models\Biodata;
 use App\Models\User;
 use App\Models\ScreeningResponse;
 use Illuminate\Http\Request;
@@ -13,12 +13,12 @@ class LecturerController extends Controller
 {
     public function dashboard(Request $request)
     {
-        $lecturerKampus = auth()->user()->lecturer->kampus ?? null;
+        $lecturerKampus = auth()->user()->biodata->nama_kampus ?? null;
 
         $baseQuery = ScreeningResponse::query();
         if ($lecturerKampus) {
-            $baseQuery->whereHas('user.student', function ($q) use ($lecturerKampus) {
-                $q->where('kampus', $lecturerKampus);
+            $baseQuery->whereHas('user.biodata', function ($q) use ($lecturerKampus) {
+                $q->where('nama_kampus', $lecturerKampus);
             });
         }
 
@@ -43,33 +43,57 @@ class LecturerController extends Controller
         $startDate = Carbon::parse($filterMonth . '-01')->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
-        // Get daily data within the month
-        $dailyData = (clone $baseQuery)->select(
+        // Get daily data within the month, including scores for detail
+        $dailyDataRaw = (clone $baseQuery)->select(
                 DB::raw('DATE(created_at) as date'),
-                DB::raw('COUNT(*) as total_kuesioner'),
-                DB::raw('SUM(CASE WHEN score >= 18 AND score <= 27 THEN 1 ELSE 0 END) as total_warning')
+                'score'
             )
             ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get()
-            ->keyBy('date');
+            ->get();
+
+        $dailyStats = [];
+        foreach ($dailyDataRaw as $row) {
+            $date = $row->date;
+            if (!isset($dailyStats[$date])) {
+                $dailyStats[$date] = [
+                    'total_kuesioner' => 0,
+                    'total_warning' => 0,
+                    'scores' => []
+                ];
+            }
+
+            $dailyStats[$date]['total_kuesioner']++;
+            if ($row->score >= 18 && $row->score <= 27) {
+                $dailyStats[$date]['total_warning']++;
+            }
+
+            // Count occurrences of each score
+            if (!isset($dailyStats[$date]['scores'][$row->score])) {
+                $dailyStats[$date]['scores'][$row->score] = 0;
+            }
+            $dailyStats[$date]['scores'][$row->score]++;
+        }
 
         // Prepare chart labels and datasets
         $chartLabels = [];
         $chartTotalKuesioner = [];
         $chartTotalWarning = [];
+        $chartScoreDetails = [];
 
         for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
             $dateString = $date->format('Y-m-d');
             $chartLabels[] = $date->format('d M');
             
-            if ($dailyData->has($dateString)) {
-                $chartTotalKuesioner[] = $dailyData[$dateString]->total_kuesioner;
-                $chartTotalWarning[] = $dailyData[$dateString]->total_warning;
+            if (isset($dailyStats[$dateString])) {
+                $chartTotalKuesioner[] = $dailyStats[$dateString]['total_kuesioner'];
+                $chartTotalWarning[] = $dailyStats[$dateString]['total_warning'];
+                
+                krsort($dailyStats[$dateString]['scores']);
+                $chartScoreDetails[] = $dailyStats[$dateString]['scores'];
             } else {
                 $chartTotalKuesioner[] = 0;
                 $chartTotalWarning[] = 0;
+                $chartScoreDetails[] = new \stdClass();
             }
         }
 
@@ -87,20 +111,21 @@ class LecturerController extends Controller
             'chartLabels'         => $chartLabels,
             'chartTotalKuesioner' => $chartTotalKuesioner,
             'chartTotalWarning'   => $chartTotalWarning,
+            'chartScoreDetails'   => $chartScoreDetails,
             'recentStudents'      => $recentStudents,
         ]);
     }
 
     public function studentHistory($id)
     {
-        $student = Student::with('user')->findOrFail($id);
+        $student = User::with('biodata')->where('sub_role', 'student')->findOrFail($id);
         
-        $lecturerKampus = auth()->user()->lecturer->kampus ?? null;
-        if ($lecturerKampus && $student->kampus !== $lecturerKampus) {
+        $lecturerKampus = auth()->user()->biodata->nama_kampus ?? null;
+        if ($lecturerKampus && ($student->biodata->nama_kampus ?? null) !== $lecturerKampus) {
             abort(403, 'Unauthorized access to student from different institution.');
         }
 
-        $history = ScreeningResponse::where('user_id', $student->user_id)
+        $history = ScreeningResponse::where('user_id', $student->id)
             ->orderBy('created_at', 'desc')
             ->get();
 

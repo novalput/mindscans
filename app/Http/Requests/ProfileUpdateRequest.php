@@ -26,8 +26,6 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
             // Student fields
-            'nim' => ['nullable', 'string', 'max:255'],
-            'jenjang' => ['nullable', 'string', 'max:255'],
             'kampus' => ['nullable', 'string', 'max:255'],
             'program_studi' => ['nullable', 'string', 'max:255'],
             'student_gender' => ['nullable', 'string', 'in:male,female'],
@@ -36,10 +34,11 @@ class ProfileUpdateRequest extends FormRequest
             'kampus_lecturer' => ['nullable', 'string', 'max:255'],
             'program_studi_lecturer' => ['nullable', 'string', 'max:255'],
             'lecturer_gender' => ['nullable', 'string', 'in:male,female'],
-            'pendidikan_terakhir' => ['nullable', 'string', 'max:255'],
-            'jabatan_fungsional' => ['nullable', 'string', 'max:255'],
-            'status_ikatan_kerja' => ['nullable', 'string', 'max:255'],
             'status_aktivitas' => ['nullable', 'string', 'max:255'],
+            // Others fields
+            'kampus_others' => ['nullable', 'string', 'max:255'],
+            'job_description' => ['nullable', 'string', 'max:255'],
+            'others_gender' => ['nullable', 'string', 'in:male,female'],
         ];
     }
 }

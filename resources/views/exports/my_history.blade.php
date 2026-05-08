@@ -9,13 +9,18 @@
 <table class="info-table mb-20">
     <tr>
         <td width="15%" class="info-label">Nama Lengkap</td>
-        <td width="35%" class="fw-bold" style="font-size: 14px; color: #065f46;">: {{ $user->name ?? ($student->user->name ?? '-') }}</td>
-        <td width="15%" class="info-label">NIM</td>
-        <td width="35%" class="fw-bold">: {{ $student->nim ?? '-' }}</td>
+        <td width="35%" class="fw-bold" style="font-size: 14px; color: #065f46;">: {{ $user->name ?? '-' }}</td>
+        <td width="15%" class="info-label">Jenis Kelamin</td>
+        <td width="35%" class="fw-bold">: {{ ucfirst($user->biodata?->jenis_kelamin ?? '-') }}</td>
     </tr>
     <tr>
-        <td class="info-label">Program Studi</td>
-        <td class="fw-bold">: {{ $student->program_studi ?? '-' }}</td>
+        @if($user->sub_role === 'others')
+            <td class="info-label">Pekerjaan</td>
+            <td class="fw-bold">: {{ $user->biodata?->job_description ?? '-' }}</td>
+        @else
+            <td class="info-label">Program Studi</td>
+            <td class="fw-bold">: {{ $user->biodata?->prodi ?? '-' }}</td>
+        @endif
         <td class="info-label">Alamat Email</td>
         <td class="fw-bold">: {{ $user->email ?? '-' }}</td>
     </tr>
@@ -27,7 +32,7 @@
 
 @foreach($history as $index => $test)
     @php
-        $detail = json_decode($test->answers_detail, true);
+        $detail = is_array($test->answers_detail) ? $test->answers_detail : json_decode($test->answers_detail, true);
         $depDet = $detail['depression'] ?? null;
         $anxDet = $detail['anxiety'] ?? null;
         $impDet = $detail['impact'] ?? null;
@@ -65,7 +70,8 @@
         <div style="background-color: #f8fafc; padding: 10px; border-radius: 4px; border-left: 3px solid #34d399; font-size: 11px;">
             <p style="margin:0 0 4px 0;"><strong><span style="color: #0f172a;">Dampak Kegiatan Sehari-hari:</span></strong> <span style="color: #475569;">{{ $impDet['text_answer'] ?? '-' }}</span></p>
             <p style="margin:0 0 4px 0;"><strong><span style="color: #0f172a;">Rekomendasi Depresi:</span></strong> <span style="color: #475569;">{{ $depDet['recommendation'] ?? '-' }}</span></p>
-            <p style="margin:0;"><strong><span style="color: #0f172a;">Rekomendasi Kecemasan:</span></strong> <span style="color: #475569;">{{ $anxDet['recommendation'] ?? '-' }}</span></p>
+            <p style="margin:0 0 4px 0;"><strong><span style="color: #0f172a;">Rekomendasi Kecemasan:</span></strong> <span style="color: #475569;">{{ $anxDet['recommendation'] ?? '-' }}</span></p>
+            <p style="margin:0;"><strong><span style="color: #0f172a;">Rekomendasi Penanganan Admin:</span></strong> <span style="color: #475569;">{{ $test->admin_intervention ?? 'Admin belum memberikan rekomendasi penanganan/kegiatan.' }}</span></p>
         </div>
     </div>
 @endforeach

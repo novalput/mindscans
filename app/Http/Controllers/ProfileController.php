@@ -38,24 +38,25 @@ class ProfileController extends Controller
         $user->save();
 
         // Update data spesifik berdasarkan role
-        if ($user->role === 'student' && $user->student) {
-            $user->student->update([
-                'nim' => $request->nim,
-                'jenjang' => $request->jenjang,
-                'kampus' => $request->kampus,
-                'program_studi' => $request->program_studi,
-                'gender' => $request->student_gender,
+        if ($user->sub_role === 'student' && $user->biodata) {
+            $user->biodata->update([
+                'nama_kampus' => $request->kampus,
+                'prodi' => $request->program_studi,
+                'jenis_kelamin' => $request->student_gender,
                 'status' => $request->status,
             ]);
-        } elseif ($user->role === 'lecturer' && $user->lecturer) {
-            $user->lecturer->update([
-                'kampus' => $request->kampus_lecturer,
-                'program_studi' => $request->program_studi_lecturer,
-                'gender' => $request->lecturer_gender,
-                'pendidikan_terakhir' => $request->pendidikan_terakhir,
-                'jabatan_fungsional' => $request->jabatan_fungsional,
-                'status_ikatan_kerja' => $request->status_ikatan_kerja,
-                'status_aktivitas' => $request->status_aktivitas,
+        } elseif ($user->sub_role === 'lecturer' && $user->biodata) {
+            $user->biodata->update([
+                'nama_kampus' => $request->kampus_lecturer,
+                'prodi' => $request->program_studi_lecturer,
+                'jenis_kelamin' => $request->lecturer_gender,
+                'status' => $request->status_aktivitas,
+            ]);
+        } elseif ($user->sub_role === 'others' && $user->biodata) {
+            $user->biodata->update([
+                'nama_kampus' => $request->kampus_others,
+                'jenis_kelamin' => $request->others_gender,
+                'job_description' => $request->job_description,
             ]);
         }
 

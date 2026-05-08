@@ -10,7 +10,7 @@ class ScreeningResponse extends Model
         'user_id',
         'score',
         'category',
-        'lecturer_advice',
+        'admin_intervention',
         'answers_detail',
     ];
 

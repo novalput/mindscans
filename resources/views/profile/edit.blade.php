@@ -1,13 +1,14 @@
 {{-- Logic Otomatis Pilih Layout --}}
-@extends(Auth::user()->role === 'student' ? 'layouts.student' : 'layouts.app')
+@extends((Auth::user()->sub_role === 'student' || Auth::user()->sub_role === 'others') ? 'layouts.student' : 'layouts.app')
 
 @section('content')
 @php
-$role = Auth::user()->role ?? 'student';
+$role = Auth::user()->role === 'admin' ? 'admin' : (Auth::user()->sub_role ?? 'student');
 $theme = [
 'admin' => ['color' => 'indigo', 'bg' => 'bg-indigo-600', 'text' => 'text-indigo-600', 'light' => 'bg-indigo-50', 'icon' => 'fa-user-shield', 'label' => 'Administrator'],
 'lecturer' => ['color' => 'blue', 'bg' => 'bg-blue-600', 'text' => 'text-blue-600', 'light' => 'bg-blue-50', 'icon' => 'fa-chalkboard-teacher', 'label' => 'Dosen'],
 'student' => ['color' => 'sky', 'bg' => 'bg-sky-500', 'text' => 'text-sky-500', 'light' => 'bg-sky-50', 'icon' => 'fa-user-graduate', 'label' => 'Mahasiswa'],
+'others' => ['color' => 'orange', 'bg' => 'bg-orange-500', 'text' => 'text-orange-500', 'light' => 'bg-orange-50', 'icon' => 'fa-users', 'label' => 'Lainnya'],
 ][$role];
 
 // Cek apakah menggunakan layout admin agar padding atas disesuaikan (karena fixed navbar)
@@ -87,71 +88,66 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
                     <span class="inline-block px-3 py-1 bg-green-50 text-green-600 text-[10px] font-bold rounded-lg uppercase">Aktif</span>
                 </div>
 
-                @if($role === 'student' && $user->student)
+                @if($role === 'student' && $user->biodata)
                     <div class="pt-4 border-t border-gray-100 space-y-4">
                         <div class="group">
-                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">NIM</label>
-                            <p class="font-bold text-gray-700 text-sm md:text-base">{{ $user->student->nim ?? '-' }}</p>
-                        </div>
-                        <div class="group">
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Kampus / Universitas</label>
-                            <p class="font-bold text-gray-700 text-sm md:text-base break-words">{{ $user->student->kampus ?? '-' }}</p>
+                            <p class="font-bold text-gray-700 text-sm md:text-base break-words">{{ $user->biodata->nama_kampus ?? '-' }}</p>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="group">
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Program Studi</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->student->program_studi ?? '-' }}</p>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->prodi ?? '-' }}</p>
                             </div>
                             <div class="group">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Jenjang</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->student->jenjang ? strtoupper($user->student->jenjang) : '-' }}</p>
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Gender</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->jenis_kelamin ? ucfirst($user->biodata->jenis_kelamin) : '-' }}</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="group">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Gender</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->student->gender ? ucfirst($user->student->gender) : '-' }}</p>
-                            </div>
-                            <div class="group">
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Status Akademik</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->student->status ?? '-' }}</p>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->status ?? '-' }}</p>
                             </div>
                         </div>
                     </div>
-                @elseif($role === 'lecturer' && $user->lecturer)
+                @elseif($role === 'lecturer' && $user->biodata)
                     <div class="pt-4 border-t border-gray-100 space-y-4">
                         <div class="group">
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Kampus / Institusi</label>
-                            <p class="font-bold text-gray-700 text-sm md:text-base break-words">{{ $user->lecturer->kampus ?? '-' }}</p>
+                            <p class="font-bold text-gray-700 text-sm md:text-base break-words">{{ $user->biodata->nama_kampus ?? '-' }}</p>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="group">
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Program Studi / Ilmu</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->lecturer->program_studi ?? '-' }}</p>
-                            </div>
-                            <div class="group">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Pendidikan</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->lecturer->pendidikan_terakhir ?? '-' }}</p>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="group">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Jabatan Fungsional</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->lecturer->jabatan_fungsional ?? '-' }}</p>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->prodi ?? '-' }}</p>
                             </div>
                             <div class="group">
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Gender</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->lecturer->gender ? ucfirst($user->lecturer->gender) : '-' }}</p>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->jenis_kelamin ? ucfirst($user->biodata->jenis_kelamin) : '-' }}</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="group">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Status Ikatan Kerja</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->lecturer->status_ikatan_kerja ?? '-' }}</p>
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Status Aktivitas</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->status ?? '-' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @elseif($role === 'others' && $user->biodata)
+                    <div class="pt-4 border-t border-gray-100 space-y-4">
+                        <div class="group">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Kampus / Tempat Kerja</label>
+                            <p class="font-bold text-gray-700 text-sm md:text-base break-words">{{ $user->biodata->nama_kampus ?? '-' }}</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="group">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Keterangan Pekerjaan</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->job_description ?? '-' }}</p>
                             </div>
                             <div class="group">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Status Aktivitas</label>
-                                <p class="font-bold text-gray-700 text-sm">{{ $user->lecturer->status_aktivitas ?? '-' }}</p>
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Gender</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->jenis_kelamin ? ucfirst($user->biodata->jenis_kelamin) : '-' }}</p>
                             </div>
                         </div>
                     </div>
@@ -207,75 +203,65 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
                     </div>
 
                     {{-- Conditional Role Edit Fields --}}
-                    @if($role === 'student' && $user->student)
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">NIM</label>
-                                <input type="text" name="nim" value="{{ old('nim', $user->student->nim) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Jenjang</label>
-                                <input type="text" name="jenjang" value="{{ old('jenjang', $user->student->jenjang) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
-                            </div>
-                        </div>
+                    @if($role === 'student' && $user->biodata)
                         <div>
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Kampus / Universitas</label>
-                            <input type="text" name="kampus" value="{{ old('kampus', $user->student->kampus) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
+                            <input type="text" name="kampus" value="{{ old('kampus', $user->biodata->nama_kampus) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Program Studi</label>
-                                <input type="text" name="program_studi" value="{{ old('program_studi', $user->student->program_studi) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
+                                <input type="text" name="program_studi" value="{{ old('program_studi', $user->biodata->prodi) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
                             </div>
                             <div>
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Gender</label>
                                 <select name="student_gender" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
-                                    <option value="male" {{ old('student_gender', $user->student->gender) == 'male' ? 'selected' : '' }}>Male</option>
-                                    <option value="female" {{ old('student_gender', $user->student->gender) == 'female' ? 'selected' : '' }}>Female</option>
+                                    <option value="male" {{ old('student_gender', $user->biodata->jenis_kelamin) == 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female" {{ old('student_gender', $user->biodata->jenis_kelamin) == 'female' ? 'selected' : '' }}>Female</option>
                                 </select>
                             </div>
                         </div>
                         <div>
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Status Akademik</label>
-                            <input type="text" name="status" value="{{ old('status', $user->student->status) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
+                            <input type="text" name="status" value="{{ old('status', $user->biodata->status) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
                         </div>
-                    @elseif($role === 'lecturer' && $user->lecturer)
+                    @elseif($role === 'lecturer' && $user->biodata)
                         <div>
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Kampus</label>
-                            <input type="text" name="kampus_lecturer" value="{{ old('kampus_lecturer', $user->lecturer->kampus) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
+                            <input type="text" name="kampus_lecturer" value="{{ old('kampus_lecturer', $user->biodata->nama_kampus) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Program Studi</label>
-                                <input type="text" name="program_studi_lecturer" value="{{ old('program_studi_lecturer', $user->lecturer->program_studi) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
+                                <input type="text" name="program_studi_lecturer" value="{{ old('program_studi_lecturer', $user->biodata->prodi) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
                             </div>
                             <div>
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Gender</label>
                                 <select name="lecturer_gender" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
-                                    <option value="male" {{ old('lecturer_gender', $user->lecturer->gender) == 'male' ? 'selected' : '' }}>Male</option>
-                                    <option value="female" {{ old('lecturer_gender', $user->lecturer->gender) == 'female' ? 'selected' : '' }}>Female</option>
+                                    <option value="male" {{ old('lecturer_gender', $user->biodata->jenis_kelamin) == 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female" {{ old('lecturer_gender', $user->biodata->jenis_kelamin) == 'female' ? 'selected' : '' }}>Female</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Pendidikan Terakhir</label>
-                                <input type="text" name="pendidikan_terakhir" value="{{ old('pendidikan_terakhir', $user->lecturer->pendidikan_terakhir) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Jabatan Fungsional</label>
-                                <input type="text" name="jabatan_fungsional" value="{{ old('jabatan_fungsional', $user->lecturer->jabatan_fungsional) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
-                            </div>
+                        <div>
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Status Aktivitas</label>
+                            <input type="text" name="status_aktivitas" value="{{ old('status_aktivitas', $user->biodata->status) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Status Ikatan Kerja</label>
-                                <input type="text" name="status_ikatan_kerja" value="{{ old('status_ikatan_kerja', $user->lecturer->status_ikatan_kerja) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Status Aktivitas</label>
-                                <input type="text" name="status_aktivitas" value="{{ old('status_aktivitas', $user->lecturer->status_aktivitas) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
-                            </div>
+                    @elseif($role === 'others' && $user->biodata)
+                        <div>
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Kampus / Tempat Kerja</label>
+                            <input type="text" name="kampus_others" value="{{ old('kampus_others', $user->biodata->nama_kampus) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-400 font-bold text-sm">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Keterangan Pekerjaan</label>
+                            <input type="text" name="job_description" value="{{ old('job_description', $user->biodata->job_description) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-400 font-bold text-sm">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Gender</label>
+                            <select name="others_gender" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-400 font-bold text-sm">
+                                <option value="male" {{ old('others_gender', $user->biodata->jenis_kelamin) == 'male' ? 'selected' : '' }}>Male</option>
+                                <option value="female" {{ old('others_gender', $user->biodata->jenis_kelamin) == 'female' ? 'selected' : '' }}>Female</option>
+                            </select>
                         </div>
                     @endif
 

@@ -152,6 +152,7 @@
         const chartLabels = {!! json_encode($chartLabels) !!};
         const chartTotalKuesioner = {!! json_encode($chartTotalKuesioner) !!};
         const chartTotalWarning = {!! json_encode($chartTotalWarning) !!};
+        const chartScoreDetails = {!! json_encode($chartScoreDetails) !!};
 
         new Chart(ctx, {
             type: 'line',
@@ -220,6 +221,22 @@
                         },
                         padding: 12,
                         cornerRadius: 8,
+                        callbacks: {
+                            afterBody: function(context) {
+                                const dataIndex = context[0].dataIndex;
+                                const details = chartScoreDetails[dataIndex];
+                                
+                                if (!details || Object.keys(details).length === 0) {
+                                    return '';
+                                }
+
+                                let lines = ['', 'Detail Poin (Skor):'];
+                                for (const [score, count] of Object.entries(details)) {
+                                    lines.push(`- Skor ${score}: ${count} orang`);
+                                }
+                                return lines;
+                            }
+                        }
                     }
                 },
                 scales: {

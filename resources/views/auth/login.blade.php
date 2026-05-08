@@ -232,8 +232,8 @@
                     @csrf
                     
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Alamat Email" value="{{ old('email') }}" required autofocus>
-                        <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="text" name="login" class="form-control" placeholder="Email atau No HP" value="{{ old('login') }}" required autofocus>
+                        <span class="input-icon"><i class="fa-solid fa-user"></i></span>
                     </div>
 
                     <div class="form-group">

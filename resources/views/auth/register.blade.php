@@ -209,11 +209,21 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-label">Jenis Kelamin</label>
+                    <select name="gender" class="form-control" required>
+                        <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                        <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Laki-laki</option>
+                        <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Perempuan</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label class="form-label">Daftar Sebagai</label>
                     <select id="role" name="role" class="form-control" required onchange="toggleRoleFields()">
                         <option value="" disabled selected>Pilih Peran</option>
                         <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Mahasiswa</option>
                         <option value="lecturer" {{ old('role') == 'lecturer' ? 'selected' : '' }}>Dosen</option>
+                        <option value="others" {{ old('role') == 'others' ? 'selected' : '' }}>Lainnya (Pekerja Kampus)</option>
                     </select>
                 </div>
 
@@ -221,11 +231,6 @@
                 <div id="student_fields" style="display: none;" class="mb-4 p-4 border border-green-100 rounded-xl bg-green-50/50">
                     <h4 class="font-bold text-xs text-[#22C55E] mb-1 uppercase tracking-wider">Data Mahasiswa</h4>
                     <p class="text-[10px] text-slate-500 mb-4 italic">Silakan isi data yang sesuai dengan identitas Anda di PDDIKTI. Pastikan Nama Lengkap, Perguruan Tinggi, atau Program Studi sudah terisi untuk membantu pencarian otomatis (Autofill).</p>
-                    
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">NIM</label>
-                        <input type="text" name="nim" class="form-control text-sm py-2" value="{{ old('nim') }}">
-                    </div>
 
                     <div class="form-group mb-3 relative">
                         <label class="form-label text-[10px]">Perguruan Tinggi / Kampus</label>
@@ -233,24 +238,10 @@
                         <div id="kampus-dropdown" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">Jenjang</label>
-                        <input type="text" name="jenjang" class="form-control text-sm py-2" value="{{ old('jenjang') }}">
-                    </div>
-
                     <div class="form-group mb-3 relative">
                         <label class="form-label text-[10px]">Program Studi</label>
                         <input type="text" name="program_studi" id="program_studi" class="form-control text-sm py-2" value="{{ old('program_studi') }}" autocomplete="off" placeholder="Ketik nama program studi...">
                         <div id="program_studi-dropdown" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">Jenis Kelamin</label>
-                        <select name="gender" class="form-control text-sm py-2">
-                            <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Laki-laki</option>
-                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Perempuan</option>
-                        </select>
                     </div>
 
                     <div class="form-group mb-2">
@@ -275,33 +266,24 @@
                         <div id="program_studi_lecturer-dropdown" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">Jenis Kelamin</label>
-                        <select name="gender_lecturer" class="form-control text-sm py-2">
-                            <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                            <option value="male" {{ old('gender_lecturer') == 'male' ? 'selected' : '' }}>Laki-laki</option>
-                            <option value="female" {{ old('gender_lecturer') == 'female' ? 'selected' : '' }}>Perempuan</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">Jabatan Fungsional</label>
-                        <input type="text" name="jabatan_fungsional" class="form-control text-sm py-2" value="{{ old('jabatan_fungsional') }}">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">Pendidikan Terakhir</label>
-                        <input type="text" name="pendidikan_terakhir" class="form-control text-sm py-2" value="{{ old('pendidikan_terakhir') }}">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">Status Ikatan Kerja</label>
-                        <input type="text" name="status_ikatan_kerja" class="form-control text-sm py-2" value="{{ old('status_ikatan_kerja') }}">
-                    </div>
-
                     <div class="form-group mb-2">
                         <label class="form-label text-[10px]">Status Aktivitas</label>
                         <input type="text" name="status_aktivitas" class="form-control text-sm py-2" value="{{ old('status_aktivitas') }}">
+                    </div>
+                </div>
+
+                <!-- OTHERS FIELDS -->
+                <div id="others_fields" style="display: none;" class="mb-4 p-4 border border-orange-100 rounded-xl bg-orange-50/50">
+                    <h4 class="font-bold text-xs text-orange-500 mb-3 uppercase tracking-wider">Data Pekerja Lainnya</h4>
+                    
+                    <div class="form-group mb-3">
+                        <label class="form-label text-[10px]">Perguruan Tinggi / Kampus Tempat Bekerja</label>
+                        <input type="text" name="kampus_others" class="form-control text-sm py-2" value="{{ old('kampus_others') }}" placeholder="Cth: Universitas X...">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label text-[10px]">Keterangan Pekerjaan</label>
+                        <input type="text" name="job_description" class="form-control text-sm py-2" value="{{ old('job_description') }}" placeholder="Cth: Satpam, OB, Tukang Kebun...">
                     </div>
                 </div>
 
@@ -347,16 +329,24 @@
         var role = document.getElementById('role').value;
         var studentFields = document.getElementById('student_fields');
         var lecturerFields = document.getElementById('lecturer_fields');
+        var othersFields = document.getElementById('others_fields');
 
         if (role === 'student') {
             studentFields.style.display = 'block';
             lecturerFields.style.display = 'none';
+            othersFields.style.display = 'none';
         } else if (role === 'lecturer') {
             studentFields.style.display = 'none';
             lecturerFields.style.display = 'block';
+            othersFields.style.display = 'none';
+        } else if (role === 'others') {
+            studentFields.style.display = 'none';
+            lecturerFields.style.display = 'none';
+            othersFields.style.display = 'block';
         } else {
             studentFields.style.display = 'none';
             lecturerFields.style.display = 'none';
+            othersFields.style.display = 'none';
         }
     }
 
@@ -440,9 +430,8 @@
         setupAutocomplete('kampus_lecturer', 'kampus_lecturer-dropdown', 'pt');
         setupAutocomplete('program_studi_lecturer', 'program_studi_lecturer-dropdown', 'prodi');
         
-        // Auto-fill logic for student based on Name, Kampus, Prodi, or NIM
+        // Auto-fill logic for student based on Name, Kampus, Prodi
         const nameInput = document.querySelector('input[name="name"]');
-        const nimInput = document.querySelector('input[name="nim"]');
         const kampusInput = document.getElementById('kampus');
         const prodiInput = document.getElementById('program_studi');
         let mhsTimeout = null;
@@ -450,7 +439,6 @@
         function checkStudentAutofill() {
             if (document.getElementById('role').value !== 'student') return;
             const name = nameInput ? nameInput.value.trim() : '';
-            const nim = nimInput ? nimInput.value.trim() : '';
             const kampus = kampusInput ? kampusInput.value.trim() : '';
             const prodi = prodiInput ? prodiInput.value.trim() : '';
 
@@ -473,10 +461,6 @@
                                 
                                 if (prodi) {
                                     filteredData = filteredData.filter(item => item.nama_prodi && item.nama_prodi.toLowerCase().includes(prodi.toLowerCase()));
-                                }
-                                
-                                if (nim) {
-                                    filteredData = filteredData.filter(item => item.nim && item.nim.includes(nim));
                                 }
 
                                 // If after filtering we have exactly 1 match, we use it. 
@@ -501,12 +485,6 @@
                                                 if(kampusInput && !kampusInput.value) kampusInput.value = p.nama_pt || '';
                                                 if(prodiInput && !prodiInput.value) prodiInput.value = p.prodi || ''; // prodi in detail API
                                                 
-                                                const nimField = document.querySelector('input[name="nim"]');
-                                                if (nimField && !nimField.value) nimField.value = p.nim || '';
-                                                
-                                                const jenjangInput = document.querySelector('input[name="jenjang"]');
-                                                if (jenjangInput && !jenjangInput.value) jenjangInput.value = p.jenjang || '';
-                                                
                                                 const genderSelect = document.querySelector('select[name="gender"]');
                                                 if (genderSelect && !genderSelect.value) {
                                                     // Handle mapping for student gender if available in detail.
@@ -524,7 +502,6 @@
                                     // Fallback to basic data if no ID
                                     if(kampusInput && !kampusInput.value) kampusInput.value = match.nama_pt || '';
                                     if(prodiInput && !prodiInput.value) prodiInput.value = match.nama_prodi || '';
-                                    if(nimInput && !nimInput.value) nimInput.value = match.nim || '';
                                 }
                             }
                         })
@@ -535,7 +512,6 @@
         
         // Add event listeners to all student filter fields
         if (nameInput) nameInput.addEventListener('blur', checkStudentAutofill);
-        if (nimInput) nimInput.addEventListener('blur', checkStudentAutofill);
         if (kampusInput) kampusInput.addEventListener('blur', checkStudentAutofill);
         if (prodiInput) prodiInput.addEventListener('blur', checkStudentAutofill);
 
@@ -579,20 +555,11 @@
                                                 if(prodiLecturerInput && !prodiLecturerInput.value) prodiLecturerInput.value = p.nama_prodi || '';
                                                 
                                                 // Map other detailed fields
-                                                const genderSelect = document.querySelector('select[name="gender_lecturer"]');
+                                                const genderSelect = document.querySelector('select[name="gender"]');
                                                 if (genderSelect && !genderSelect.value) {
                                                     if (p.jenis_kelamin === 'Laki-laki') genderSelect.value = 'male';
                                                     else if (p.jenis_kelamin === 'Perempuan') genderSelect.value = 'female';
                                                 }
-                                                
-                                                const jabatanInput = document.querySelector('input[name="jabatan_fungsional"]');
-                                                if (jabatanInput && !jabatanInput.value) jabatanInput.value = p.jabatan_akademik || '';
-                                                
-                                                const pendidikanInput = document.querySelector('input[name="pendidikan_terakhir"]');
-                                                if (pendidikanInput && !pendidikanInput.value) pendidikanInput.value = p.pendidikan_tertinggi || '';
-                                                
-                                                const ikatanInput = document.querySelector('input[name="status_ikatan_kerja"]');
-                                                if (ikatanInput && !ikatanInput.value) ikatanInput.value = p.status_ikatan_kerja || '';
                                                 
                                                 const aktivitasInput = document.querySelector('input[name="status_aktivitas"]');
                                                 if (aktivitasInput && !aktivitasInput.value) aktivitasInput.value = p.status_aktivitas || '';

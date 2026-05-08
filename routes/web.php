@@ -34,13 +34,16 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    $role = Auth::user()->role;
+    $user = Auth::user();
 
-    return match ($role) {
-        'lecturer'   => redirect()->route('lecturer.dashboard'),
-        'student' => redirect()->route('student.dashboard'),
-        'admin'   => redirect()->route('admin.dashboard'),
-        default   => abort(403),
+    if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return match ($user->sub_role) {
+        'student', 'others' => redirect()->route('student.dashboard'),
+        'lecturer'          => redirect()->route('lecturer.dashboard'),
+        default             => abort(403),
     };
 })->name('dashboard');
 
@@ -60,7 +63,7 @@ Route::middleware('auth')->group(function () {
 | LECTURER
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'role:lecturer'])
+Route::middleware(['auth', 'sub_role:lecturer'])
     ->prefix('lecturer')
     ->name('lecturer.')
     ->group(function () {
@@ -68,11 +71,7 @@ Route::middleware(['auth', 'role:lecturer'])
         // Dashboard Lecturer
         Route::get('/dashboard', [LecturerController::class, 'dashboard'])->name('dashboard');
 
-        // 1. CMS Kuesioner (Manajemen Soal)
-        // Menampilkan list soal berdasarkan tipe
-        Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
-        Route::get('/questions/{id}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
-        Route::put('/questions/{id}', [QuestionController::class, 'update'])->name('questions.update');
+        // 1. (Removed CMS Kuesioner from Lecturer)
 
         // 2. Menu Evaluasi & Export (Medical Checkup)
         Route::get('/evaluasi', [EvaluationController::class, 'index'])->name('evaluasi.index');
@@ -91,7 +90,12 @@ Route::middleware(['auth', 'role:lecturer'])
         Route::get('/datamahasiswa/{id}/riwayat', [LecturerController::class, 'studentHistory'])->name('datamahasiswa.history');
         Route::get('/datamahasiswa/{id}/riwayat/export', [ExportController::class, 'lecturerExportStudentHistory'])->name('datamahasiswa.history.export');
 
-        Route::resource('education', ContentManagementController::class);
+        // Kuesioner (Self-assessment untuk Dosen)
+        Route::get('/kuesioner', [ScreeningController::class, 'index'])->name('screening.index');
+        Route::get('/kuesioner/export', [ExportController::class, 'studentExportHistory'])->name('screening.export');
+        Route::get('/kuesioner/form', [ScreeningController::class, 'show'])->name('screening.show');
+        Route::post('/kuesioner/form', [ScreeningController::class, 'store'])->name('screening.store');
+
 
         Route::post('/visits', function (Illuminate\Http\Request $request) {
             HealthVisit::create([
@@ -112,7 +116,7 @@ Route::middleware(['auth', 'role:lecturer'])
 | PASIEN (Student) - Mengikuti struktur Navbar lo
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'role:student'])
+Route::middleware(['auth', 'sub_role:student,others'])
     ->prefix('student')
     ->name('student.')
     ->group(function () {
@@ -123,10 +127,6 @@ Route::middleware(['auth', 'role:student'])
         // Daily Activity (Monitoring) - LOGIC PRE-TEST CHECK ADA DI CONTROLLER
         Route::get('/daily', [MonitoringController::class, 'index'])->name('monitoring.index');
         Route::post('/daily/toggle', [MonitoringController::class, 'toggleBrushing'])->name('monitoring.toggle');
-
-        // Edukasi
-        Route::get('/education', [EducationController::class, 'index'])->name('education.index');
-        Route::get('/education/{material}', [EducationController::class, 'show'])->name('education.show');
 
         // Screening / Tes
         // Halaman Riwayat Kuesioner
@@ -165,8 +165,17 @@ Route::middleware(['auth', 'role:admin'])
         Route::resource('student', AdminStudentController::class);
 
         // Riwayat Kuesioner Mahasiswa
-        Route::get('history', [\App\Http\Controllers\Admin\HistoryController::class, 'index'])
-            ->name('history.index');
+        Route::get('history', [\App\Http\Controllers\Admin\HistoryController::class, 'index'])->name('history.index');
+        Route::get('history/{id}', [\App\Http\Controllers\Admin\HistoryController::class, 'show'])->name('history.show');
+        Route::put('history/{id}/intervention', [\App\Http\Controllers\Admin\HistoryController::class, 'updateIntervention'])->name('history.update-intervention');
+
+        // CMS Kuesioner (Manajemen Soal)
+        Route::resource('questions', \App\Http\Controllers\Admin\QuestionController::class);
+
+        // Kuesioner (Self-assessment untuk Admin)
+        Route::get('/kuesioner', [ScreeningController::class, 'index'])->name('screening.index');
+        Route::get('/kuesioner/form', [ScreeningController::class, 'show'])->name('screening.show');
+        Route::post('/kuesioner/form', [ScreeningController::class, 'store'])->name('screening.store');
     });
 
 /*

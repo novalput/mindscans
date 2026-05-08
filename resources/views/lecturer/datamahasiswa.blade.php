@@ -51,7 +51,7 @@
                     <tr class="bg-green-50 text-green-700 text-xs uppercase tracking-wider">
                         <th class="px-6 py-4 font-bold rounded-tl-xl text-center">No</th>
                         <th class="px-6 py-4 font-bold">Nama</th>
-                        <th class="px-6 py-4 font-bold">NIM</th>
+                        <th class="px-6 py-4 font-bold">Gender</th>
                         <th class="px-6 py-4 font-bold">Prodi</th>
                         <th class="px-6 py-4 font-bold">Terakhir Tes</th>
                         <th class="px-6 py-4 font-bold text-center">Status</th>
@@ -61,8 +61,8 @@
                 <tbody class="divide-y divide-gray-50">
                     @forelse($students as $index => $student)
                         @php
-                            $latestTest = $student->screenings->first();
-                            $avgScore = $student->screenings->avg('score') ?? 0;
+                            $latestTest = $student->screeningResponses->first();
+                            $avgScore = $student->screeningResponses->avg('score') ?? 0;
                             // Tentukan status berdasarkan rata-rata skor
                             // Contoh rentang:
                             // 0 - 17: Normal/Aman
@@ -71,7 +71,7 @@
                             $status = 'Belum Ada Tes';
                             $statusColor = 'bg-gray-100 text-gray-600';
 
-                            if ($student->screenings->count() > 0) {
+                            if ($student->screeningResponses->count() > 0) {
                                 if ($avgScore < 18) {
                                     $status = 'Normal/Aman';
                                     $statusColor = 'bg-green-100 text-green-700';
@@ -89,14 +89,14 @@
                             {{ $students->firstItem() + $index }}
                         </td>
                         <td class="px-6 py-4">
-                            <div class="font-bold text-gray-800">{{ $student->user->name ?? '-' }}</div>
-                            <div class="text-xs text-gray-400">{{ $student->user->email ?? '-' }}</div>
+                            <div class="font-bold text-gray-800">{{ $student->name ?? '-' }}</div>
+                            <div class="text-xs text-gray-400">{{ $student->email ?? '-' }}</div>
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500 font-medium">
-                            {{ $student->nim ?? '-' }}
+                            {{ ucfirst($student->biodata->jenis_kelamin ?? '-') }}
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-600">
-                            {{ $student->program_studi ?? '-' }}
+                            {{ $student->biodata->prodi ?? '-' }}
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-600">
                             @if($latestTest)

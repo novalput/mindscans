@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('phone', 20)->unique()->nullable();
             $table->string('password');
 
-            $table->enum('role', ['student', 'lecturer', 'admin'])->index();
+            $table->enum('role', ['admin', 'responden'])->default('responden')->index();
+            $table->enum('sub_role', ['student', 'lecturer', 'others'])->nullable()->index();
             $table->string('avatar_url')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();

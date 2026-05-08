@@ -42,7 +42,14 @@ class ScreeningController extends Controller
             $chartScores[] = $data->score;
         }
 
-        return view('student.screening.history', compact('history', 'canTakeTest', 'chartLabels', 'chartScores'));
+        $viewPrefix = 'student';
+        if (Auth::user()->role === 'admin') {
+            $viewPrefix = 'admin';
+        } elseif (Auth::user()->sub_role === 'lecturer') {
+            $viewPrefix = 'lecturer';
+        }
+
+        return view($viewPrefix . '.screening.history', compact('history', 'canTakeTest', 'chartLabels', 'chartScores'));
     }
 
     public function show()
@@ -53,14 +60,27 @@ class ScreeningController extends Controller
                                             ->where('created_at', '>=', $today)
                                             ->exists();
         if ($hasTakenToday) {
-            return redirect()->route('student.screening.index')->with('error', 'Anda sudah melakukan evaluasi hari ini. Silakan kembali besok.');
+            $routePrefix = 'student';
+            if (Auth::user()->role === 'admin') {
+                $routePrefix = 'admin';
+            } elseif (Auth::user()->sub_role === 'lecturer') {
+                $routePrefix = 'lecturer';
+            }
+            return redirect()->route($routePrefix . '.screening.index')->with('error', 'Anda sudah melakukan evaluasi hari ini. Silakan kembali besok.');
         }
 
         $depressionQs = Question::where('type', 'depression')->orderBy('order')->get();
         $anxietyQs = Question::where('type', 'anxiety')->orderBy('order')->get();
         $impactQ = Question::where('type', 'impact')->first(); // Ambil 1 soal dampak
 
-        return view('student.screening.form', compact(
+        $viewPrefix = 'student';
+        if (Auth::user()->role === 'admin') {
+            $viewPrefix = 'admin';
+        } elseif (Auth::user()->sub_role === 'lecturer') {
+            $viewPrefix = 'lecturer';
+        }
+
+        return view($viewPrefix . '.screening.form', compact(
             'depressionQs',
             'anxietyQs',
             'impactQ'
@@ -93,7 +113,13 @@ class ScreeningController extends Controller
                                             ->where('created_at', '>=', $today)
                                             ->exists();
         if ($hasTakenToday) {
-            return redirect()->route('student.screening.index')->with('error', 'Evaluasi harian Anda sudah tersimpan sebelumnya.');
+            $routePrefix = 'student';
+            if (Auth::user()->role === 'admin') {
+                $routePrefix = 'admin';
+            } elseif (Auth::user()->sub_role === 'lecturer') {
+                $routePrefix = 'lecturer';
+            }
+            return redirect()->route($routePrefix . '.screening.index')->with('error', 'Evaluasi harian Anda sudah tersimpan sebelumnya.');
         }
 
         $data = $request->all();
@@ -162,6 +188,13 @@ class ScreeningController extends Controller
             ]),
         ]);
 
-        return redirect()->route('student.screening.index')->with('success', 'Terima kasih, kuesioner telah tersimpan. Silakan cek hasil evaluasi Anda.');
+        $routePrefix = 'student';
+        if (Auth::user()->role === 'admin') {
+            $routePrefix = 'admin';
+        } elseif (Auth::user()->sub_role === 'lecturer') {
+            $routePrefix = 'lecturer';
+        }
+        
+        return redirect()->route($routePrefix . '.screening.index')->with('success', 'Terima kasih, kuesioner telah tersimpan. Silakan cek hasil evaluasi Anda.');
     }
 }

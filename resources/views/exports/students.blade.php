@@ -27,7 +27,7 @@
         <tr>
             <th>No</th>
             <th>Nama</th>
-            <th>NIM</th>
+            <th>Gender</th>
             <th>Prodi</th>
             <th>Total Tes</th>
             <th>Terakhir Tes</th>
@@ -36,15 +36,15 @@
     <tbody>
         @foreach($students as $index => $student)
         @php
-            $tests = $student->screenings;
+            $tests = $student->screeningResponses;
             $testCount = $tests->count();
             $lastTest = $testCount > 0 ? $tests->first()->created_at->format('d M Y') : 'Belum Pernah';
         @endphp
         <tr>
             <td class="text-center">{{ $index + 1 }}</td>
-            <td>{{ $student->user->name ?? '-' }}</td>
-            <td>{{ $student->nim }}</td>
-            <td>{{ $student->program_studi }}</td>
+            <td>{{ $student->name ?? '-' }}</td>
+            <td>{{ ucfirst($student->biodata?->jenis_kelamin ?? '-') }}</td>
+            <td>{{ $student->biodata?->prodi ?? '-' }}</td>
             <td class="text-center">{{ $testCount }}</td>
             <td class="text-center">{{ $lastTest }}</td>
         </tr>
