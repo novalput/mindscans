@@ -48,12 +48,12 @@
                 <th width="40%">Tingkat Keparahan</th>
             </tr>
             <tr>
-                <td style="font-weight: bold; color: #334155;">Indikasi Depresi</td>
+                <td style="font-weight: bold; color: #334155;">Kuesioner Depresi</td>
                 <td class="text-center highlight-text">{{ $depDet['score'] ?? '-' }}</td>
                 <td class="text-center">{{ $depDet['category'] ?? '-' }}</td>
             </tr>
             <tr>
-                <td style="font-weight: bold; color: #334155;">Indikasi Kecemasan</td>
+                <td style="font-weight: bold; color: #334155;">Kuesioner Ansietas</td>
                 <td class="text-center highlight-text">{{ $anxDet['score'] ?? '-' }}</td>
                 <td class="text-center">{{ $anxDet['category'] ?? '-' }}</td>
             </tr>

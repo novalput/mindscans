@@ -73,10 +73,9 @@
                         </td>
                         <td class="hidden lg:table-cell px-6 py-4 text-center">
                             @php
-                                $badgeColor = 'bg-gray-100 text-gray-800';
-                                if($history->category == 'Normal') $badgeColor = 'bg-emerald-100 text-emerald-800';
-                                elseif($history->category == 'Sedang') $badgeColor = 'bg-yellow-100 text-yellow-800';
-                                elseif($history->category == 'Berat' || $history->category == 'Sangat Berat' || $history->category == 'Perlu Perhatian') $badgeColor = 'bg-rose-100 text-rose-800';
+                                $badgeColor = 'bg-emerald-100 text-emerald-800';
+                                if($history->score >= $metrics->warning_threshold) $badgeColor = 'bg-rose-100 text-rose-800';
+                                elseif($history->score >= $metrics->moderate_threshold) $badgeColor = 'bg-yellow-100 text-yellow-800';
                             @endphp
                             <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $badgeColor }}">
                                 {{ $history->category ?? '-' }}

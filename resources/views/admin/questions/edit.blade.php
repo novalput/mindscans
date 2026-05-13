@@ -17,10 +17,16 @@
             <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">Kategori Bagian</label>
                 <select name="type" class="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-green-500 focus:border-green-500 block p-3 outline-none" required>
-                    <option value="depression" {{ $question->type == 'depression' ? 'selected' : '' }}>Indikasi Depresi</option>
-                    <option value="anxiety" {{ $question->type == 'anxiety' ? 'selected' : '' }}>Indikasi Kecemasan</option>
+                    <option value="depression" {{ $question->type == 'depression' ? 'selected' : '' }}>Kuesioner Depresi</option>
+                    <option value="anxiety" {{ $question->type == 'anxiety' ? 'selected' : '' }}>Kuesioner Ansietas</option>
                     <option value="impact" {{ $question->type == 'impact' ? 'selected' : '' }}>Dampak Fungsional</option>
                 </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">Sub Tipe (Opsional)</label>
+                <input type="text" name="subtype" value="{{ old('subtype', $question->subtype) }}" placeholder="Contoh: Depresi Emosional"
+                       class="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-green-500 focus:border-green-500 block p-3 outline-none">
             </div>
 
             <div>

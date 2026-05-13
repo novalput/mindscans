@@ -44,6 +44,8 @@ class ProfileController extends Controller
                 'prodi' => $request->program_studi,
                 'jenis_kelamin' => $request->student_gender,
                 'status' => $request->status,
+                'ttl' => $request->ttl,
+                'alamat_asal' => $request->alamat_asal,
             ]);
         } elseif ($user->sub_role === 'lecturer' && $user->biodata) {
             $user->biodata->update([
@@ -51,12 +53,17 @@ class ProfileController extends Controller
                 'prodi' => $request->program_studi_lecturer,
                 'jenis_kelamin' => $request->lecturer_gender,
                 'status' => $request->status_aktivitas,
+                'ttl' => $request->ttl,
+                'alamat_asal' => $request->alamat_asal,
+                'job_description' => $request->jabatan_fungsional,
             ]);
         } elseif ($user->sub_role === 'others' && $user->biodata) {
             $user->biodata->update([
                 'nama_kampus' => $request->kampus_others,
                 'jenis_kelamin' => $request->others_gender,
                 'job_description' => $request->job_description,
+                'ttl' => $request->ttl,
+                'alamat_asal' => $request->alamat_asal,
             ]);
         }
 

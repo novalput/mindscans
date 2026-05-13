@@ -55,7 +55,7 @@
             {{-- Ringkasan Hasil --}}
             <div class="bg-white rounded-xl shadow-md p-6 border border-gray-200 text-center relative overflow-hidden">
                 @php
-                    $isWarning = $history->score >= 18;
+                    $isWarning = $history->score >= $metrics->warning_threshold;
                     $bgClass = $isWarning ? 'bg-rose-50 border-rose-200' : 'bg-emerald-50 border-emerald-200';
                     $textClass = $isWarning ? 'text-rose-700' : 'text-emerald-700';
                 @endphp
@@ -84,7 +84,7 @@
                     @if(isset($detail['depression']))
                     <div class="p-4 rounded-lg bg-gray-50 border border-gray-100 flex items-start justify-between">
                         <div>
-                            <h4 class="font-bold text-gray-700">Indikasi Depresi</h4>
+                            <h4 class="font-bold text-gray-700">Kuesioner Depresi</h4>
                             <p class="text-sm text-gray-500 mt-1">{{ $detail['depression']['recommendation'] ?? '-' }}</p>
                         </div>
                         <div class="text-right ml-4 shrink-0">
@@ -98,7 +98,7 @@
                     @if(isset($detail['anxiety']))
                     <div class="p-4 rounded-lg bg-gray-50 border border-gray-100 flex items-start justify-between">
                         <div>
-                            <h4 class="font-bold text-gray-700">Indikasi Kecemasan</h4>
+                            <h4 class="font-bold text-gray-700">Kuesioner Ansietas</h4>
                             <p class="text-sm text-gray-500 mt-1">{{ $detail['anxiety']['recommendation'] ?? '-' }}</p>
                         </div>
                         <div class="text-right ml-4 shrink-0">

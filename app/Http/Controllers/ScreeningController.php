@@ -49,7 +49,15 @@ class ScreeningController extends Controller
             $viewPrefix = 'lecturer';
         }
 
-        return view($viewPrefix . '.screening.history', compact('history', 'canTakeTest', 'chartLabels', 'chartScores'));
+        // Calculate dynamic thresholds for view coloring (based on depression + anxiety)
+        $depressionAnxietyQs = Question::whereIn('type', ['depression', 'anxiety'])->count();
+        $minScore = $depressionAnxietyQs * 1;
+        $maxScore = $depressionAnxietyQs * 4;
+        $range = $maxScore - $minScore;
+        $moderateThreshold = $minScore + floor($range / 3); 
+        $warningThreshold = $minScore + floor(2 * $range / 3); 
+
+        return view($viewPrefix . '.screening.history', compact('history', 'canTakeTest', 'chartLabels', 'chartScores', 'maxScore', 'warningThreshold', 'moderateThreshold'));
     }
 
     public function show()
@@ -69,8 +77,8 @@ class ScreeningController extends Controller
             return redirect()->route($routePrefix . '.screening.index')->with('error', 'Anda sudah melakukan evaluasi hari ini. Silakan kembali besok.');
         }
 
-        $depressionQs = Question::where('type', 'depression')->orderBy('order')->get();
-        $anxietyQs = Question::where('type', 'anxiety')->orderBy('order')->get();
+        $depressionQs = Question::where('type', 'depression')->orderBy('order')->get()->groupBy('subtype');
+        $anxietyQs = Question::where('type', 'anxiety')->orderBy('order')->get()->groupBy('subtype');
         $impactQ = Question::where('type', 'impact')->first(); // Ambil 1 soal dampak
 
         $viewPrefix = 'student';
@@ -87,19 +95,21 @@ class ScreeningController extends Controller
         ));
     }
 
-    // Fungsi pembantu untuk menentukan kategori & rekomendasi sesuai rentang skor
-    private function getInterpretation($score)
+    // Fungsi pembantu untuk menentukan kategori & rekomendasi sesuai rentang skor dinamis
+    private function getInterpretation($score, $maxScore, $minScore = 0)
     {
-        if ($score >= 20) {
-            return ['cat' => 'Berat (Severe)', 'rec' => 'Intervensi medis/psikiatri segera diperlukan.'];
-        } elseif ($score >= 15) {
-            return ['cat' => 'Sedang-Berat', 'rec' => 'Sangat disarankan mencari bantuan profesional segera.'];
-        } elseif ($score >= 10) {
-            return ['cat' => 'Sedang (Moderate)', 'rec' => 'Disarankan berkonsultasi dengan konselor atau psikolog.'];
-        } elseif ($score >= 5) {
-            return ['cat' => 'Ringan (Mild)', 'rec' => 'Edukasi mandiri, meditasi, dan pemantauan berkala.'];
+        if ($maxScore == 0) return ['cat' => '-', 'rec' => ''];
+        
+        $range = $maxScore - $minScore;
+        $oneThird = $minScore + floor($range / 3);
+        $twoThirds = $minScore + floor(2 * $range / 3);
+
+        if ($score >= $twoThirds) {
+            return ['cat' => 'Tinggi', 'rec' => 'Intervensi lebih lanjut disarankan.'];
+        } elseif ($score >= $oneThird) {
+            return ['cat' => 'Sedang', 'rec' => 'Disarankan berkonsultasi dengan konselor atau psikolog.'];
         } else {
-            return ['cat' => 'Minimal/Normal', 'rec' => 'Menjaga gaya hidup sehat dan istirahat cukup.'];
+            return ['cat' => 'Ringan', 'rec' => 'Tetap jaga kesehatan mental dan lakukan pemantauan berkala.'];
         }
     }
 
@@ -124,9 +134,11 @@ class ScreeningController extends Controller
 
         $data = $request->all();
 
-        // 1. SKOR DEPRESI (9 Soal)
+        // 1. SKOR DEPRESI
         $depressionQs = Question::where('type', 'depression')->get();
         $depressionScore = 0;
+        $minDepressionScore = $depressionQs->count() * 1;
+        $maxDepressionScore = $depressionQs->count() * 4;
         $depressionDetails = [];
         $isHighRisk = false; // Trigger Kritis
 
@@ -134,17 +146,14 @@ class ScreeningController extends Controller
             $val = (int) ($data['q_' . $q->id] ?? 0);
             $depressionScore += $val;
             $depressionDetails[$q->id] = $val;
-
-            // Trigger Logika Penilaian Tambahan (Soal No 9 / ID 9)
-            if ($q->id == 9 && $val >= 1) {
-                $isHighRisk = true;
-            }
         }
-        $depResult = $this->getInterpretation($depressionScore);
+        $depResult = $this->getInterpretation($depressionScore, $maxDepressionScore, $minDepressionScore);
 
-        // 2. SKOR KECEMASAN (7 Soal)
+        // 2. SKOR KECEMASAN
         $anxietyQs = Question::where('type', 'anxiety')->get();
         $anxietyScore = 0;
+        $minAnxietyScore = $anxietyQs->count() * 1;
+        $maxAnxietyScore = $anxietyQs->count() * 4;
         $anxietyDetails = [];
 
         foreach ($anxietyQs as $q) {
@@ -152,7 +161,7 @@ class ScreeningController extends Controller
             $anxietyScore += $val;
             $anxietyDetails[$q->id] = $val;
         }
-        $anxResult = $this->getInterpretation($anxietyScore);
+        $anxResult = $this->getInterpretation($anxietyScore, $maxAnxietyScore, $minAnxietyScore);
 
         // 3. PERTANYAAN DAMPAK (ID 17)
         $impactQ = Question::where('type', 'impact')->first();
@@ -161,12 +170,15 @@ class ScreeningController extends Controller
         // Pemetaan teks jawaban dampak untuk disimpan agar mudah dibaca
         $impactOptions = [0 => 'Tidak sulit sama sekali', 1 => 'Agak sulit', 2 => 'Sangat sulit', 3 => 'Sangat sulit sekali'];
         $impactText = $impactOptions[$impactScore] ?? 'Tidak terjawab';
+        $minImpactScore = 0;
+        $maxImpactScore = $impactQ ? 3 : 0;
+        $impactResult = $impactQ ? $this->getInterpretation($impactScore, $maxImpactScore, $minImpactScore) : null;
 
         // SIMPAN DATA
         ScreeningResponse::create([
             'user_id' => $userId,
-            'score' => $depressionScore + $anxietyScore,
-            'category' => "Depresi: {$depResult['cat']} | Kecemasan: {$anxResult['cat']} " . ($isHighRisk ? "[! RISIKO TINGGI !]" : ""),
+            'score' => $depressionScore + $anxietyScore + ($impactScore ?? 0),
+            'category' => "Depresi: {$depResult['cat']} | Kecemasan: {$anxResult['cat']} | Dampak: " . ($impactResult['cat'] ?? '-') . " " . ($isHighRisk ? "[! RISIKO TINGGI !]" : ""),
             'answers_detail' => json_encode([
                 'depression' => [
                     'score' => $depressionScore, 
@@ -183,6 +195,7 @@ class ScreeningController extends Controller
                 ],
                 'impact' => [
                     'score' => $impactScore,
+                    'category' => $impactResult['cat'] ?? '-',
                     'text_answer' => $impactText
                 ]
             ]),

@@ -39,6 +39,10 @@ class ProfileUpdateRequest extends FormRequest
             'kampus_others' => ['nullable', 'string', 'max:255'],
             'job_description' => ['nullable', 'string', 'max:255'],
             'others_gender' => ['nullable', 'string', 'in:male,female'],
+            // Common biodata fields
+            'ttl' => ['nullable', 'date'],
+            'alamat_asal' => ['nullable', 'string'],
+            'jabatan_fungsional' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

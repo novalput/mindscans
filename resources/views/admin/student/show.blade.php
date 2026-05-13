@@ -47,6 +47,20 @@
                         </a>
                     </div>
 
+                    {{-- Tanggal Lahir --}}
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Tanggal Lahir</p>
+                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">
+                            {{ $user->biodata?->ttl ? \Carbon\Carbon::parse($user->biodata->ttl)->format('d F Y') : '-' }}
+                        </p>
+                    </div>
+
+                    {{-- Alamat Asal --}}
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Alamat Asal</p>
+                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->biodata?->alamat_asal ?? '-' }}</p>
+                    </div>
+
                     {{-- Verifikasi WhatsApp --}}
                     <div class="sm:col-span-2">
                         <p class="text-gray-600 text-sm font-medium">Status WhatsApp</p>
@@ -68,34 +82,28 @@
                 </h2>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {{-- NIM --}}
-                    <div>
-                        <p class="text-gray-600 text-sm font-medium">NIM</p>
-                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->student?->nim ?? '-' }}</p>
-                    </div>
-
                     {{-- Kampus --}}
                     <div>
                         <p class="text-gray-600 text-sm font-medium">Kampus / Universitas</p>
-                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->student?->kampus ?? '-' }}</p>
-                    </div>
-
-                    {{-- Jenjang --}}
-                    <div>
-                        <p class="text-gray-600 text-sm font-medium">Jenjang</p>
-                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->student?->jenjang ? strtoupper($user->student->jenjang) : '-' }}</p>
+                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->biodata?->nama_kampus ?? '-' }}</p>
                     </div>
 
                     {{-- Program Studi --}}
                     <div>
                         <p class="text-gray-600 text-sm font-medium">Program Studi</p>
-                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->student?->program_studi ?? '-' }}</p>
+                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->biodata?->prodi ?? '-' }}</p>
+                    </div>
+
+                    {{-- Gender --}}
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Jenis Kelamin</p>
+                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->biodata?->jenis_kelamin ? ucfirst($user->biodata->jenis_kelamin) : '-' }}</p>
                     </div>
 
                     {{-- Status --}}
-                    <div class="sm:col-span-2">
+                    <div>
                         <p class="text-gray-600 text-sm font-medium">Status Akademik</p>
-                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->student?->status ? ucfirst($user->student->status) : '-' }}</p>
+                        <p class="text-gray-900 font-semibold text-sm sm:text-base mt-1">{{ $user->biodata?->status ? ucfirst($user->biodata->status) : '-' }}</p>
                     </div>
                 </div>
             </div>

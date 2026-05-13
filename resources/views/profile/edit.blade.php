@@ -106,8 +106,17 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="group">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Status Akademik</label>
                                 <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->status ?? '-' }}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="group">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Tanggal Lahir</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->ttl ? \Carbon\Carbon::parse($user->biodata->ttl)->format('d F Y') : '-' }}</p>
+                            </div>
+                            <div class="group">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Alamat Asal</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->alamat_asal ?? '-' }}</p>
                             </div>
                         </div>
                     </div>
@@ -132,6 +141,20 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Status Aktivitas</label>
                                 <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->status ?? '-' }}</p>
                             </div>
+                            <div class="group">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Jabatan Fungsional</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->job_description ?? '-' }}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="group">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Tanggal Lahir</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->ttl ? \Carbon\Carbon::parse($user->biodata->ttl)->format('d F Y') : '-' }}</p>
+                            </div>
+                            <div class="group">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Alamat Asal</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->alamat_asal ?? '-' }}</p>
+                            </div>
                         </div>
                     </div>
                 @elseif($role === 'others' && $user->biodata)
@@ -148,6 +171,16 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
                             <div class="group">
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Gender</label>
                                 <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->jenis_kelamin ? ucfirst($user->biodata->jenis_kelamin) : '-' }}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="group">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Tanggal Lahir</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->ttl ? \Carbon\Carbon::parse($user->biodata->ttl)->format('d F Y') : '-' }}</p>
+                            </div>
+                            <div class="group">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1 group-hover:{{ $theme['text'] }} transition-colors">Alamat Asal</label>
+                                <p class="font-bold text-gray-700 text-sm">{{ $user->biodata->alamat_asal ?? '-' }}</p>
                             </div>
                         </div>
                     </div>
@@ -225,6 +258,14 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Status Akademik</label>
                             <input type="text" name="status" value="{{ old('status', $user->biodata->status) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
                         </div>
+                        <div>
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Tanggal Lahir</label>
+                            <input type="date" name="ttl" value="{{ old('ttl', $user->biodata->ttl) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Alamat Asal</label>
+                            <textarea name="alamat_asal" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-sky-400 font-bold text-sm" rows="3">{{ old('alamat_asal', $user->biodata->alamat_asal) }}</textarea>
+                        </div>
                     @elseif($role === 'lecturer' && $user->biodata)
                         <div>
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Kampus</label>
@@ -247,6 +288,18 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Status Aktivitas</label>
                             <input type="text" name="status_aktivitas" value="{{ old('status_aktivitas', $user->biodata->status) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
                         </div>
+                        <div>
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Jabatan Fungsional</label>
+                            <input type="text" name="jabatan_fungsional" value="{{ old('jabatan_fungsional', $user->biodata->job_description) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Tanggal Lahir</label>
+                            <input type="date" name="ttl" value="{{ old('ttl', $user->biodata->ttl) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Alamat Asal</label>
+                            <textarea name="alamat_asal" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-400 font-bold text-sm" rows="3">{{ old('alamat_asal', $user->biodata->alamat_asal) }}</textarea>
+                        </div>
                     @elseif($role === 'others' && $user->biodata)
                         <div>
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Kampus / Tempat Kerja</label>
@@ -262,6 +315,14 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
                                 <option value="male" {{ old('others_gender', $user->biodata->jenis_kelamin) == 'male' ? 'selected' : '' }}>Male</option>
                                 <option value="female" {{ old('others_gender', $user->biodata->jenis_kelamin) == 'female' ? 'selected' : '' }}>Female</option>
                             </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Tanggal Lahir</label>
+                            <input type="date" name="ttl" value="{{ old('ttl', $user->biodata->ttl) }}" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-400 font-bold text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block ml-2">Alamat Asal</label>
+                            <textarea name="alamat_asal" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-400 font-bold text-sm" rows="3">{{ old('alamat_asal', $user->biodata->alamat_asal) }}</textarea>
                         </div>
                     @endif
 

@@ -88,7 +88,7 @@
                         pointHoverRadius: 6
                     },
                     {
-                        label: 'Skor Warning (18-27)',
+                        label: 'Skor Warning (> ' + {{ $warningThreshold - 1 }} + ')',
                         data: chartTotalWarning,
                         borderColor: '#e11d48', // rose-600
                         backgroundColor: 'rgba(225, 29, 72, 0.1)',

@@ -15,13 +15,20 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = User::where('sub_role', 'student')
-            ->with('biodata')
-            ->paginate(10);
+        $search = $request->input('search');
 
-        return view('admin.student.index', compact('students'));
+        $query = User::where('sub_role', 'student')->with('biodata');
+
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $students = $query->paginate(10);
+        $students->appends(['search' => $search]);
+
+        return view('admin.student.index', compact('students', 'search'));
     }
 
     /**
@@ -53,6 +60,8 @@ class StudentController extends Controller
             'program_studi' => 'required|string|max:255',
             'gender' => 'required|in:male,female',
             'status' => 'required|string|max:255',
+            'ttl' => 'nullable|date',
+            'alamat_asal' => 'nullable|string',
         ]);
 
         DB::transaction(function () use ($data) {
@@ -71,6 +80,8 @@ class StudentController extends Controller
                 'prodi' => $data['program_studi'],
                 'jenis_kelamin' => $data['gender'],
                 'status' => $data['status'],
+                'ttl' => $data['ttl'] ?? null,
+                'alamat_asal' => $data['alamat_asal'] ?? null,
             ]);
         });
 
@@ -104,6 +115,8 @@ class StudentController extends Controller
                 'program_studi' => 'required|string|max:255',
                 'gender' => 'required|in:male,female',
                 'status' => 'required|string|max:255',
+                'ttl' => 'nullable|date',
+                'alamat_asal' => 'nullable|string',
             ]);
 
             DB::transaction(function () use ($user, $data) {
@@ -119,6 +132,8 @@ class StudentController extends Controller
                         'prodi' => $data['program_studi'],
                         'jenis_kelamin' => $data['gender'],
                         'status' => $data['status'],
+                        'ttl' => $data['ttl'] ?? null,
+                        'alamat_asal' => $data['alamat_asal'] ?? null,
                     ]);
                 } else {
                     Biodata::create([

@@ -21,6 +21,11 @@ class DashboardController extends Controller
         $startDate = Carbon::parse($filterMonth . '-01')->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
+        // Calculate dynamic thresholds
+        $totalQuestions = \App\Models\Question::count();
+        $maxTotalScore = $totalQuestions * 3;
+        $warningThreshold = floor(2 * $maxTotalScore / 3) + 1; // Start of "Parah" category
+
         // Get daily data within the month, including scores for detail
         $dailyDataRaw = ScreeningResponse::select(
                 DB::raw('DATE(created_at) as date'),
@@ -41,7 +46,7 @@ class DashboardController extends Controller
             }
 
             $dailyStats[$date]['total_kuesioner']++;
-            if ($row->score >= 18 && $row->score <= 27) {
+            if ($row->score >= $warningThreshold) {
                 $dailyStats[$date]['total_warning']++;
             }
 
@@ -83,7 +88,9 @@ class DashboardController extends Controller
             'chartLabels',
             'chartTotalKuesioner',
             'chartTotalWarning',
-            'chartScoreDetails'
+            'chartScoreDetails',
+            'warningThreshold',
+            'maxTotalScore'
         ));
     }
 }

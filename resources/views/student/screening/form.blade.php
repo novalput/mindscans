@@ -16,7 +16,7 @@
             <div class="mb-8 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-3">
                     <span class="text-sm font-bold text-slate-700">Progres Pengerjaan</span>
-                    <span id="progress-text" class="text-sm font-bold text-[#5FAFC1]">0/17 (0%)</span>
+                    <span id="progress-text" class="text-sm font-bold text-[#5FAFC1]">0/{{ \App\Models\Question::count() }} (0%)</span>
                 </div>
                 <div class="w-full bg-slate-100 rounded-full h-3">
                     <div id="progress-bar" class="bg-[#5FAFC1] h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
@@ -28,12 +28,12 @@
                 
                 @php $stepCounter = 1; @endphp
 
-                {{-- SECTION 1: INSTRUMEN DEPRESI (9 Soal) - Dipecah per 5 --}}
-                @foreach($depressionQs->chunk(5) as $index => $chunk)
+                {{-- SECTION 1: KUESIONER DEPRESI (Per Sub Tipe) --}}
+                @foreach($depressionQs as $subtype => $questions)
                 <div class="step-container hidden" data-step="{{ $stepCounter }}">
                     <div class="mb-10 p-6 bg-blue-50 rounded-3xl border border-blue-100">
                         <h2 class="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
-                            <i class="fas fa-brain"></i> 1. Instrumen Depresi (Bagian {{ $index + 1 }})
+                            <i class="fas fa-brain"></i> 1. Kuesioner Depresi ({{ $subtype }})
                         </h2>
                         
                         <div class="overflow-x-auto">
@@ -41,21 +41,20 @@
                                 <thead class="bg-blue-100 text-blue-800 uppercase text-xs">
                                     <tr>
                                         <th class="px-4 py-3 rounded-l-lg min-w-[250px]">Pernyataan</th>
-                                        <th class="px-2 py-3 text-center w-24">Tidak Pernah Sama Sekali (0)</th>
-                                        <th class="px-2 py-3 text-center w-24">Beberapa Hari (1)</th>
-                                        <th class="px-2 py-3 text-center w-24">Lebih dari Separuh Waktu (2)</th>
-                                        <th class="px-2 py-3 text-center rounded-r-lg w-24">Hampir Setiap Hari (3)</th>
+                                        <th class="px-2 py-3 text-center w-24">Sangat Tidak Sesuai (1)</th>
+                                        <th class="px-2 py-3 text-center w-24">Tidak Sesuai (2)</th>
+                                        <th class="px-2 py-3 text-center w-24">Sesuai (3)</th>
+                                        <th class="px-2 py-3 text-center rounded-r-lg w-24">Sangat Sesuai (4)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($chunk as $q)
+                                    @foreach($questions as $q)
                                     <tr class="border-b border-blue-100 hover:bg-blue-50/50">
                                         <td class="px-4 py-3 font-medium">{{ $q->order }}. {{ $q->question_text }}</td>
-                                        {{-- Beri ID khusus untuk soal nomor 9 agar ditangkap oleh JS --}}
-                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="0" required class="text-blue-500 w-4 h-4 trigger-q9"></td>
-                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="1" required class="text-blue-500 w-4 h-4 trigger-q9"></td>
-                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="2" required class="text-blue-500 w-4 h-4 trigger-q9"></td>
-                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="3" required class="text-blue-500 w-4 h-4 trigger-q9"></td>
+                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="1" required class="text-blue-500 w-4 h-4"></td>
+                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="2" required class="text-blue-500 w-4 h-4"></td>
+                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="3" required class="text-blue-500 w-4 h-4"></td>
+                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="4" required class="text-blue-500 w-4 h-4"></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -66,12 +65,12 @@
                 @php $stepCounter++; @endphp
                 @endforeach
 
-                {{-- SECTION 2: INSTRUMEN KECEMASAN (7 Soal) - Dipecah per 5 --}}
-                @foreach($anxietyQs->chunk(5) as $index => $chunk)
+                {{-- SECTION 2: KUESIONER ANSIETAS (Per Sub Tipe) --}}
+                @foreach($anxietyQs as $subtype => $questions)
                 <div class="step-container hidden" data-step="{{ $stepCounter }}">
                     <div class="mb-10 p-6 bg-green-50 rounded-3xl border border-green-100">
                         <h2 class="text-xl font-bold text-green-800 mb-4 flex items-center gap-2">
-                            <i class="fas fa-heartbeat"></i> 2. Instrumen Kecemasan (Bagian {{ $index + 1 }})
+                            <i class="fas fa-heartbeat"></i> 2. Kuesioner Ansietas ({{ $subtype }})
                         </h2>
                         
                         <div class="overflow-x-auto">
@@ -79,20 +78,20 @@
                                 <thead class="bg-green-100 text-green-800 uppercase text-xs">
                                     <tr>
                                         <th class="px-4 py-3 rounded-l-lg min-w-[250px]">Pernyataan</th>
-                                        <th class="px-2 py-3 text-center w-24">Tidak Pernah Sama Sekali (0)</th>
-                                        <th class="px-2 py-3 text-center w-24">Beberapa Hari (1)</th>
-                                        <th class="px-2 py-3 text-center w-24">Lebih dari Separuh Waktu (2)</th>
-                                        <th class="px-2 py-3 text-center rounded-r-lg w-24">Hampir Setiap Hari (3)</th>
+                                        <th class="px-2 py-3 text-center w-24">Sangat Tidak Sesuai (1)</th>
+                                        <th class="px-2 py-3 text-center w-24">Tidak Sesuai (2)</th>
+                                        <th class="px-2 py-3 text-center w-24">Sesuai (3)</th>
+                                        <th class="px-2 py-3 text-center rounded-r-lg w-24">Sangat Sesuai (4)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($chunk as $q)
+                                    @foreach($questions as $q)
                                     <tr class="border-b border-green-100 hover:bg-green-50/50">
                                         <td class="px-4 py-3 font-medium">{{ $q->order }}. {{ $q->question_text }}</td>
-                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="0" required class="text-green-500 w-4 h-4"></td>
                                         <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="1" required class="text-green-500 w-4 h-4"></td>
                                         <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="2" required class="text-green-500 w-4 h-4"></td>
                                         <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="3" required class="text-green-500 w-4 h-4"></td>
+                                        <td class="text-center"><input type="radio" name="q_{{ $q->id }}" value="4" required class="text-green-500 w-4 h-4"></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -146,8 +145,8 @@
     </div>
 </div>
 
-<!-- EMERGENCY MODAL -->
-<div id="emergencyModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50">
+<!-- EMERGENCY MODAL (HIDDEN) -->
+<div id="emergencyModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50" style="display: none !important;">
     <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-8 mx-4 animate-fadeIn">
         
         <div class="text-center">
@@ -183,7 +182,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     let currentStep = 1;
     const totalSteps = {{ $stepCounter - 1 }};
-    const totalQuestions = 17; // Telah disesuaikan menjadi 17 soal
+    const totalQuestions = {{ \App\Models\Question::count() }}; 
 
     const steps = document.querySelectorAll('.step-container');
     const btnPrev = document.getElementById('btnPrev');
@@ -192,8 +191,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressText = document.getElementById('progress-text');
     const progressBar = document.getElementById('progress-bar');
 
-    // -- LOGIKA TRIGGER DARURAT (SOAL ID 9) --
-    // Mendengarkan perubahan pada radio button khusus soal ID 9
+    // Modal logika sengaja dimatikan / tidak digunakkan sementara waktu
+    /*
     const triggerRadios = document.querySelectorAll('input[name="q_9"]');
     triggerRadios.forEach(radio => {
         radio.addEventListener('change', function() {
@@ -204,24 +203,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    */
 
     const emergencyModal = document.getElementById('emergencyModal');
     const closeEmergencyModal = document.getElementById('closeEmergencyModal');
 
-    closeEmergencyModal.addEventListener('click', function() {
-        emergencyModal.classList.add('hidden');
-        emergencyModal.classList.remove('flex');
-    });
-
-    // Optional: klik luar modal untuk menutup
-    emergencyModal.addEventListener('click', function(e) {
-        if (e.target === emergencyModal) {
+    if (closeEmergencyModal) {
+        closeEmergencyModal.addEventListener('click', function() {
             emergencyModal.classList.add('hidden');
             emergencyModal.classList.remove('flex');
-        }
-    });
+        });
+    }
 
-    // ----------------------------------------
+    if (emergencyModal) {
+        emergencyModal.addEventListener('click', function(e) {
+            if (e.target === emergencyModal) {
+                emergencyModal.classList.add('hidden');
+                emergencyModal.classList.remove('flex');
+            }
+        });
+    }
 
     function updateProgress() {
         const answered = document.querySelectorAll('input[type="radio"]:checked').length;

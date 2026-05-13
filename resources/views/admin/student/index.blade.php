@@ -10,9 +10,16 @@
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Kelola Mahasiswa</h1>
             <p class="text-gray-600 text-sm mt-2">Daftar mahasiswa yang terdaftar dalam sistem</p>
         </div>
-        <button @click="openCreate()" class="px-4 sm:px-6 py-2 bg-[#22C55E] text-white rounded-lg font-semibold hover:bg-green-700 text-sm sm:text-base flex items-center shadow-sm transition-all duration-200">
-            <i class="fas fa-plus mr-2"></i> Tambah Mahasiswa
-        </button>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+            <form action="{{ route('admin.student.index') }}" method="GET" class="relative group">
+                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari Nama..." 
+                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E] outline-none transition text-sm w-full sm:w-64">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-500 transition-colors"></i>
+            </form>
+            <button @click="openCreate()" class="px-4 sm:px-6 py-2 bg-[#22C55E] text-white rounded-lg font-semibold hover:bg-green-700 text-sm sm:text-base flex items-center shadow-sm transition-all duration-200">
+                <i class="fas fa-plus mr-2"></i> Tambah Mahasiswa
+            </button>
+        </div>
     </div>
 
     {{-- Alert Messages --}}
@@ -71,7 +78,9 @@
                                     kampus: "{{ $item->biodata?->nama_kampus ?? '' }}",
                                     program_studi: "{{ $item->biodata?->prodi ?? '' }}",
                                     gender: "{{ $item->biodata?->jenis_kelamin ?? '' }}",
-                                    status: "{{ $item->biodata?->status ?? '' }}"
+                                    status: "{{ $item->biodata?->status ?? '' }}",
+                                    ttl: "{{ $item->biodata?->ttl ?? '' }}",
+                                    alamat_asal: "{{ $item->biodata?->alamat_asal ?? '' }}"
                                 })'
                                     class="text-blue-600 hover:text-blue-900 text-xs sm:text-sm px-2 sm:px-3 py-1.5 rounded bg-blue-50 hover:bg-blue-100 transition"
                                     title="Edit Mahasiswa">
@@ -194,6 +203,18 @@
                         <label class="text-sm font-medium text-gray-600 mb-1 block">Status Akademik</label>
                         <input x-model="form.status" required class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E] outline-none transition" placeholder="Misal: Aktif">
                     </div>
+
+                    {{-- Tanggal Lahir --}}
+                    <div>
+                        <label class="text-sm font-medium text-gray-600 mb-1 block">Tanggal Lahir</label>
+                        <input x-model="form.ttl" type="date" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E] outline-none transition">
+                    </div>
+
+                    {{-- Alamat Asal --}}
+                    <div class="md:col-span-2">
+                        <label class="text-sm font-medium text-gray-600 mb-1 block">Alamat Asal</label>
+                        <textarea x-model="form.alamat_asal" rows="3" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E] outline-none transition"></textarea>
+                    </div>
                 </div>
 
                 {{-- Error --}}
@@ -247,7 +268,9 @@
                 kampus: '',
                 program_studi: '',
                 gender: '',
-                status: ''
+                status: '',
+                ttl: '',
+                alamat_asal: ''
             },
 
             openCreate() {
@@ -286,7 +309,9 @@
                     kampus: '',
                     program_studi: '',
                     gender: '',
-                    status: ''
+                    status: '',
+                    ttl: '',
+                    alamat_asal: ''
                 };
                 this.errorMessage = '';
             },

@@ -15,7 +15,10 @@ class LecturerController extends Controller
     {
         $lecturerKampus = auth()->user()->biodata->nama_kampus ?? null;
 
-        $baseQuery = ScreeningResponse::query();
+        $baseQuery = ScreeningResponse::query()->whereHas('user', function($q) {
+            $q->where('sub_role', 'student');
+        });
+
         if ($lecturerKampus) {
             $baseQuery->whereHas('user.biodata', function ($q) use ($lecturerKampus) {
                 $q->where('nama_kampus', $lecturerKampus);
@@ -28,13 +31,18 @@ class LecturerController extends Controller
         // 2. Rata-rata skor mental
         $averageScore = (clone $baseQuery)->avg('score') ?? 0;
 
-        // 3. Warning perlu perhatian: jumlah unique user yang rata-rata skor = 18-27
+        // Calculate dynamic thresholds
+        $totalQuestions = \App\Models\Question::count();
+        $maxTotalScore = $totalQuestions * 3;
+        $warningThreshold = floor(2 * $maxTotalScore / 3) + 1; // Start of "Parah" category
+
+        // 3. Warning perlu perhatian: jumlah unique user yang rata-rata skor >= threshold
         $userAverages = (clone $baseQuery)->select('user_id', DB::raw('AVG(score) as avg_score'))
             ->groupBy('user_id')
             ->get();
         
-        $warningCount = $userAverages->filter(function ($item) {
-            return $item->avg_score >= 18 && $item->avg_score <= 27;
+        $warningCount = $userAverages->filter(function ($item) use ($warningThreshold) {
+            return $item->avg_score >= $warningThreshold;
         })->count();
 
         // 4. Line Chart Data (Filter by Month)
@@ -113,6 +121,8 @@ class LecturerController extends Controller
             'chartTotalWarning'   => $chartTotalWarning,
             'chartScoreDetails'   => $chartScoreDetails,
             'recentStudents'      => $recentStudents,
+            'warningThreshold'    => $warningThreshold,
+            'maxTotalScore'       => $maxTotalScore,
         ]);
     }
 
@@ -129,6 +139,11 @@ class LecturerController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('lecturer.student_history', compact('student', 'history'));
+        // Calculate dynamic thresholds
+        $totalQuestions = \App\Models\Question::count();
+        $maxTotalScore = $totalQuestions * 3;
+        $warningThreshold = floor(2 * $maxTotalScore / 3) + 1;
+
+        return view('lecturer.student_history', compact('student', 'history', 'warningThreshold', 'maxTotalScore'));
     }
 }

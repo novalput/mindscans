@@ -20,14 +20,20 @@ class LecturerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lecturer = User::with('biodata')
-            ->where('sub_role', 'lecturer')
-            ->latest()
-            ->paginate(10);
+        $search = $request->input('search');
 
-        return view('admin.lecturer.index', compact('lecturer'));
+        $query = User::with('biodata')->where('sub_role', 'lecturer');
+
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $lecturer = $query->latest()->paginate(10);
+        $lecturer->appends(['search' => $search]);
+
+        return view('admin.lecturer.index', compact('lecturer', 'search'));
     }
 
     /**
@@ -45,6 +51,8 @@ class LecturerController extends Controller
             'kampus' => 'required|string|max:255',
             'program_studi' => 'required|string|max:255',
             'jabatan_fungsional' => 'nullable|string|max:255',
+            'ttl' => 'nullable|date',
+            'alamat_asal' => 'nullable|string',
             'pendidikan_terakhir' => 'nullable|string|max:255',
             'status_ikatan_kerja' => 'nullable|string|max:255',
             'status_aktivitas' => 'nullable|string|max:255',
@@ -67,6 +75,9 @@ class LecturerController extends Controller
                 'nama_kampus' => $data['kampus'],
                 'prodi' => $data['program_studi'],
                 'status' => $data['status_aktivitas'] ?? null,
+                'job_description' => $data['jabatan_fungsional'] ?? null,
+                'ttl' => $data['ttl'] ?? null,
+                'alamat_asal' => $data['alamat_asal'] ?? null,
             ]);
         });
 
@@ -100,6 +111,8 @@ class LecturerController extends Controller
                 'kampus' => 'required|string|max:255',
                 'program_studi' => 'required|string|max:255',
                 'jabatan_fungsional' => 'nullable|string|max:255',
+                'ttl' => 'nullable|date',
+                'alamat_asal' => 'nullable|string',
                 'pendidikan_terakhir' => 'nullable|string|max:255',
                 'status_ikatan_kerja' => 'nullable|string|max:255',
                 'status_aktivitas' => 'nullable|string|max:255',
@@ -118,6 +131,9 @@ class LecturerController extends Controller
                         'nama_kampus' => $data['kampus'],
                         'prodi' => $data['program_studi'],
                         'status' => $data['status_aktivitas'] ?? null,
+                        'job_description' => $data['jabatan_fungsional'] ?? null,
+                        'ttl' => $data['ttl'] ?? null,
+                        'alamat_asal' => $data['alamat_asal'] ?? null,
                     ]);
                 } else {
                     Biodata::create([

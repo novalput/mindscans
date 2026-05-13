@@ -101,9 +101,9 @@
                             </td>
                             <td class="px-6 py-5 text-center">
                                 <span class="inline-flex items-center justify-center w-10 h-10 rounded-full font-bold text-sm
-                                    {{ $item->score >= 15 ? 'bg-red-100 text-red-600' : 
-                                    ($item->score >= 10 ? 'bg-orange-100 text-orange-600' : 
-                                    ($item->score >= 5 ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600')) }}">
+                                    {{ $item->score >= $warningThreshold ? 'bg-red-100 text-red-600' : 
+                                    ($item->score >= $moderateThreshold ? 'bg-orange-100 text-orange-600' : 
+                                    ($item->score >= floor($moderateThreshold/2) ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600')) }}">
                                     {{ $item->score }}
                                 </span>
                             </td>
@@ -149,7 +149,7 @@
                                         {{-- Depresi --}}
                                         <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4">
                                             <div class="flex justify-between items-start mb-2">
-                                                <h4 class="font-bold text-blue-800 text-sm">Indikasi Depresi</h4>
+                                                <h4 class="font-bold text-blue-800 text-sm">Kuesioner Depresi</h4>
                                                 <span class="bg-white text-blue-600 px-2 py-1 rounded text-xs font-bold shadow-sm">Skor: {{ $details['depression']['score'] ?? '-' }}</span>
                                             </div>
                                             <p class="text-xs font-semibold text-blue-700 mb-1">Kategori: {{ $details['depression']['category'] ?? '-' }}</p>
@@ -159,7 +159,7 @@
                                         {{-- Kecemasan --}}
                                         <div class="bg-green-50 border border-green-100 rounded-2xl p-4">
                                             <div class="flex justify-between items-start mb-2">
-                                                <h4 class="font-bold text-green-800 text-sm">Indikasi Kecemasan</h4>
+                                                <h4 class="font-bold text-green-800 text-sm">Kuesioner Ansietas</h4>
                                                 <span class="bg-white text-green-600 px-2 py-1 rounded text-xs font-bold shadow-sm">Skor: {{ $details['anxiety']['score'] ?? '-' }}</span>
                                             </div>
                                             <p class="text-xs font-semibold text-green-700 mb-1">Kategori: {{ $details['anxiety']['category'] ?? '-' }}</p>
@@ -320,7 +320,7 @@
                     },
                     y: {
                         beginAtZero: true,
-                        suggestedMax: 54, // Maksimal skor: 27 (Depresi) + 21 (Kecemasan) + sedikit margin
+                        suggestedMax: {{ $maxScore }}, // Maksimal skor dinamis
                         border: { display: false },
                         grid: {
                             color: '#f1f5f9',

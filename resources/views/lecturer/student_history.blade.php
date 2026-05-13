@@ -67,7 +67,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($history as $item)
                 @php
-                    $isWarning = $item->score >= 18;
+                    $isWarning = $item->score >= $warningThreshold;
                     $statusColor = $isWarning ? 'bg-yellow-50 border-yellow-200' : 'bg-green-50 border-green-200';
                     $textColor = $isWarning ? 'text-yellow-700' : 'text-green-700';
                     $badgeBg = $isWarning ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800';

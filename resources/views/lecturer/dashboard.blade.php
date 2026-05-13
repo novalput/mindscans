@@ -21,12 +21,15 @@
             <div class="absolute -right-6 -top-6 w-32 h-32 bg-indigo-50 rounded-full group-hover:bg-indigo-100 transition-colors z-0"></div>
             <div class="relative z-10 flex justify-between items-start">
                 <div>
-                    <span class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Total Kuesioner Diisi</span>
+                    <span class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Kuesioner Mahasiswa</span>
                     <h3 class="text-4xl font-bold text-slate-800 mt-2">{{ $totalQuestionnaires }}</h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
                     <i class="fa-solid fa-file-contract"></i>
                 </div>
+            </div>
+            <div class="relative z-10 mt-2 text-xs text-slate-400 font-medium tracking-wide">
+                {{ auth()->user()->biodata->nama_kampus ?? 'Semua Kampus' }}
             </div>
         </div>
 
@@ -56,7 +59,7 @@
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
             </div>
-            <div class="relative z-10 mt-2 text-xs text-slate-400">Terhitung dari rata-rata individu dengan skor 18-27</div>
+            <div class="relative z-10 mt-2 text-xs text-slate-400">Terhitung dari rata-rata individu dengan skor {{ $warningThreshold }} - {{ $maxTotalScore }}</div>
         </div>
 
     </div>
@@ -108,12 +111,12 @@
                                 {{ \Carbon\Carbon::parse($response->created_at)->format('d M Y - H:i') }}
                             </td>
                             <td class="py-4 px-4 text-center">
-                                <span class="font-bold {{ $response->score >= 18 && $response->score <= 27 ? 'text-rose-600' : 'text-slate-800' }}">
+                                <span class="font-bold {{ $response->score >= $warningThreshold ? 'text-rose-600' : 'text-slate-800' }}">
                                     {{ $response->score }}
                                 </span>
                             </td>
                             <td class="py-4 px-4 text-center">
-                                @if($response->score >= 18 && $response->score <= 27)
+                                @if($response->score >= $warningThreshold)
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 border border-rose-200">
                                         Perlu Perhatian
                                     </span>
@@ -174,7 +177,7 @@
                         pointHoverRadius: 6
                     },
                     {
-                        label: 'Skor Warning (18-27)',
+                        label: 'Skor Warning (> ' + {{ $warningThreshold - 1 }} + ')',
                         data: chartTotalWarning,
                         borderColor: '#e11d48', // rose-600
                         backgroundColor: 'rgba(225, 29, 72, 0.1)',

@@ -99,5 +99,24 @@ class UserSeeder extends Seeder
             'prodi' => 'Teknik Informatika',
             'status' => 'Aktif',
         ]);
+
+        // 6. Others
+        $others1 = User::create([
+            'name' => 'Bayu Aditya',
+            'email' => 'bayu@gmail.com',
+            'phone' => '0855555555555',
+            'password' => Hash::make('password'),
+            'role' => 'responden',
+            'sub_role' => 'others',
+            'whatsapp_verified' => false,
+        ]);
+
+        Biodata::create([
+            'user_id' => $others1->id,
+            'jenis_kelamin' => 'male',
+            'nama_kampus' => 'Universitas Negeri Semarang',
+            'prodi' => 'Konsultan IT',
+            'status' => 'Aktif',
+        ]);
     }
 }

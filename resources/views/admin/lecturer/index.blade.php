@@ -6,15 +6,22 @@
 <div x-data="lecturerCrud()" class="w-full">
 
     {{-- HEADER --}}
-    <div class="mb-6 flex justify-between items-center">
+    <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h1 class="text-2xl font-bold">Kelola Dosen</h1>
+            <h1 class="text-2xl font-bold text-gray-900">Kelola Dosen</h1>
             <p class="text-gray-500 text-sm">Manajemen data dosen</p>
         </div>
-        <button @click="openCreate()"
-            class="px-6 py-2 bg-[#22C55E] text-white rounded-lg font-semibold hover:bg-green-700">
-            <i class="fas fa-plus mr-1"></i> Tambah Dosen
-        </button>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+            <form action="{{ route('admin.lecturer.index') }}" method="GET" class="relative group">
+                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari Nama..." 
+                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E] outline-none transition text-sm w-full sm:w-64">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-500 transition-colors"></i>
+            </form>
+            <button @click="openCreate()"
+                class="px-6 py-2 bg-[#22C55E] text-white rounded-lg font-semibold hover:bg-green-700 shadow-sm flex items-center gap-2">
+                <i class="fas fa-plus"></i> Tambah Dosen
+            </button>
+        </div>
     </div>
 
     {{-- TABLE --}}
@@ -43,7 +50,10 @@
                             gender: "{{ $item->biodata?->jenis_kelamin ?? '' }}",
                             kampus: "{{ $item->biodata?->nama_kampus ?? '' }}",
                             program_studi: "{{ $item->biodata?->prodi ?? '' }}",
-                            status_aktivitas: "{{ $item->biodata?->status ?? '' }}"
+                            status_aktivitas: "{{ $item->biodata?->status ?? '' }}",
+                            jabatan_fungsional: "{{ $item->biodata?->job_description ?? '' }}",
+                            ttl: "{{ $item->biodata?->ttl ?? '' }}",
+                            alamat_asal: "{{ $item->biodata?->alamat_asal ?? '' }}"
                         })'
                             class="text-green-600 hover:text-green-800">
                             <i class="fas fa-edit"></i>
@@ -151,6 +161,24 @@
                         <label class="text-sm font-medium text-gray-600">Status Aktivitas</label>
                         <input x-model="form.status_aktivitas" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
                     </div>
+
+                    {{-- Jabatan Fungsional --}}
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Jabatan Fungsional</label>
+                        <input x-model="form.jabatan_fungsional" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
+                    </div>
+
+                    {{-- Tanggal Lahir --}}
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Tanggal Lahir</label>
+                        <input x-model="form.ttl" type="date" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]">
+                    </div>
+
+                    {{-- Alamat Asal --}}
+                    <div class="md:col-span-2">
+                        <label class="text-sm font-medium text-gray-600">Alamat Asal</label>
+                        <textarea x-model="form.alamat_asal" rows="3" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#22C55E]"></textarea>
+                    </div>
                 </div>
 
                 {{-- Error --}}
@@ -205,7 +233,10 @@
                 gender: '',
                 kampus: '',
                 program_studi: '',
-                status_aktivitas: ''
+                status_aktivitas: '',
+                jabatan_fungsional: '',
+                ttl: '',
+                alamat_asal: ''
             },
 
             openCreate() {
@@ -243,7 +274,10 @@
                     gender: '',
                     kampus: '',
                     program_studi: '',
-                    status_aktivitas: ''
+                    status_aktivitas: '',
+                    jabatan_fungsional: '',
+                    ttl: '',
+                    alamat_asal: ''
                 };
             },
 

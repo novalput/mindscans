@@ -28,8 +28,9 @@ class HistoryController extends Controller
         }
 
         $histories = $query->orderBy('created_at', 'desc')->paginate(15);
+        $metrics = \App\Models\Question::getScoringMetrics();
 
-        return view('admin.history.index', compact('histories', 'role'));
+        return view('admin.history.index', compact('histories', 'role', 'metrics'));
     }
 
     /**
@@ -39,8 +40,9 @@ class HistoryController extends Controller
     {
         $history = ScreeningResponse::with('user.biodata')->findOrFail($id);
         $detail = $history->answers_detail;
+        $metrics = \App\Models\Question::getScoringMetrics();
 
-        return view('admin.history.show', compact('history', 'detail'));
+        return view('admin.history.show', compact('history', 'detail', 'metrics'));
     }
 
     /**

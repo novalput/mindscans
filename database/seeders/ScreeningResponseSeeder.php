@@ -2,41 +2,99 @@
 
 namespace Database\Seeders;
 
+use App\Models\Question;
 use App\Models\ScreeningResponse;
 use Illuminate\Database\Seeder;
 
 class ScreeningResponseSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        ScreeningResponse::create([
-            'user_id' => 2, // Ahmad Muzakki
-            'score' => 23,
-            'category' => 'Depresi: Sedang (Moderate) | Kecemasan: Ringan (Mild) [! RISIKO TINGGI !]',
-            'answers_detail' => json_decode('{"depression":{"score":14,"category":"Sedang (Moderate)","recommendation":"Disarankan berkonsultasi dengan konselor atau psikolog.","high_risk_trigger":true,"detail":{"1":1,"2":1,"3":2,"4":2,"5":2,"6":2,"7":1,"8":2,"9":1}},"anxiety":{"score":9,"category":"Ringan (Mild)","recommendation":"Edukasi mandiri, meditasi, dan pemantauan berkala.","detail":{"10":1,"11":2,"12":1,"13":1,"14":2,"15":1,"16":1}},"impact":{"score":1,"text_answer":"Agak sulit"}}', true),
-            'created_at' => '2026-03-06 06:42:21',
-            'updated_at' => '2026-03-06 06:42:21',
-        ]);
+        ScreeningResponse::truncate();
+        
+        $depressionQs = Question::where('type', 'depression')->get();
+        $anxietyQs = Question::where('type', 'anxiety')->get();
+        $impactQ = Question::where('type', 'impact')->first();
+
+        // Helpers
+        $getInterpretation = function($score, $maxScore, $minScore) {
+            if ($maxScore == 0) return ['cat' => '-', 'rec' => ''];
+            $range = $maxScore - $minScore;
+            $oneThird = $minScore + floor($range / 3);
+            $twoThirds = $minScore + floor(2 * $range / 3);
+            if ($score >= $twoThirds) {
+                return ['cat' => 'Tinggi', 'rec' => 'Intervensi lebih lanjut disarankan.'];
+            } elseif ($score >= $oneThird) {
+                return ['cat' => 'Sedang', 'rec' => 'Disarankan berkonsultasi dengan konselor atau psikolog.'];
+            } else {
+                return ['cat' => 'Ringan', 'rec' => 'Tetap jaga kesehatan mental dan lakukan pemantauan berkala.'];
+            }
+        };
+
+        // 1. Aji (Lecturer, id=4) - Ringan (val=1)
+        $this->createDummy(4, 1, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
+
+        // 2. Ahmad (Student, id=2) - Sedang (val=2)
+        $this->createDummy(2, 2, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
+
+        // 3. Bayu Aditya (Others, id=6) - Tinggi (val=4)
+        $this->createDummy(6, 4, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
+    }
+
+    private function createDummy($userId, $val, $depQs, $anxQs, $impactQ, $getInter)
+    {
+        $depScore = 0;
+        $depDetails = [];
+        foreach ($depQs as $q) {
+            $depScore += $val;
+            $depDetails[$q->id] = $val;
+        }
+        $depMax = $depQs->count() * 4;
+        $depMin = $depQs->count() * 1;
+        $depRes = $getInter($depScore, $depMax, $depMin);
+
+        $anxScore = 0;
+        $anxDetails = [];
+        foreach ($anxQs as $q) {
+            $anxScore += $val;
+            $anxDetails[$q->id] = $val;
+        }
+        $anxMax = $anxQs->count() * 4;
+        $anxMin = $anxQs->count() * 1;
+        $anxRes = $getInter($anxScore, $anxMax, $anxMin);
+
+        $impScore = $val == 4 ? 3 : ($val == 2 ? 1 : 0);
+        $impMax = 3;
+        $impMin = 0;
+        $impRes = $getInter($impScore, $impMax, $impMin);
+        $impactOptions = [0 => 'Tidak sulit sama sekali', 1 => 'Agak sulit', 2 => 'Sangat sulit', 3 => 'Sangat sulit sekali'];
 
         ScreeningResponse::create([
-            'user_id' => 5, // Alif Najmi
-            'score' => 8,
-            'category' => 'Depresi: Ringan (Mild) | Kecemasan: Minimal/Normal ',
-            'answers_detail' => json_decode('{"depression":{"score":7,"category":"Ringan (Mild)","recommendation":"Edukasi mandiri, meditasi, dan pemantauan berkala.","high_risk_trigger":false,"detail":{"1":1,"2":2,"3":2,"4":1,"5":0,"6":1,"7":0,"8":0,"9":0}},"anxiety":{"score":1,"category":"Minimal/Normal","recommendation":"Menjaga gaya hidup sehat dan istirahat cukup.","detail":{"10":1,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0}},"impact":{"score":0,"text_answer":"Tidak sulit sama sekali"}}', true),
-            'created_at' => '2026-03-11 02:14:03',
-            'updated_at' => '2026-03-11 02:14:03',
-        ]);
-
-        ScreeningResponse::create([
-            'user_id' => 2, // Ahmad Muzakki
-            'score' => 8,
-            'category' => 'Depresi: Ringan (Mild) | Kecemasan: Minimal/Normal ',
-            'answers_detail' => json_decode('{"depression":{"score":8,"category":"Ringan (Mild)","recommendation":"Edukasi mandiri, meditasi, dan pemantauan berkala.","high_risk_trigger":false,"detail":{"1":1,"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":0}},"anxiety":{"score":0,"category":"Minimal/Normal","recommendation":"Menjaga gaya hidup sehat dan istirahat cukup.","detail":{"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0}},"impact":{"score":1,"text_answer":"Agak sulit"}}', true),
-            'created_at' => '2026-03-11 02:20:23',
-            'updated_at' => '2026-03-11 02:20:23',
+            'user_id' => $userId,
+            'score' => $depScore + $anxScore + $impScore,
+            'category' => "Depresi: {$depRes['cat']} | Kecemasan: {$anxRes['cat']} | Dampak: {$impRes['cat']}",
+            'answers_detail' => json_encode([
+                'depression' => [
+                    'score' => $depScore,
+                    'category' => $depRes['cat'],
+                    'recommendation' => $depRes['rec'],
+                    'high_risk_trigger' => false,
+                    'detail' => $depDetails
+                ],
+                'anxiety' => [
+                    'score' => $anxScore,
+                    'category' => $anxRes['cat'],
+                    'recommendation' => $anxRes['rec'],
+                    'detail' => $anxDetails
+                ],
+                'impact' => [
+                    'score' => $impScore,
+                    'category' => $impRes['cat'],
+                    'text_answer' => $impactOptions[$impScore] ?? 'Tidak sulit sama sekali'
+                ]
+            ]),
+            'created_at' => now()->subDay(),
+            'updated_at' => now()->subDay(),
         ]);
     }
 }
