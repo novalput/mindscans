@@ -22,7 +22,12 @@ class QuestionController extends Controller
     public function create(Request $request)
     {
         $type = $request->query('type', 'depression');
-        return view('admin.questions.create', compact('type'));
+        $subtypes = Question::whereNotNull('subtype')
+            ->where('subtype', '!=', '')
+            ->distinct()
+            ->pluck('subtype');
+            
+        return view('admin.questions.create', compact('type', 'subtypes'));
     }
 
     public function store(Request $request)
@@ -31,9 +36,10 @@ class QuestionController extends Controller
             'type' => 'required|string|in:depression,anxiety,impact',
             'question_text' => 'required|string',
             'order' => 'required|integer',
+            'subtype' => 'nullable|string|max:255',
         ]);
 
-        $questionData = $request->only(['type', 'question_text', 'order']);
+        $questionData = $request->only(['type', 'question_text', 'order', 'subtype']);
         
         // If it is impact, we set the default options. Otherwise, we can leave it null.
         if ($request->type === 'impact') {
@@ -54,7 +60,12 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = Question::findOrFail($id);
-        return view('admin.questions.edit', compact('question'));
+        $subtypes = Question::whereNotNull('subtype')
+            ->where('subtype', '!=', '')
+            ->distinct()
+            ->pluck('subtype');
+
+        return view('admin.questions.edit', compact('question', 'subtypes'));
     }
 
     public function update(Request $request, $id)
@@ -63,10 +74,11 @@ class QuestionController extends Controller
             'question_text' => 'required|string',
             'order' => 'required|integer',
             'type' => 'required|string|in:depression,anxiety,impact',
+            'subtype' => 'nullable|string|max:255',
         ]);
 
         $question = Question::findOrFail($id);
-        $question->update($request->only(['question_text', 'order', 'type']));
+        $question->update($request->only(['question_text', 'order', 'type', 'subtype']));
 
         return redirect()->route('admin.questions.index', ['type' => $question->type])
             ->with('success', 'Soal berhasil diperbarui');

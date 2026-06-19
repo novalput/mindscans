@@ -38,16 +38,46 @@
                 </div>
                 <div class="space-y-3 mt-4 pt-4 border-t border-gray-100">
                     <div>
+                        <span class="block text-xs font-bold text-gray-400 uppercase">Peran / Sub-Role</span>
+                        <span class="font-medium text-gray-800">
+                            @if(($history->user->sub_role ?? '') === 'student')
+                                Mahasiswa
+                            @elseif(($history->user->sub_role ?? '') === 'lecturer')
+                                Dosen
+                            @elseif(($history->user->sub_role ?? '') === 'others')
+                                Lainnya (Umum)
+                            @else
+                                -
+                            @endif
+                        </span>
+                    </div>
+                    <div>
                         <span class="block text-xs font-bold text-gray-400 uppercase">Kampus</span>
                         <span class="font-medium text-gray-800">{{ $history->user->biodata?->nama_kampus ?? '-' }}</span>
                     </div>
+                    @if(($history->user->sub_role ?? '') === 'student' || ($history->user->sub_role ?? '') === 'lecturer')
                     <div>
-                        <span class="block text-xs font-bold text-gray-400 uppercase">Prodi</span>
+                        <span class="block text-xs font-bold text-gray-400 uppercase">Program Studi</span>
                         <span class="font-medium text-gray-800">{{ $history->user->biodata?->prodi ?? '-' }}</span>
                     </div>
+                    @endif
+                    @if(($history->user->sub_role ?? '') === 'others' || !empty($history->user->biodata?->job_description))
                     <div>
-                        <span class="block text-xs font-bold text-gray-400 uppercase">Gender</span>
-                        <span class="font-medium text-gray-800">{{ ucfirst($history->user->biodata?->jenis_kelamin ?? '-') }}</span>
+                        <span class="block text-xs font-bold text-gray-400 uppercase">Pekerjaan / Jabatan</span>
+                        <span class="font-medium text-gray-800">{{ $history->user->biodata?->job_description ?? '-' }}</span>
+                    </div>
+                    @endif
+                    <div>
+                        <span class="block text-xs font-bold text-gray-400 uppercase">Jenis Kelamin</span>
+                        <span class="font-medium text-gray-800">
+                            @if(($history->user->biodata?->jenis_kelamin ?? '') === 'male')
+                                Laki-laki
+                            @elseif(($history->user->biodata?->jenis_kelamin ?? '') === 'female')
+                                Perempuan
+                            @else
+                                -
+                            @endif
+                        </span>
                     </div>
                 </div>
             </div>

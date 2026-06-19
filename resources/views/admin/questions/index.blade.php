@@ -4,7 +4,7 @@
 <div class="space-y-6">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center px-2 gap-4">
         <h3 class="text-xl md:text-2xl font-bold text-gray-800 tracking-tight">Manajemen Pertanyaan Kuesioner</h3>
-        <a href="{{ route('admin.questions.create', ['type' => request('type', 'depression')]) }}" class="bg-[#16A34A] hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all flex items-center gap-2">
+        <a href="{{ route('admin.questions.create', ['type' => request('type', 'depression')]) }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all flex items-center gap-2">
             <i class="fa-solid fa-plus"></i> Tambah Pertanyaan
         </a>
     </div>

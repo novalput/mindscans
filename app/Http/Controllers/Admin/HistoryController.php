@@ -39,9 +39,14 @@ class HistoryController extends Controller
     public function show($id)
     {
         $history = ScreeningResponse::with('user.biodata')->findOrFail($id);
+        
         $detail = $history->answers_detail;
+        while (is_string($detail)) {
+            $detail = json_decode($detail, true);
+        }
+        
         $metrics = \App\Models\Question::getScoringMetrics();
-
+ 
         return view('admin.history.show', compact('history', 'detail', 'metrics'));
     }
 

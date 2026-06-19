@@ -22,9 +22,13 @@ class DashboardController extends Controller
         $endDate = $startDate->copy()->endOfMonth();
 
         // Calculate dynamic thresholds
-        $totalQuestions = \App\Models\Question::count();
-        $maxTotalScore = $totalQuestions * 3;
-        $warningThreshold = floor(2 * $maxTotalScore / 3) + 1; // Start of "Parah" category
+        $depressionAnxietyQs = \App\Models\Question::whereIn('type', ['depression', 'anxiety'])->count();
+        $minScore = $depressionAnxietyQs * 1;
+        $maxScore = $depressionAnxietyQs * 4;
+        $range = $maxScore - $minScore;
+        $moderateThreshold = $minScore + floor($range / 3); 
+        $warningThreshold = $minScore + floor(2 * $range / 3); 
+        $maxTotalScore = $maxScore + 3; // including impact question max
 
         // Get daily data within the month, including scores for detail
         $dailyDataRaw = ScreeningResponse::select(

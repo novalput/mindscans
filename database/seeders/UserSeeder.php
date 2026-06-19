@@ -115,8 +115,8 @@ class UserSeeder extends Seeder
             'user_id' => $others1->id,
             'jenis_kelamin' => 'male',
             'nama_kampus' => 'Universitas Negeri Semarang',
-            'prodi' => 'Konsultan IT',
             'status' => 'Aktif',
+            'job_description' => 'Konsultan IT',
         ]);
     }
 }

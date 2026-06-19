@@ -68,10 +68,13 @@
             @foreach($history as $item)
                 @php
                     $isWarning = $item->score >= $warningThreshold;
-                    $statusColor = $isWarning ? 'bg-yellow-50 border-yellow-200' : 'bg-green-50 border-green-200';
-                    $textColor = $isWarning ? 'text-yellow-700' : 'text-green-700';
-                    $badgeBg = $isWarning ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800';
-                    $icon = $isWarning ? 'fa-triangle-exclamation' : 'fa-check';
+                    $isModerate = $item->score >= $moderateThreshold && $item->score < $warningThreshold;
+                    
+                    $statusColor = $isWarning ? 'bg-red-50 border-red-200' : ($isModerate ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200');
+                    $textColor = $isWarning ? 'text-red-700' : ($isModerate ? 'text-orange-700' : 'text-green-700');
+                    $badgeBg = $isWarning ? 'bg-red-100 text-red-800' : ($isModerate ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800');
+                    $icon = $isWarning ? 'fa-triangle-exclamation' : ($isModerate ? 'fa-triangle-exclamation' : 'fa-check');
+                    $statusText = $isWarning ? 'Perlu Perhatian' : ($isModerate ? 'Perlu Pemantauan' : 'Aman');
                 @endphp
                 
                 <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group flex flex-col h-full">
@@ -104,7 +107,7 @@
                         <div class="flex justify-center mt-auto">
                             <span class="px-4 py-1.5 rounded-full text-xs font-bold uppercase flex items-center gap-2 {{ $badgeBg }}">
                                 <i class="fa-solid {{ $icon }}"></i>
-                                {{ $isWarning ? 'Perlu Perhatian' : 'Aman' }}
+                                {{ $statusText }}
                             </span>
                         </div>
                     </div>

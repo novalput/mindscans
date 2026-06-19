@@ -77,8 +77,40 @@ class ScreeningController extends Controller
             return redirect()->route($routePrefix . '.screening.index')->with('error', 'Anda sudah melakukan evaluasi hari ini. Silakan kembali besok.');
         }
 
-        $depressionQs = Question::where('type', 'depression')->orderBy('order')->get()->groupBy('subtype');
-        $anxietyQs = Question::where('type', 'anxiety')->orderBy('order')->get()->groupBy('subtype');
+        $depressionOrder = [
+            'depresi emosional',
+            'pikiran negatif',
+            'somatik',
+            'menarik diri'
+        ];
+
+        $anxietyOrder = [
+            'konflik antara id dan ego',
+            'konflik ego dan superego',
+            'ketakutan terhadap ancaman nyata',
+            'respon ego terhadap kecemasan'
+        ];
+
+        $depressionQs = Question::where('type', 'depression')
+            ->orderBy('order')
+            ->get()
+            ->groupBy('subtype')
+            ->sortBy(function ($value, $key) use ($depressionOrder) {
+                $normalizedKey = trim(strtolower($key));
+                $index = array_search($normalizedKey, $depressionOrder);
+                return $index === false ? 999 : $index;
+            });
+
+        $anxietyQs = Question::where('type', 'anxiety')
+            ->orderBy('order')
+            ->get()
+            ->groupBy('subtype')
+            ->sortBy(function ($value, $key) use ($anxietyOrder) {
+                $normalizedKey = trim(strtolower($key));
+                $index = array_search($normalizedKey, $anxietyOrder);
+                return $index === false ? 999 : $index;
+            });
+
         $impactQ = Question::where('type', 'impact')->first(); // Ambil 1 soal dampak
 
         $viewPrefix = 'student';
@@ -179,7 +211,7 @@ class ScreeningController extends Controller
             'user_id' => $userId,
             'score' => $depressionScore + $anxietyScore + ($impactScore ?? 0),
             'category' => "Depresi: {$depResult['cat']} | Kecemasan: {$anxResult['cat']} | Dampak: " . ($impactResult['cat'] ?? '-') . " " . ($isHighRisk ? "[! RISIKO TINGGI !]" : ""),
-            'answers_detail' => json_encode([
+            'answers_detail' => [
                 'depression' => [
                     'score' => $depressionScore, 
                     'category' => $depResult['cat'], 
@@ -198,7 +230,7 @@ class ScreeningController extends Controller
                     'category' => $impactResult['cat'] ?? '-',
                     'text_answer' => $impactText
                 ]
-            ]),
+            ],
         ]);
 
         $routePrefix = 'student';

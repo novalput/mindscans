@@ -32,9 +32,13 @@ class LecturerController extends Controller
         $averageScore = (clone $baseQuery)->avg('score') ?? 0;
 
         // Calculate dynamic thresholds
-        $totalQuestions = \App\Models\Question::count();
-        $maxTotalScore = $totalQuestions * 3;
-        $warningThreshold = floor(2 * $maxTotalScore / 3) + 1; // Start of "Parah" category
+        $depressionAnxietyQs = \App\Models\Question::whereIn('type', ['depression', 'anxiety'])->count();
+        $minScore = $depressionAnxietyQs * 1;
+        $maxScore = $depressionAnxietyQs * 4;
+        $range = $maxScore - $minScore;
+        $moderateThreshold = $minScore + floor($range / 3); 
+        $warningThreshold = $minScore + floor(2 * $range / 3); 
+        $maxTotalScore = $maxScore + 3; // including impact question max
 
         // 3. Warning perlu perhatian: jumlah unique user yang rata-rata skor >= threshold
         $userAverages = (clone $baseQuery)->select('user_id', DB::raw('AVG(score) as avg_score'))
@@ -71,7 +75,7 @@ class LecturerController extends Controller
             }
 
             $dailyStats[$date]['total_kuesioner']++;
-            if ($row->score >= 18 && $row->score <= 27) {
+            if ($row->score >= $warningThreshold) {
                 $dailyStats[$date]['total_warning']++;
             }
 
@@ -140,10 +144,14 @@ class LecturerController extends Controller
             ->get();
 
         // Calculate dynamic thresholds
-        $totalQuestions = \App\Models\Question::count();
-        $maxTotalScore = $totalQuestions * 3;
-        $warningThreshold = floor(2 * $maxTotalScore / 3) + 1;
+        $depressionAnxietyQs = \App\Models\Question::whereIn('type', ['depression', 'anxiety'])->count();
+        $minScore = $depressionAnxietyQs * 1;
+        $maxScore = $depressionAnxietyQs * 4;
+        $range = $maxScore - $minScore;
+        $moderateThreshold = $minScore + floor($range / 3); 
+        $warningThreshold = $minScore + floor(2 * $range / 3); 
+        $maxTotalScore = $maxScore + 3; // including impact question max
 
-        return view('lecturer.student_history', compact('student', 'history', 'warningThreshold', 'maxTotalScore'));
+        return view('lecturer.student_history', compact('student', 'history', 'warningThreshold', 'moderateThreshold', 'maxTotalScore'));
     }
 }

@@ -73,7 +73,7 @@ class ScreeningResponseSeeder extends Seeder
             'user_id' => $userId,
             'score' => $depScore + $anxScore + $impScore,
             'category' => "Depresi: {$depRes['cat']} | Kecemasan: {$anxRes['cat']} | Dampak: {$impRes['cat']}",
-            'answers_detail' => json_encode([
+            'answers_detail' => [
                 'depression' => [
                     'score' => $depScore,
                     'category' => $depRes['cat'],
@@ -92,7 +92,7 @@ class ScreeningResponseSeeder extends Seeder
                     'category' => $impRes['cat'],
                     'text_answer' => $impactOptions[$impScore] ?? 'Tidak sulit sama sekali'
                 ]
-            ]),
+            ],
             'created_at' => now()->subDay(),
             'updated_at' => now()->subDay(),
         ]);

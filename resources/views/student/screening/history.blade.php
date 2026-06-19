@@ -104,8 +104,7 @@
                             <td class="px-6 py-5 text-center">
                                 <span class="inline-flex items-center justify-center w-10 h-10 rounded-full font-bold text-sm
                                     {{ $item->score >= $warningThreshold ? 'bg-red-100 text-red-600' : 
-                                    ($item->score >= $moderateThreshold ? 'bg-orange-100 text-orange-600' : 
-                                    ($item->score >= floor($moderateThreshold/2) ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600')) }}">
+                                    ($item->score >= $moderateThreshold ? 'bg-orange-100 text-orange-600' : 'bg-green-100 text-green-600') }}">
                                     {{ $item->score }}
                                 </span>
                             </td>
