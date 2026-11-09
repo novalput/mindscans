@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Riwayat Kuesioner Mahasiswa')
+@section('title', 'Patient Screening History')
 
 @section('content')
 <div class="p-4 md:p-8">
     <div class="mb-6">
         <a href="{{ route('lecturer.datamahasiswa') }}" class="inline-flex items-center text-gray-500 hover:text-green-600 transition-colors font-medium text-sm">
-            <i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke Daftar Mahasiswa
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back to Patient List
         </a>
     </div>
 
@@ -61,7 +61,7 @@
                 <i class="fa-solid fa-clipboard text-3xl text-gray-300"></i>
             </div>
             <h3 class="text-lg font-bold text-gray-700 mb-2">Belum Ada Riwayat</h3>
-            <p class="text-gray-500">Mahasiswa ini belum pernah mengisi kuesioner profil mental.</p>
+            <p class="text-gray-500">This patient has not completed a mental health screening yet.</p>
         </div>
     @else
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

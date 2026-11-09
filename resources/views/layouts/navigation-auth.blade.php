@@ -14,7 +14,7 @@
         {{-- Brand Logo --}}
         <span class="font-sansita text-lg md:text-xl tracking-wide truncate transition-opacity duration-300"
             :class="sidebarOpen ? 'max-md:hidden opacity-100' : 'opacity-100'">
-            LoveCaring-Rr.Nursing
+            MindScans
         </span>
     </div>
 
@@ -72,7 +72,7 @@
                 <div class="hidden md:flex flex-col text-right">
                     <span class="font-bold text-sm leading-none">{{ Auth::user()->name ?? 'Lecturer User' }}</span>
                     <span class="text-[10px] text-blue-100 mt-1 uppercase tracking-tighter font-medium">
-                        {{ Auth::user()->sub_role ?? Auth::user()->role ?? 'Petugas' }}
+                        {{ Auth::user()->sub_role === 'lecturer' ? 'Healthcare Professional' : (Auth::user()->sub_role === 'student' ? 'Patient' : (Auth::user()->sub_role ?? Auth::user()->role ?? 'Staff')) }}
                     </span>
                 </div>
 

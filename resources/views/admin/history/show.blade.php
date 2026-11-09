@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Riwayat Kuesioner Mahasiswa')
+@section('title', 'Patient Screening History Detail')
 
 @section('content')
 <div class="w-full max-w-full">
     {{-- Header --}}
     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
+                            <div>
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Detail Evaluasi</h1>
             <p class="text-gray-600 text-sm mt-2">Detail hasil skrining mental dan rekomendasi penanganan.</p>
         </div>
@@ -41,9 +41,9 @@
                         <span class="block text-xs font-bold text-gray-400 uppercase">Peran / Sub-Role</span>
                         <span class="font-medium text-gray-800">
                             @if(($history->user->sub_role ?? '') === 'student')
-                                Mahasiswa
+                                Patient
                             @elseif(($history->user->sub_role ?? '') === 'lecturer')
-                                Dosen
+                                Healthcare Professional
                             @elseif(($history->user->sub_role ?? '') === 'others')
                                 Lainnya (Umum)
                             @else

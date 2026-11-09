@@ -21,11 +21,11 @@
             </a>
             <a href="{{ route('admin.history.index', ['role' => 'student']) }}" 
                 class="{{ $role === 'student' ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all">
-                Mahasiswa
+                Patients
             </a>
             <a href="{{ route('admin.history.index', ['role' => 'lecturer']) }}" 
                 class="{{ $role === 'lecturer' ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all">
-                Dosen / Staf
+                Healthcare Professionals / Staff
             </a>
             <a href="{{ route('admin.history.index', ['role' => 'others']) }}" 
                 class="{{ $role === 'others' ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all">

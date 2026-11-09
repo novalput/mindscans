@@ -6,8 +6,8 @@
 $role = Auth::user()->role === 'admin' ? 'admin' : (Auth::user()->sub_role ?? 'student');
 $theme = [
 'admin' => ['color' => 'indigo', 'bg' => 'bg-indigo-600', 'text' => 'text-indigo-600', 'light' => 'bg-indigo-50', 'icon' => 'fa-user-shield', 'label' => 'Administrator'],
-'lecturer' => ['color' => 'blue', 'bg' => 'bg-blue-600', 'text' => 'text-blue-600', 'light' => 'bg-blue-50', 'icon' => 'fa-chalkboard-teacher', 'label' => 'Dosen'],
-'student' => ['color' => 'sky', 'bg' => 'bg-sky-500', 'text' => 'text-sky-500', 'light' => 'bg-sky-50', 'icon' => 'fa-user-graduate', 'label' => 'Mahasiswa'],
+                    'lecturer' => ['color' => 'blue', 'bg' => 'bg-blue-600', 'text' => 'text-blue-600', 'light' => 'bg-blue-50', 'icon' => 'fa-user-doctor', 'label' => 'Healthcare Professional'],
+                    'student' => ['color' => 'sky', 'bg' => 'bg-sky-500', 'text' => 'text-sky-500', 'light' => 'bg-sky-50', 'icon' => 'fa-hospital-user', 'label' => 'Patient'],
 'others' => ['color' => 'orange', 'bg' => 'bg-orange-500', 'text' => 'text-orange-500', 'light' => 'bg-orange-50', 'icon' => 'fa-users', 'label' => 'Lainnya'],
 ][$role];
 
@@ -26,7 +26,7 @@ $isStaff = in_array($role, ['admin', 'lecturer']);
             {{-- Badge Role (Hanya Muncul di Layar Lebar) --}}
             <div class="absolute top-6 right-8 hidden md:block">
                 <div class="px-4 py-2 bg-white/20 backdrop-blur-md rounded-2xl text-white text-[10px] font-black uppercase tracking-widest border border-white/30">
-                    Sistem LoveCaring-Rr.Nursing v1.0
+                    MindScans v1.0
                 </div>
             </div>
         </div>

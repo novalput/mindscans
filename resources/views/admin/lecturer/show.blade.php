@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Dosen')
+@section('title', 'Healthcare Professional Detail')
 
 @section('content')
 <div class="min-h-screen bg-slate-50">
@@ -9,8 +9,8 @@
         {{-- Header --}}
         <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Detail Dosen</h1>
-                <p class="text-slate-600 text-sm mt-1">Informasi lengkap dosen.</p>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Healthcare Professional Detail</h1>
+                <p class="text-slate-600 text-sm mt-1">Complete healthcare professional information.</p>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('admin.lecturer.edit', $user->id) }}"
@@ -37,7 +37,7 @@
                         onerror="this.src='{{ asset('images/ava-default.png') }}'"
                     >
                     <span class="absolute left-4 top-4 rounded-full bg-emerald-600/95 px-3 py-1 text-xs font-semibold text-white shadow-md">
-                        {{ $user->lecturer?->jabatan_fungsional ?? 'Dosen' }}
+                        {{ $user->lecturer?->jabatan_fungsional ?? 'Healthcare Professional' }}
                     </span>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 @section('content')
 <div class="text-center mb-20">
     <div>
-        <h3 style="margin:0; font-size: 16px;">RIWAYAT HASIL KUESIONER MAHASISWA</h3>
+        <h3 style="margin:0; font-size: 16px;">PATIENT SCREENING HISTORY</h3>
     </div>
 </div>
 

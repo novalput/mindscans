@@ -31,13 +31,13 @@ class ScreeningResponseSeeder extends Seeder
             }
         };
 
-        // 1. Aji (Lecturer, id=4) - Ringan (val=1)
+        // 1. Dimas (Healthcare Professional, id=4) - Mild (val=1)
         $this->createDummy(4, 1, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
 
-        // 2. Ahmad (Student, id=2) - Sedang (val=2)
+        // 2. Raka (Patient, id=2) - Moderate (val=2)
         $this->createDummy(2, 2, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
 
-        // 3. Bayu Aditya (Others, id=6) - Tinggi (val=4)
+        // 3. Fajar Nugroho (Other Respondent, id=6) - High (val=4)
         $this->createDummy(6, 4, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
     }
 

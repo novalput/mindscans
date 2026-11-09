@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 @endphp
 
-@section('title', 'Home - LoveCaring-Rr.Nursing')
+@section('title', 'Home - MindScans')
 
 @section('content')
 <div x-data="{
@@ -38,7 +38,7 @@ use Illuminate\Support\Str;
                 <p class="text-lg text-slate-600 leading-relaxed max-w-xl">
                     Ambil langkah pertama untuk mengenal dirimu lebih dalam.
                     Layanan skrining mandiri yang aman, privat, dan tepercaya
-                    untuk mahasiswa serta seluruh sivitas akademika.
+                    untuk pasien serta seluruh tenaga kesehatan.
                 </p>
 
                 {{-- Buttons --}}
@@ -121,7 +121,7 @@ use Illuminate\Support\Str;
                 $features = [
                 ['icon' => 'fa-regular fa-lock', 'title' => 'Kerahasiaan Terjamin', 'desc' => 'Seluruh data hasil skrining bersifat anonim dan hanya digunakan untuk keperluan riset kesehatan serta dukungan personal.'],
                 ['icon' => 'fa-regular fa-book-medical', 'title' => 'Metode Tervalidasi', 'desc' => 'Menggunakan instrumen penilaian standar psikologi medis.'],
-                ['icon' => 'fa-regular fa-user-md', 'title' => 'Dukungan Lanjutan', 'desc' => 'Dapatkan rekomendasi praktis dan akses cepat ke layanan konseling profesional Poltekkes jika Anda membutuhkannya.'],
+                    ['icon' => 'fa-regular fa-user-md', 'title' => 'Dukungan Lanjutan', 'desc' => 'Dapatkan rekomendasi praktis dan akses cepat ke layanan konseling profesional jika Anda membutuhkannya.'],
                 ];
                 @endphp
 

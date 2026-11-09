@@ -2,7 +2,7 @@
 @section('content')
 <div class="text-center mb-20">
     <div class="title-box">
-        <h3 style="margin:0; font-size: 16px;">LAPORAN DATA MAHASISWA</h3>
+        <h3 style="margin:0; font-size: 16px;">PATIENT DATA REPORT</h3>
     </div>
     @if($prodi)
     <p style="margin:5px 0; font-weight: bold; color: #047857;">Program Studi: {{ $prodi }}</p>
@@ -11,7 +11,7 @@
 
 <table class="table-data mb-20">
     <tr>
-        <th>Total Mahasiswa</th>
+        <th>Total Patients</th>
         <th>Total Tes Kuesioner</th>
         <th>Rata-rata Skor Mental</th>
     </tr>

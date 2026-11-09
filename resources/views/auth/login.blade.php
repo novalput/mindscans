@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - LoveCaring-Rr.Nursing</title>
+    <title>Login - MindScans</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('logo.png') }}">
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -183,8 +183,8 @@
         <div class="form-wrapper">
             
             <div class="logo-section flex flex-col items-center">
-                <img src="{{ asset('images/logo-poltekkes.png') }}" alt="Logo Poltekkes" class="h-20 w-auto mb-4">
-                <h1 class="logo-title">{{ config('app.name', "LoveCaring-Rr.Nursing") }}</h1>
+                <img src="{{ asset('images/medical-logo.svg') }}" alt="MindScans medical logo" class="h-20 w-auto mb-4">
+                <h1 class="logo-title">{{ config('app.name', 'MindScans') }}</h1>
                 <p class="text-[11px] font-bold text-[#22C55E] uppercase tracking-widest mt-1">Monitoring Kesehatan Mental</p>
             </div>
 
@@ -278,7 +278,7 @@
                 Privasi dan data psikologis Anda dilindungi dengan aman.
             </div>
             <div>
-                &copy; {{ date('Y') }} {{ config('app.name', "LoveCaring-Rr.Nursing") }}. All rights reserved.
+                &copy; {{ date('Y') }} {{ config('app.name', 'MindScans') }}. All rights reserved.
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Daftar Akun - LoveCaring-Rr.Nursing</title>
+    <title>Daftar Akun - MindScans</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('logo.png') }}">
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -175,8 +175,8 @@
         <div class="form-wrapper py-6">
             
             <div class="logo-section flex flex-col items-center">
-                <img src="{{ asset('images/logo-poltekkes.png') }}" alt="Logo Poltekkes" class="h-16 w-auto mb-3">
-                <h1 class="logo-title text-2xl">{{ config('app.name', "LoveCaring-Rr.Nursing") }}</h1>
+                <img src="{{ asset('images/medical-logo.svg') }}" alt="MindScans medical logo" class="h-16 w-auto mb-3">
+                <h1 class="logo-title text-2xl">{{ config('app.name', 'MindScans') }}</h1>
                 <p class="text-[10px] font-bold text-[#22C55E] uppercase tracking-widest mt-1">Buat Akun Baru</p>
             </div>
 
@@ -221,15 +221,15 @@
                     <label class="form-label">Daftar Sebagai</label>
                     <select id="role" name="role" class="form-control" required onchange="toggleRoleFields()">
                         <option value="" disabled selected>Pilih Peran</option>
-                        <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Mahasiswa</option>
-                        <option value="lecturer" {{ old('role') == 'lecturer' ? 'selected' : '' }}>Dosen</option>
+                        <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Patient</option>
+                        <option value="lecturer" {{ old('role') == 'lecturer' ? 'selected' : '' }}>Healthcare Professional</option>
                         <option value="others" {{ old('role') == 'others' ? 'selected' : '' }}>Lainnya (Pekerja Kampus)</option>
                     </select>
                 </div>
 
                 <!-- STUDENT FIELDS -->
                 <div id="student_fields" style="display: none;" class="mb-4 p-4 border border-green-100 rounded-xl bg-green-50/50">
-                    <h4 class="font-bold text-xs text-[#22C55E] mb-1 uppercase tracking-wider">Data Mahasiswa</h4>
+                    <h4 class="font-bold text-xs text-[#22C55E] mb-1 uppercase tracking-wider">Patient Information</h4>
                     <p class="text-[10px] text-slate-500 mb-4 italic">Silakan isi data yang sesuai dengan identitas Anda di PDDIKTI. Pastikan Nama Lengkap, Perguruan Tinggi, atau Program Studi sudah terisi untuk membantu pencarian otomatis (Autofill).</p>
 
                     <div class="form-group mb-3 relative">
@@ -252,7 +252,7 @@
 
                 <!-- LECTURER FIELDS -->
                 <div id="lecturer_fields" style="display: none;" class="mb-4 p-4 border border-indigo-100 rounded-xl bg-indigo-50/50">
-                    <h4 class="font-bold text-xs text-indigo-500 mb-3 uppercase tracking-wider">Data Dosen</h4>
+                    <h4 class="font-bold text-xs text-indigo-500 mb-3 uppercase tracking-wider">Healthcare Professional Information</h4>
                     
                     <div class="form-group mb-3 relative">
                         <label class="form-label text-[10px]">Perguruan Tinggi / Kampus</label>
@@ -307,7 +307,7 @@
         </div>
 
         <div class="mt-4 pb-4 text-center text-[10px] text-slate-400">
-            <div>&copy; {{ date('Y') }} {{ config('app.name', "LoveCaring-Rr.Nursing") }}. All rights reserved.</div>
+            <div>&copy; {{ date('Y') }} {{ config('app.name', 'MindScans') }}. All rights reserved.</div>
         </div>
     </div>
 

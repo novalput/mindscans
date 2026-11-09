@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Dosen')
+@section('title', 'Add Healthcare Professional')
 
 @section('content')
 <div class="mb-6">
-    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Tambah Dosen</h1>
-    <p class="text-slate-600 mt-2 text-sm">Lengkapi data dosen, termasuk foto profesional.</p>
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Add Healthcare Professional</h1>
+    <p class="text-slate-600 mt-2 text-sm">Complete the healthcare professional profile, including a professional photo.</p>
 </div>
 
 <div class="bg-white rounded-2xl shadow-sm shadow-slate-100 border border-slate-200 p-5 sm:p-6 w-full max-w-3xl mx-auto">
@@ -94,7 +94,7 @@
                 <label for="status_ikatan_kerja" class="block text-sm font-semibold text-slate-700 mb-2">Status Ikatan Kerja</label>
                 <input type="text" id="status_ikatan_kerja" name="status_ikatan_kerja" value="{{ old('status_ikatan_kerja') }}"
                     class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-                    placeholder="Contoh: Dosen Tetap">
+                    placeholder="Example: Full-time healthcare professional">
             </div>
 
             <div>

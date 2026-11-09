@@ -14,17 +14,16 @@
             <div class="space-y-6">
                 <div>
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
-                        <img src="{{ asset('images/logo-poltekkes.png') }}" alt="Logo" class="h-10 w-auto shrink-0">
-                        <h2 class="font-sansita text-2xl md:text-3xl lg:text-4xl tracking-tight text-[#22C55E] text-center sm:text-left break-words w-full">LoveCaring-Rr.Nursing</h2>
+                        <img src="{{ asset('images/medical-logo.svg') }}" alt="MindScans medical logo" class="h-10 w-auto shrink-0">
+                        <h2 class="font-sansita text-2xl md:text-3xl lg:text-4xl tracking-tight text-[#22C55E] text-center sm:text-left break-words w-full">MindScans</h2>
                     </div>
                     <p class="mt-3 text-sm leading-relaxed text-slate-500 max-w-xs mx-auto lg:mx-0">
-                        Platform pendamping kesehatan mental yang membantu mahasiswa memantau, memahami, dan menjaga kesejahteraan psikologis secara aman dan nyaman.
+                        Platform pendamping kesehatan mental yang membantu pasien memantau, memahami, dan menjaga kesejahteraan psikologis secara aman dan nyaman.
                     </p>
                     <div class="mt-4 text-sm text-slate-500 max-w-xs mx-auto lg:mx-0">
                         <p class="font-semibold text-slate-600">Alamat</p>
                         <p class="leading-relaxed">
-                            Jl. Tirto Agung, Pedalangan, Banyumanik<br>
-                            Kota Semarang, Jawa Tengah 50268
+                            Jl. Kesehatan No. 123, Kota Sehat, Provinsi Bahagia, Indonesia
                         </p>
                     </div>
                 </div>
@@ -55,8 +54,7 @@
                                 Telepon
                             </p>
                             <span class="block text-slate-700 font-medium text-sm break-words w-full max-w-[200px] sm:max-w-full">
-                                (+62) 812-2824-542
-                                <br>Dr. Rr. Sri Endang Pusjiastuti, SKM, MNS
+                                (+62) 812-3456-7890
                             </span>
                         </div>
                     </li>
@@ -70,7 +68,7 @@
                                 Email
                             </p>
                             <span class="block text-slate-700 font-medium text-sm break-words w-full max-w-[200px] sm:max-w-full">
-                                lovecaring.rr.nursing@gmail.com
+                                mindscans@gmail.com
                             </span>
                         </div>
                     </li>
@@ -114,7 +112,7 @@
 
         <div class="mt-16 pt-8 border-t border-slate-100 text-center">
             <p class="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest sm:tracking-[0.3em] leading-relaxed break-words px-4">
-                &copy; {{ date('Y') }} LoveCaring-Rr.Nursing Monitoring
+                &copy; {{ date('Y') }} MindScans Monitoring
                 <span class="hidden sm:inline mx-2 text-green-200">|</span>
                 <br class="sm:hidden">
                 Dibuat dengan <i class="fas fa-heart text-[#22C55E] mx-1"></i> untuk Kesehatan Mental Anda.

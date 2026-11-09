@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Dosen')
+@section('title', 'Edit Healthcare Professional')
 
 @section('content')
 <div class="mb-6">
-    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Edit Dosen</h1>
-    <p class="text-slate-600 mt-2 text-sm">Perbarui data dan foto profesional dosen.</p>
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Edit Healthcare Professional</h1>
+    <p class="text-slate-600 mt-2 text-sm">Update the healthcare professional profile and photo.</p>
 </div>
 
 <div class="bg-white rounded-2xl shadow-sm shadow-slate-100 border border-slate-200 p-5 sm:p-6 w-full max-w-3xl mx-auto">
@@ -25,7 +25,7 @@
                                 <img src="{{ $user->avatar_url }}" 
                                      class="w-full h-full rounded-lg object-contain object-center" 
                                      style="object-position: center top;"
-                                     alt="Foto dosen"
+                                     alt="Healthcare professional photo"
                                      onerror="this.src='{{ asset('images/ava-default.png') }}'">
                             </div>
                             <span class="text-xs text-slate-500">Unggah file baru untuk mengganti foto.</span>
@@ -106,7 +106,7 @@
                 <label for="status_ikatan_kerja" class="block text-sm font-semibold text-slate-700 mb-2">Status Ikatan Kerja</label>
                 <input type="text" id="status_ikatan_kerja" name="status_ikatan_kerja" value="{{ old('status_ikatan_kerja', $user->lecturer?->status_ikatan_kerja) }}"
                     class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-                    placeholder="Contoh: Dosen Tetap">
+                    placeholder="Example: Full-time healthcare professional">
             </div>
 
             <div>

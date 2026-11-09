@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Dosen')
+@section('title', 'Manage Healthcare Professionals')
 
 @section('content')
 <div x-data="lecturerCrud()" class="w-full">
@@ -8,8 +8,8 @@
     {{-- HEADER --}}
     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Kelola Dosen</h1>
-            <p class="text-gray-500 text-sm">Manajemen data dosen</p>
+            <h1 class="text-2xl font-bold text-gray-900">Manage Healthcare Professionals</h1>
+            <p class="text-gray-500 text-sm">Manage healthcare professional records</p>
         </div>
         <div class="flex items-center gap-3 w-full sm:w-auto">
             <form action="{{ route('admin.lecturer.index') }}" method="GET" class="relative group">
@@ -19,7 +19,7 @@
             </form>
             <button @click="openCreate()"
                 class="px-6 py-2 bg-[#22C55E] text-white rounded-lg font-semibold hover:bg-green-700 shadow-sm flex items-center gap-2">
-                <i class="fas fa-plus"></i> Tambah Dosen
+                <i class="fas fa-plus"></i> Add Healthcare Professional
             </button>
         </div>
     </div>
@@ -82,7 +82,7 @@
                 <div class="flex items-center gap-3">
                     <i class="fas fa-user-doctor text-xl"></i>
                     <h2 class="text-lg font-semibold"
-                        x-text="formMode === 'create' ? 'Tambah Dosen' : 'Edit Dosen'"></h2>
+                        x-text="formMode === 'create' ? 'Add Healthcare Professional' : 'Edit Healthcare Professional'"></h2>
                 </div>
                 <button @click="close()" class="text-white/80 hover:text-white">
                     <i class="fas fa-times"></i>
@@ -207,7 +207,7 @@
         {{-- Modal --}}
         <div class="relative z-10 bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
             <h3 class="text-lg font-bold mb-3 text-gray-800">Konfirmasi Hapus</h3>
-            <p class="text-gray-600 mb-6">Data dosen akan dihapus permanen.</p>
+            <p class="text-gray-600 mb-6">The healthcare professional record will be permanently deleted.</p>
             <div class="flex justify-end gap-3">
                 <button @click="modalDelete = false" class="px-4 py-2 bg-gray-300 rounded-lg">Batal</button>
                 <button @click="deleteData" class="px-4 py-2 bg-red-600 text-white rounded-lg">Hapus</button>

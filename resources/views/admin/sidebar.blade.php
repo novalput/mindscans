@@ -8,8 +8,8 @@
     {{-- Logo / Title --}}
     <div class="flex items-center gap-3 px-6 py-8 border-b border-[#22C55E] border-opacity-20 flex-shrink-0">
         <div>
-            <h1 class="text-xl font-sansita font-bold">LoveCaring-Rr.Nursing</h1>
-            <p class="text-xs text-gray-400">Admin Panel</p>
+            <h1 class="text-xl font-sansita font-bold">MindScans</h1>
+            <p class="text-xs text-white-400">Admin Panel</p>
         </div>
     </div>
 
@@ -28,7 +28,7 @@
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
             {{ request()->routeIs('admin.lecturer.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-users-between-lines w-5"></i>
-            <span class="font-medium">Kelola Dosen</span>
+            <span class="font-medium">Manage Healthcare Professionals</span>
         </a>
 
         {{-- Kelola Mahasiswa --}}
@@ -36,7 +36,7 @@
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
             {{ request()->routeIs('admin.student.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-hospital-user w-5"></i>
-            <span class="font-medium">Kelola Mahasiswa</span>
+            <span class="font-medium">Manage Patients</span>
         </a>
 
         {{-- Riwayat Kuesioner --}}
@@ -113,7 +113,7 @@
     {{-- Header --}}
     <div class="flex items-center justify-between px-6 py-4 border-b border-[#22C55E] border-opacity-20 flex-shrink-0">
         <div class="flex items-center gap-2">
-            <h1 class="font-sansita text-lg font-bold">LoveCaring-Rr.Nursing</h1>
+            <h1 class="font-sansita text-lg font-bold">MindScans</h1>
         </div>
         <button @click="sidebarOpen = false" class="text-gray-300 hover:text-white transition-colors">
             <i class="fas fa-times text-xl"></i>
@@ -137,7 +137,7 @@
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
             {{ request()->routeIs('admin.lecturer.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-users-between-lines w-5"></i>
-            <span class="font-medium">Kelola Dosen</span>
+            <span class="font-medium">Manage Healthcare Professionals</span>
         </a>
 
         {{-- Kelola Mahasiswa --}}
@@ -146,7 +146,7 @@
             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
             {{ request()->requestUri === route('admin.student.index') || request()->routeIs('admin.student.*') ? 'bg-[#22C55E] text-white shadow-lg' : 'text-gray-300 hover:bg-[#22C55E]/20 hover:text-white' }}">
             <i class="fas fa-hospital-user w-5"></i>
-            <span class="font-medium">Kelola Mahasiswa</span>
+            <span class="font-medium">Manage Patients</span>
         </a>
         
         {{-- Riwayat Kuesioner --}}

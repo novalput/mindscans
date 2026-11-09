@@ -9,8 +9,8 @@
                 </button>
             </div>
             <a href="{{ route('student.dashboard') }}" class="font-sansita text-[1.1rem] sm:text-xl md:text-2xl text-[#22C55E] tracking-tight flex items-center gap-2 truncate">
-                <img src="{{ asset('images/logo-poltekkes.png') }}" alt="Logo" class="h-7 sm:h-8 w-auto shrink-0">
-                <span class="truncate">LoveCaring-Rr.Nursing</span>
+                <img src="{{ asset('images/medical-logo.svg') }}" alt="MindScans medical logo" class="h-7 sm:h-8 w-auto shrink-0">
+                <span class="truncate">MindScans</span>
             </a>
         </div>
 
@@ -68,7 +68,7 @@
             <div class="p-8 flex-1 overflow-y-auto">
                 <div class="flex justify-between items-start mb-10 gap-2">
                     <div class="font-sansita text-lg text-[#22C55E] break-words leading-tight mt-1 w-full">
-                        LoveCaring-Rr.Nursing
+                        MindScans
                     </div>
                     <button @click="mobileMenuOpen = false" class="w-10 h-10 flex items-center justify-center bg-gray-50 rounded-2xl text-gray-400">
                         <i class="fa-solid fa-xmark text-xl"></i>

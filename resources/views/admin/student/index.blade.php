@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Mahasiswa')
+@section('title', 'Manage Patients')
 
 @section('content')
 <div x-data="studentCrud()" class="w-full max-w-full">
     {{-- Header --}}
     <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Kelola Mahasiswa</h1>
-            <p class="text-gray-600 text-sm mt-2">Daftar mahasiswa yang terdaftar dalam sistem</p>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Manage Patients</h1>
+            <p class="text-gray-600 text-sm mt-2">Patients registered in the system</p>
         </div>
         <div class="flex items-center gap-3 w-full sm:w-auto">
             <form action="{{ route('admin.student.index') }}" method="GET" class="relative group">
@@ -17,7 +17,7 @@
                 <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-500 transition-colors"></i>
             </form>
             <button @click="openCreate()" class="px-4 sm:px-6 py-2 bg-[#22C55E] text-white rounded-lg font-semibold hover:bg-green-700 text-sm sm:text-base flex items-center shadow-sm transition-all duration-200">
-                <i class="fas fa-plus mr-2"></i> Tambah Mahasiswa
+                <i class="fas fa-plus mr-2"></i> Add Patient
             </button>
         </div>
     </div>
@@ -83,12 +83,12 @@
                                     alamat_asal: "{{ $item->biodata?->alamat_asal ?? '' }}"
                                 })'
                                     class="text-blue-600 hover:text-blue-900 text-xs sm:text-sm px-2 sm:px-3 py-1.5 rounded bg-blue-50 hover:bg-blue-100 transition"
-                                    title="Edit Mahasiswa">
+                                    title="Edit Patient">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button @click="openDelete({{ $item->id }})"
                                     class="text-rose-600 hover:text-rose-900 text-xs sm:text-sm px-2 sm:px-3 py-1.5 rounded bg-rose-50 hover:bg-rose-100 transition"
-                                    title="Hapus Mahasiswa">
+                                    title="Delete Patient">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -106,7 +106,7 @@
         @else
         <div class="p-6 sm:p-8 text-center flex flex-col justify-center items-center">
             <i class="fas fa-user-graduate text-4xl sm:text-5xl text-gray-300 mb-4"></i>
-            <p class="text-gray-500 text-base sm:text-lg">Belum ada data Mahasiswa</p>
+            <p class="text-gray-500 text-base sm:text-lg">No patient records yet</p>
         </div>
         @endif
     </div>
@@ -123,7 +123,7 @@
             <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-[#16A34A] to-green-700 text-white">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-user-graduate text-xl"></i>
-                    <h2 class="text-lg font-semibold" x-text="formMode === 'create' ? 'Tambah Mahasiswa' : 'Edit Mahasiswa'"></h2>
+                    <h2 class="text-lg font-semibold" x-text="formMode === 'create' ? 'Add Patient' : 'Edit Patient'"></h2>
                 </div>
                 <button @click="close()" class="text-white/80 hover:text-white transition">
                     <i class="fas fa-times text-lg"></i>
@@ -242,7 +242,7 @@
                 <i class="fas fa-exclamation-triangle text-2xl text-rose-600"></i>
             </div>
             <h3 class="text-lg font-bold mb-2 text-gray-900">Konfirmasi Hapus</h3>
-            <p class="text-gray-500 mb-6 text-sm">Apakah Anda yakin ingin menghapus data mahasiswa ini secara permanen?</p>
+            <p class="text-gray-500 mb-6 text-sm">Are you sure you want to permanently delete this patient record?</p>
             <div class="flex justify-center gap-3">
                 <button @click="modalDelete = false" class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-lg transition">Batal</button>
                 <button @click="deleteData" class="px-5 py-2.5 bg-rose-600 text-white font-medium hover:bg-rose-700 rounded-lg transition shadow-sm">Hapus</button>

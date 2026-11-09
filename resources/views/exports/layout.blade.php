@@ -30,12 +30,11 @@
     <table class="header-table">
         <tr>
             <td width="15%" class="text-center">
-                <img src="{{ public_path('images/logo-poltekkes.png') }}" class="header-logo">
+                <img src="{{ public_path('images/medical-logo.svg') }}" class="header-logo" alt="MindScans medical logo">
             </td>
             <td width="85%" class="text-center">
-                <p class="header-title">LoveCaring</p>
-                <p class="header-title">Rr-Nursing</p>
-                <p class="header-subtitle">POLTEKKES KEMENKES SEMARANG</p>
+                <p class="header-title">MindScans</p>
+                <p class="header-subtitle">Mental Health Screening</p>
                 <p class="header-address">Jl. Tirto Agung, Pedalangan, Kec. Banyumanik, Kota Semarang, Jawa Tengah 50268</p>
             </td>
         </tr>

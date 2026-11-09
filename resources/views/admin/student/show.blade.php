@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Mahasiswa - ' . $user->name)
+@section('title', 'Patient Detail - ' . $user->name)
 
 @section('content')
 <div class="w-full max-w-full">
@@ -12,7 +12,7 @@
                 <span>Kembali</span>
             </a>
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ $user->name }}</h1>
-            <p class="text-gray-600 text-sm mt-2">Detail informasi mahasiswa</p>
+            <p class="text-gray-600 text-sm mt-2">Patient information details</p>
         </div>
     </div>
 

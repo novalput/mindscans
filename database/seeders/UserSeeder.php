@@ -15,11 +15,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Dosen (Responden) - Slamet Handoko
-        $dosen1 = User::create([
-            'name' => 'SLAMET HANDOKO',
-            'email' => 'slamet@mindscans.com',
-            'phone' => '628111111111',
+        // 1. Healthcare Professional (Respondent) - Maya Pratama
+        $healthcareProfessional1 = User::create([
+            'name' => 'Maya Pratama',
+            'email' => 'maya.pratama@mindscans.test',
+            'phone' => '628117654321',
             'password' => Hash::make('password'),
             'role' => 'responden',
             'sub_role' => 'lecturer',
@@ -27,18 +27,18 @@ class UserSeeder extends Seeder
         ]);
 
         Biodata::create([
-            'user_id' => $dosen1->id,
+            'user_id' => $healthcareProfessional1->id,
             'jenis_kelamin' => 'male',
-            'nama_kampus' => 'Politeknik Negeri Semarang',
-            'prodi' => 'Teknik Informatika',
-            'status' => 'Aktif',
+            'nama_kampus' => 'Universitas Kesehatan Nusantara',
+            'prodi' => 'Keperawatan',
+            'status' => 'Active',
         ]);
 
-        // 2. Mahasiswa (Responden) - Ahmad Muzakki
-        $mhs1 = User::create([
-            'name' => 'AHMAD MUZAKKI AHSAN',
-            'email' => 'ahmad@mindscans.com',
-            'phone' => '628222222222',
+        // 2. Patient (Respondent) - Raka Wijaya
+        $patient1 = User::create([
+            'name' => 'Raka Wijaya',
+            'email' => 'raka.wijaya@mindscans.test',
+            'phone' => '628229876543',
             'password' => Hash::make('password'),
             'role' => 'responden',
             'sub_role' => 'student',
@@ -46,27 +46,27 @@ class UserSeeder extends Seeder
         ]);
 
         Biodata::create([
-            'user_id' => $mhs1->id,
+            'user_id' => $patient1->id,
             'jenis_kelamin' => 'male',
-            'nama_kampus' => 'Universitas Negeri Semarang',
-            'prodi' => 'Teknik Informatika',
-            'status' => 'Aktif',
+            'nama_kampus' => 'Institut Teknologi Cendekia',
+            'prodi' => 'Sistem Informasi',
+            'status' => 'Active',
         ]);
 
         // 3. Admin
         User::create([
-            'name' => 'Admin',
-            'email' => 'admin@mindscans.com',
-            'phone' => '628523456789',
+            'name' => 'MindScans Administrator',
+            'email' => 'administrator@mindscans.test',
+            'phone' => '628521234567',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
-        // 4. Dosen 2
-        $dosen2 = User::create([
-            'name' => 'Aji Purwinarko',
-            'email' => 'aji@gmail.com',
-            'phone' => '08333333333333',
+        // 4. Healthcare Professional 2 - Dimas Saputra
+        $healthcareProfessional2 = User::create([
+            'name' => 'Dimas Saputra',
+            'email' => 'dimas.saputra@mindscans.test',
+            'phone' => '628133456789',
             'password' => Hash::make('password'),
             'role' => 'responden',
             'sub_role' => 'lecturer',
@@ -74,18 +74,18 @@ class UserSeeder extends Seeder
         ]);
 
         Biodata::create([
-            'user_id' => $dosen2->id,
+            'user_id' => $healthcareProfessional2->id,
             'jenis_kelamin' => 'male',
-            'nama_kampus' => 'Universitas Negeri Semarang',
-            'prodi' => 'Teknik Informatika',
-            'status' => 'Tugas Belajar',
+            'nama_kampus' => 'Klinik Sehat Bersama',
+            'prodi' => 'Psikologi Klinis',
+            'status' => 'On Duty',
         ]);
 
-        // 5. Mahasiswa 2
-        $mhs2 = User::create([
-            'name' => 'Alif Najmi Raihan Putra Hidayat',
-            'email' => 'raihan@gmail.com',
-            'phone' => '0844444444444',
+        // 5. Patient 2 - Sinta Lestari
+        $patient2 = User::create([
+            'name' => 'Sinta Lestari',
+            'email' => 'sinta.lestari@mindscans.test',
+            'phone' => '628145678901',
             'password' => Hash::make('password'),
             'role' => 'responden',
             'sub_role' => 'student',
@@ -93,18 +93,18 @@ class UserSeeder extends Seeder
         ]);
 
         Biodata::create([
-            'user_id' => $mhs2->id,
+            'user_id' => $patient2->id,
             'jenis_kelamin' => 'male',
-            'nama_kampus' => 'Universitas Negeri Semarang',
-            'prodi' => 'Teknik Informatika',
-            'status' => 'Aktif',
+            'nama_kampus' => 'Akademi Kesehatan Mandiri',
+            'prodi' => 'Kesehatan Masyarakat',
+            'status' => 'Active',
         ]);
 
-        // 6. Others
+        // 6. Other Respondent - Fajar Nugroho
         $others1 = User::create([
-            'name' => 'Bayu Aditya',
-            'email' => 'bayu@gmail.com',
-            'phone' => '0855555555555',
+            'name' => 'Fajar Nugroho',
+            'email' => 'fajar.nugroho@mindscans.test',
+            'phone' => '628155678901',
             'password' => Hash::make('password'),
             'role' => 'responden',
             'sub_role' => 'others',
@@ -114,9 +114,9 @@ class UserSeeder extends Seeder
         Biodata::create([
             'user_id' => $others1->id,
             'jenis_kelamin' => 'male',
-            'nama_kampus' => 'Universitas Negeri Semarang',
-            'status' => 'Aktif',
-            'job_description' => 'Konsultan IT',
+            'nama_kampus' => 'Pusat Layanan Sehat Harmoni',
+            'status' => 'Active',
+            'job_description' => 'Health Program Coordinator',
         ]);
     }
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>LoveCaring-Rr.Nursing | @yield('title', "Evaluasi")</title>
+    <title>MindScans | @yield('title', 'Evaluasi')</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('logo.png') }}">
 
     {{-- Fonts: Quicksand untuk kenyamanan & Sansita untuk Judul --}}

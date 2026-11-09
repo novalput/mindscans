@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Lecturer')
+@section('title', 'Healthcare Professional Dashboard')
 
 @section('content')
 
@@ -9,7 +9,7 @@
     <div class="flex items-center justify-between mb-8">
         <div>
             <h2 class="text-3xl font-bold text-slate-800">Dashboard</h2>
-            <p class="text-slate-500 mt-1">Pantau ringkasan kuesioner mahasiswa</p>
+            <p class="text-slate-500 mt-1">Monitor patient screening summaries</p>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
             <div class="absolute -right-6 -top-6 w-32 h-32 bg-indigo-50 rounded-full group-hover:bg-indigo-100 transition-colors z-0"></div>
             <div class="relative z-10 flex justify-between items-start">
                 <div>
-                    <span class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Kuesioner Mahasiswa</span>
+                    <span class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Patient Screenings</span>
                     <h3 class="text-4xl font-bold text-slate-800 mt-2">{{ $totalQuestionnaires }}</h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
@@ -87,14 +87,14 @@
 
     {{-- =================== SECTION RECENT STUDENTS =================== --}}
     <section class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 mt-6 overflow-hidden">
-        <h3 class="text-xl font-bold text-slate-800 mb-6 tracking-tight">5 Mahasiswa Terakhir Mengisi Kuesioner</h3>
+        <h3 class="text-xl font-bold text-slate-800 mb-6 tracking-tight">5 Most Recent Patients</h3>
         
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 text-slate-500 text-sm border-b border-slate-200">
                         <th class="py-3 px-4 font-semibold text-center">No</th>
-                        <th class="py-3 px-4 font-semibold">Nama Mahasiswa</th>
+                        <th class="py-3 px-4 font-semibold">Patient Name</th>
                         <th class="py-3 px-4 font-semibold">Tanggal & Waktu</th>
                         <th class="py-3 px-4 font-semibold text-center">Skor Mental</th>
                         <th class="py-3 px-4 font-semibold text-center">Status</th>
@@ -105,7 +105,7 @@
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="py-4 px-4 text-center text-slate-500">{{ $index + 1 }}</td>
                             <td class="py-4 px-4 font-medium text-slate-800">
-                                {{ $response->user->name ?? 'Mahasiswa (No Data)' }}
+                                {{ $response->user->name ?? 'Patient (No Data)' }}
                             </td>
                             <td class="py-4 px-4 text-slate-600">
                                 {{ \Carbon\Carbon::parse($response->created_at)->format('d M Y - H:i') }}

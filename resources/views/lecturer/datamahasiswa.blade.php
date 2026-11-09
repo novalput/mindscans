@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Mahasiswa')
+@section('title', 'Patient List')
 
 @section('content')
 <div class="p-4 md:p-8" x-data="studentManager()">
@@ -14,7 +14,7 @@
 
     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <h1 class="text-2xl font-bold text-[#262C5B]">Daftar Mahasiswa</h1>
+            <h1 class="text-2xl font-bold text-[#262C5B]">Patient List</h1>
 
             <form action="{{ route('lecturer.datamahasiswa') }}" method="GET" class="flex flex-wrap items-center gap-3 w-full md:w-auto">
                 <div class="relative group flex-1 md:flex-none">
@@ -124,7 +124,7 @@
                         <td colspan="7" class="px-6 py-12 text-center text-gray-400">
                             <div class="flex flex-col items-center justify-center">
                                 <i class="fa-solid fa-inbox text-4xl mb-3 text-gray-200"></i>
-                                <span class="font-medium">Tidak ada data mahasiswa ditemukan.</span>
+                                <span class="font-medium">No patient records found.</span>
                             </div>
                         </td>
                     </tr>

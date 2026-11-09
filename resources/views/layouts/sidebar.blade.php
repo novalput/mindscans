@@ -12,7 +12,7 @@
     
     {{-- Sidebar Logo (Desktop) --}}
     <!-- <div class="text-center mb-10 hidden md:block">
-        <h2 class="font-sansita text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-emerald-200 tracking-wide">LoveCaring-Rr.Nursing</h2>
+        <h2 class="font-sansita text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-emerald-200 tracking-wide">MindScans</h2>
     </div> -->
 
     {{-- Menu Links --}}
@@ -35,7 +35,7 @@
                 class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300
                {{ request()->routeIs('lecturer.datamahasiswa*') ? 'bg-green-500 text-white shadow-lg shadow-green-500/30' : 'hover:bg-green-800 hover:text-white hover:translate-x-1' }}">
                 <i class="fa-solid fa-users w-5 text-center {{ request()->routeIs('lecturer.datamahasiswa*') ? 'text-green-100' : 'text-green-300/70' }}"></i> 
-                <span>Daftar Mahasiswa</span>
+                <span>Patient List</span>
             </a>
         </li>
 
