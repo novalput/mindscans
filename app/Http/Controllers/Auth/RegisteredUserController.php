@@ -36,29 +36,9 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'phone' => ['required', 'string', 'max:15', 'unique:' . User::class],
             'gender' => ['required', 'in:male,female'],
-            'role' => ['required', 'in:student,lecturer,others'],
+            'role' => ['required', 'in:student,lecturer'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
-
-        // Conditional Validation Rules based on role
-        if ($request->role === 'student') {
-            $rules = array_merge($rules, [
-                'kampus' => ['required', 'string', 'max:255'],
-                'program_studi' => ['required', 'string', 'max:255'],
-                'status' => ['required', 'string', 'max:255'],
-            ]);
-        } else if ($request->role === 'lecturer') {
-            $rules = array_merge($rules, [
-                'kampus_lecturer' => ['required', 'string', 'max:255'],
-                'program_studi_lecturer' => ['required', 'string', 'max:255'],
-                'status_aktivitas' => ['required', 'string', 'max:255'],
-            ]);
-        } else if ($request->role === 'others') {
-            $rules = array_merge($rules, [
-                'kampus_others' => ['required', 'string', 'max:255'],
-                'job_description' => ['required', 'string', 'max:255'],
-            ]);
-        }
 
         $request->validate($rules);
 
@@ -71,30 +51,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        if ($request->role === 'student') {
-            \App\Models\Biodata::create([
-                'user_id' => $user->id,
-                'jenis_kelamin' => $request->gender,
-                'nama_kampus' => $request->kampus,
-                'prodi' => $request->program_studi,
-                'status' => $request->status,
-            ]);
-        } else if ($request->role === 'lecturer') {
-            \App\Models\Biodata::create([
-                'user_id' => $user->id,
-                'jenis_kelamin' => $request->gender,
-                'nama_kampus' => $request->kampus_lecturer,
-                'prodi' => $request->program_studi_lecturer,
-                'status' => $request->status_aktivitas,
-            ]);
-        } else if ($request->role === 'others') {
-            \App\Models\Biodata::create([
-                'user_id' => $user->id,
-                'jenis_kelamin' => $request->gender,
-                'nama_kampus' => $request->kampus_others,
-                'job_description' => $request->job_description,
-            ]);
-        }
+        \App\Models\Biodata::create([
+            'user_id' => $user->id,
+            'jenis_kelamin' => $request->gender,
+        ]);
 
         event(new Registered($user));
 

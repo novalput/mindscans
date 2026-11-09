@@ -219,72 +219,11 @@
 
                 <div class="form-group">
                     <label class="form-label">Daftar Sebagai</label>
-                    <select id="role" name="role" class="form-control" required onchange="toggleRoleFields()">
+                    <select id="role" name="role" class="form-control" required>
                         <option value="" disabled selected>Pilih Peran</option>
                         <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Patient</option>
                         <option value="lecturer" {{ old('role') == 'lecturer' ? 'selected' : '' }}>Healthcare Professional</option>
-                        <option value="others" {{ old('role') == 'others' ? 'selected' : '' }}>Lainnya (Pekerja Kampus)</option>
                     </select>
-                </div>
-
-                <!-- STUDENT FIELDS -->
-                <div id="student_fields" style="display: none;" class="mb-4 p-4 border border-green-100 rounded-xl bg-green-50/50">
-                    <h4 class="font-bold text-xs text-[#22C55E] mb-1 uppercase tracking-wider">Patient Information</h4>
-                    <p class="text-[10px] text-slate-500 mb-4 italic">Silakan isi data yang sesuai dengan identitas Anda di PDDIKTI. Pastikan Nama Lengkap, Perguruan Tinggi, atau Program Studi sudah terisi untuk membantu pencarian otomatis (Autofill).</p>
-
-                    <div class="form-group mb-3 relative">
-                        <label class="form-label text-[10px]">Perguruan Tinggi / Kampus</label>
-                        <input type="text" name="kampus" id="kampus" class="form-control text-sm py-2" value="{{ old('kampus') }}" autocomplete="off" placeholder="Ketik nama kampus...">
-                        <div id="kampus-dropdown" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
-                    </div>
-
-                    <div class="form-group mb-3 relative">
-                        <label class="form-label text-[10px]">Program Studi</label>
-                        <input type="text" name="program_studi" id="program_studi" class="form-control text-sm py-2" value="{{ old('program_studi') }}" autocomplete="off" placeholder="Ketik nama program studi...">
-                        <div id="program_studi-dropdown" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
-                    </div>
-
-                    <div class="form-group mb-2">
-                        <label class="form-label text-[10px]">Status (Cth: Aktif-2025/2026 Ganjil)</label>
-                        <input type="text" name="status" class="form-control text-sm py-2" value="{{ old('status') }}">
-                    </div>
-                </div>
-
-                <!-- LECTURER FIELDS -->
-                <div id="lecturer_fields" style="display: none;" class="mb-4 p-4 border border-indigo-100 rounded-xl bg-indigo-50/50">
-                    <h4 class="font-bold text-xs text-indigo-500 mb-3 uppercase tracking-wider">Healthcare Professional Information</h4>
-                    
-                    <div class="form-group mb-3 relative">
-                        <label class="form-label text-[10px]">Perguruan Tinggi / Kampus</label>
-                        <input type="text" name="kampus_lecturer" id="kampus_lecturer" class="form-control text-sm py-2" value="{{ old('kampus_lecturer') }}" autocomplete="off" placeholder="Ketik nama kampus...">
-                        <div id="kampus_lecturer-dropdown" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
-                    </div>
-
-                    <div class="form-group mb-3 relative">
-                        <label class="form-label text-[10px]">Program Studi</label>
-                        <input type="text" name="program_studi_lecturer" id="program_studi_lecturer" class="form-control text-sm py-2" value="{{ old('program_studi_lecturer') }}" autocomplete="off" placeholder="Ketik nama program studi...">
-                        <div id="program_studi_lecturer-dropdown" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto"></div>
-                    </div>
-
-                    <div class="form-group mb-2">
-                        <label class="form-label text-[10px]">Status Aktivitas</label>
-                        <input type="text" name="status_aktivitas" class="form-control text-sm py-2" value="{{ old('status_aktivitas') }}">
-                    </div>
-                </div>
-
-                <!-- OTHERS FIELDS -->
-                <div id="others_fields" style="display: none;" class="mb-4 p-4 border border-orange-100 rounded-xl bg-orange-50/50">
-                    <h4 class="font-bold text-xs text-orange-500 mb-3 uppercase tracking-wider">Data Pekerja Lainnya</h4>
-                    
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">Perguruan Tinggi / Kampus Tempat Bekerja</label>
-                        <input type="text" name="kampus_others" class="form-control text-sm py-2" value="{{ old('kampus_others') }}" placeholder="Cth: Universitas X...">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label text-[10px]">Keterangan Pekerjaan</label>
-                        <input type="text" name="job_description" class="form-control text-sm py-2" value="{{ old('job_description') }}" placeholder="Cth: Satpam, OB, Tukang Kebun...">
-                    </div>
                 </div>
 
                 <div class="form-group">
@@ -325,6 +264,8 @@
 </div>
 
 <script>
+    /* Registration no longer requires role-specific profile fields. */
+    /*
     function toggleRoleFields() {
         var role = document.getElementById('role').value;
         var studentFields = document.getElementById('student_fields');
@@ -582,6 +523,7 @@
         if (lecturerNameInput) lecturerNameInput.addEventListener('blur', checkLecturerAutofill);
         if (kampusLecturerInput) kampusLecturerInput.addEventListener('blur', checkLecturerAutofill);
     });
+    */
 </script>
 
 </body>

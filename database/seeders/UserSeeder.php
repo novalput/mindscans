@@ -100,23 +100,5 @@ class UserSeeder extends Seeder
             'status' => 'Active',
         ]);
 
-        // 6. Other Respondent - Fajar Nugroho
-        $others1 = User::create([
-            'name' => 'Fajar Nugroho',
-            'email' => 'fajar.nugroho@mindscans.test',
-            'phone' => '628155678901',
-            'password' => Hash::make('password'),
-            'role' => 'responden',
-            'sub_role' => 'others',
-            'whatsapp_verified' => false,
-        ]);
-
-        Biodata::create([
-            'user_id' => $others1->id,
-            'jenis_kelamin' => 'male',
-            'nama_kampus' => 'Pusat Layanan Sehat Harmoni',
-            'status' => 'Active',
-            'job_description' => 'Health Program Coordinator',
-        ]);
     }
 }

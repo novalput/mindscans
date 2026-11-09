@@ -14,7 +14,7 @@ Aplikasi ini membantu pasien memantau kondisi kesehatan mental melalui pengisian
 ### 1. 🔑 Sistem Multi-Role & Hak Akses
 Aplikasi ini menggunakan autentikasi berbasis peran (*role-based authorization*) untuk 3 jenis pengguna utama:
 
-#### A. Patient (`student`) & Other Respondent (`others`)
+#### A. Patient (`student`)
 *   **Dashboard**: Menampilkan ringkasan informasi dan akses cepat untuk mengisi screening.
 *   **Mental Health Screening**: Mengisi kuesioner kesehatan mental secara berkala, maksimal sekali sehari. Kuesioner terdiri dari:
     *   **Kuesioner Depresi (16 pertanyaan)**: Terbagi ke dalam 4 subtipe (Depresi Emosional, Pikiran Negatif, Somatik, Menarik Diri).
@@ -72,7 +72,7 @@ Aplikasi ini menggunakan autentikasi berbasis peran (*role-based authorization*)
 ## 🗄️ Struktur Database Utama
 Struktur relasi database dirancang efisien dan tersentralisasi sebagai berikut:
 
-*   **`users`**: Menyimpan kredensial autentikasi untuk semua role. Kolom `role` berisi `admin` atau `responden`, sedangkan `sub_role` berisi `student`, `lecturer`, atau `others`.
+*   **`users`**: Menyimpan kredensial autentikasi untuk semua role. Kolom `role` berisi `admin` atau `responden`, sedangkan `sub_role` berisi `student` atau `lecturer`.
 *   **`biodatas`**: Relasi 1-to-1 dengan `users` untuk menyimpan profil pasien dan healthcare professional, termasuk jenis kelamin, tanggal lahir, alamat, institusi, program studi, status, dan pekerjaan.
 *   **`questions`**: Bank data kuesioner yang menyimpan teks pertanyaan, tipe (`depression`, `anxiety`, `impact`), subtipe, urutan indeks, dan pilihan skala Likert terformat JSON.
 *   **`screening_responses`**: Menyimpan respons screening pasien, skor, kategori interpretasi, detail jawaban JSON, dan saran intervensi.
@@ -82,7 +82,7 @@ Struktur relasi database dirancang efisien dan tersentralisasi sebagai berikut:
 ---
 
 ## 🌱 Data Master & Akun Uji Coba (Seeders)
-Untuk pengembangan lokal, jalankan seeder untuk membuat enam user, lima biodata, dan tiga screening response. Semua akun menggunakan password `password`.
+Untuk pengembangan lokal, jalankan seeder untuk membuat lima user, empat biodata, dan tiga screening response. Semua akun menggunakan password `password`.
 
 *   **Admin Panel**
     *   Email: `administrator@mindscans.test`
@@ -98,9 +98,6 @@ Untuk pengembangan lokal, jalankan seeder untuk membuat enam user, lima biodata,
 *   **Patient 2**
     *   Email: `sinta.lestari@mindscans.test`
     *   Institusi: Akademi Kesehatan Mandiri
-*   **Other Respondent**
-    *   Email: `fajar.nugroho@mindscans.test`
-    *   Institusi: Pusat Layanan Sehat Harmoni
 
 ---
 

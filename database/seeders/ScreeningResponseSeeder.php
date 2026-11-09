@@ -37,8 +37,8 @@ class ScreeningResponseSeeder extends Seeder
         // 2. Raka (Patient, id=2) - Moderate (val=2)
         $this->createDummy(2, 2, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
 
-        // 3. Fajar Nugroho (Other Respondent, id=6) - High (val=4)
-        $this->createDummy(6, 4, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
+        // 3. Sinta (Patient, id=5) - High (val=4)
+        $this->createDummy(5, 4, $depressionQs, $anxietyQs, $impactQ, $getInterpretation);
     }
 
     private function createDummy($userId, $val, $depQs, $anxQs, $impactQ, $getInter)
